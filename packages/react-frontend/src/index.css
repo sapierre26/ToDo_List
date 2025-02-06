@@ -5,8 +5,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #000000;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -47,25 +47,11 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 3.2rem;
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-.full-container {
-  max-width: 100%;
-  padding: 0 1rem;
-}
+
 .container, .small-container, .medium-container {
   max-width: 1200px;
   padding: 0 1rem;
@@ -95,10 +81,10 @@ table {
 	table-layout: fixed;
 }
 
-/*Highlight header*/
+/*the sunday-saturday color pick*/
 thead th {
-	background-color: #efa6b6;
-	color: black;
+	background-color: black;
+	color: white;
 	font-weight: bold;
 	border-bottom: 2px solid #dedede;
 }
@@ -116,11 +102,11 @@ tbody td {
 
 /*for empty cells*/
 tbody td:empty {
-  background-color: #f0f0f0;
+  background-color: white;
 }
 
 th, td {
-	border: 1px solid #dedede;
+	border: 2px solid black;
 	text-align: center;
 	padding: 1rem;
 	font-size: 1.2rem;
@@ -159,7 +145,7 @@ caption {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #ffd9f1;
   }
   a:hover {
     color: #747bff;
