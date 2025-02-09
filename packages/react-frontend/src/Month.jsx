@@ -17,7 +17,6 @@ function TableHeader() {
 }
 
 function TableBody({month, year}) {
-	console.log("In tableBody");
 	//get the days present in that month and the first days of the month
 	const getDaysInMonth = (year, month) => (new Date(year, month + 1, 0)).getDate();
 	
@@ -25,7 +24,6 @@ function TableBody({month, year}) {
 	
 	const daysInMonth = getDaysInMonth(year, month);
 	const firstDay = getFirstDayOfMonth(year, month);
-	console.log(firstDay);
 	//an array for the calendar
 	const calendarArray = Array(firstDay).fill(null);
 	
@@ -56,7 +54,7 @@ function TableBody({month, year}) {
 	);
 }
 
-function Table({month,year}) {
+function Month({month,year}) {
 	return (
 		<table>
 			<TableHeader />
@@ -67,4 +65,4 @@ function Table({month,year}) {
 	);
 }
 
-export default Table;
+export default Month;
