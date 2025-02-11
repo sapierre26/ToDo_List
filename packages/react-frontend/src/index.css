@@ -52,7 +52,7 @@ h1 {
 
 .container, .small-container, .medium-container {
   max-width: 1200px;
-  padding: 0 1rem;
+  padding: 0 rem;
   margin-left: auto;
   margin-right: auto;
 }
@@ -73,7 +73,7 @@ button {
 	border-color: black;
 	border: solid round;
 	margin-bottom: 0.7rem;
-	border-radius: 15px;
+	border-radius: 5px;
 }
 /**
  * Tables
@@ -115,7 +115,7 @@ tbody td:empty {
 th, td {
 	border: 2px solid black;
 	text-align: center;
-	padding: 1rem;
+	padding: 0.5rem;
 	font-size: 1.2rem;
 }
 

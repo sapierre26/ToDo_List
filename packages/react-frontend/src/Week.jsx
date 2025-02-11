@@ -1,3 +1,4 @@
+/* src/Week.jsx */
 import React from "react";
 
 function TableHeader({day, month, year}) {
@@ -9,11 +10,11 @@ function TableHeader({day, month, year}) {
 		week[i] = week[i].concat(" ", index);
 		index++;
 	}
-	console.log(firstDayOfWeek);
+	
 	week.forEach(value => console.log(value));
 	return (
 		<thead>
-			<tr>
+			<tr style={{background: "black", color: "white"}}>
 				{week.map((dayName, col) => (
 					<td key={col}>{dayName}</td>
 				))}
@@ -21,10 +22,25 @@ function TableHeader({day, month, year}) {
 		</thead>
 	);
 }
-
+function TableBody() {
+	const emptyColumns = [];
+	for (let i = 0; i < 7; i++) {
+		emptyColumns.push(null);
+	}
+	return (
+		<tbody> 
+			<tr>
+				{emptyColumns.map((empty, col) => (
+					<td key={col} style= {{width: "80px", height: "900px"}}>{empty}</td>
+				))}
+			</tr>
+		</tbody>
+	);
+}
 function Week({day, month,year}) {
 	return (
 		<table>
+			<TableBody />
 			<TableHeader 
 				day={day}
 				month={month} 
