@@ -7,5 +7,4 @@ User Stories Document: https://docs.google.com/document/d/1cIqnjSwBhxDVmm45L2qkw
 
 Figma Prototype: https://www.figma.com/proto/QYPiya3v1P8lSo0FcDLt9V/CSC-308---To-Do?node-id=0-1&t=sp7B4i0P9r6X3j5t-1
 
-Style Guide
-  We are using 
+Style Guide: We are using Prettier and added that to ESLint, to keep our code style consistent throughout our project.
