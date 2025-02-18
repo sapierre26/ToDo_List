@@ -9,4 +9,6 @@ Figma Prototype: https://www.figma.com/proto/QYPiya3v1P8lSo0FcDLt9V/CSC-308---To
 
 UML Class Diagram: https://miro.com/welcomeonboard/YXgzL01wR1JOUUcvdmZ4K3dSSjhmNXJlY3VoYnhWdnRjVkxkdVNjS1dMRUpPdENMVm10THdrUDJPZTNodkhOdkZBWTJBZ041Vzk2WDNPRTQ5cy9tbFBheU5hcnlJWW8wZXVKYmdwcnZpNFFBeTJlMWk2NjQ0SGtQdVlNUXlnSUxBd044SHFHaVlWYWk0d3NxeHNmeG9BPT0hdjE=?share_link_id=753068150604
 
+UML Activity Diagram: https://miro.com/welcomeonboard/QzEyck55c1RIRWJWaHlOUU8vbkpjalVXRjJWS2FnWkE3N2pUaG9IUUVlb21tb1NNbldkbW8rWGlISVAwTkU5RkMwTysvWHk4M3pIZTF0ZTVSdk5LbGZheU5hcnlJWW8wZXVKYmdwcnZpNFQ1ZGt0cXZnZEl3b0NSblF0Nkg4NnB0R2lncW1vRmFBVnlLcVJzTmdFdlNRPT0hdjE=?share_link_id=679095093147
+
 Style Guide: We are using React/JavaScript. So we chose to install Prettier and added that to ESLint, to keep our code style consistent throughout our project. 
