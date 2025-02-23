@@ -55,8 +55,6 @@ const CalendarComponent = () => {
                 endAccessor="end"
                 defaultView="month"
                 selectable
-                onSelectSlot={handleEvents}
-                onSelectEvent={handleDeleteEvent}
                 style={{border: "1px solid #ccc",
                     height: 900,
                     borderRadius: "8px",
