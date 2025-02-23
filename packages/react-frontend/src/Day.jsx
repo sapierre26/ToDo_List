@@ -4,7 +4,7 @@ import React from "react";
 
 function TableHeader({day, month, year}) {
 	const currDateIndex = new Date(year, month, day).getDay();
-	const weeks = {"SUN " : 0, "MON " : 1, "Tue " : 2, "WED ":3, "THU ":4, "FRI ":5, "SAT ": 6};
+	const weeks = {"SUN " : 0, "MON " : 1, "TUE " : 2, "WED ":3, "THU ":4, "FRI ":5, "SAT ": 6};
 	let dayOfWeek = Object.keys(weeks).find(key => weeks[key] === currDateIndex);
 	return (
 		<thead>

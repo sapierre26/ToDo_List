@@ -4,17 +4,21 @@ import React from "react";
 function TableHeader({day, month, year}) {
 	const currDateIndex = new Date(year, month, day).getDay();
 	const firstDayOfWeek = new Date(year, month, day);
-	const week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	const week = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 	let index = day - currDateIndex;
 	for (let i = 0; i < 7; i++) {
 		week[i] = week[i].concat(" ", index);
 		index++;
 	}
 	
-	week.forEach(value => console.log(value));
+	const emptyColumns = [];
+	for (let i = 0; i < 7; i++) {
+		emptyColumns.push(null);
+	}
+
 	return (
 		<thead>
-			<tr style={{background: "black", color: "white"}}>
+			<tr>
 				{week.map((dayName, col) => (
 					<td key={col}>{dayName}</td>
 				))}
