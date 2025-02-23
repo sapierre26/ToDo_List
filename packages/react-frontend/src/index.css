@@ -12,7 +12,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.rbc-row {
+    font-family: Georgia, serif;
+}
 
+.rbc-calendar {
+    font-family: Georgia, serif;
+}
 a {
   font-weight: 500;
   color: #646cff;
