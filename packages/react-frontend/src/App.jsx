@@ -4,6 +4,7 @@ import './App.css'
 import Month from "./Month"
 import Week from "./Week"
 import Day from "./Day"
+import SplitScreen from "./SplitScreen.jsx"
 
 function App() {
 	const today = new Date();
@@ -36,6 +37,13 @@ function App() {
 			}
 			</div>
 		</div>
+	);
+	
+	return (
+		<SplitScreen 
+			rightSide={<div className={rightSide}>Right</div>}
+			leftSide={<div className{leftSide}>Left</div>}
+		/>
 	);
 }
 
