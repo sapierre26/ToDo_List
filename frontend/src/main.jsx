@@ -1,13 +1,11 @@
-// srv/main.jsx
-import React from "react";
-import ReactDOMClient from "react-dom/client";
-import "./main.css";
+//src/main.jsx ToDo List
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
 
-// container 
-const container = document.getElementById("root");
-
-// root
-const root = ReactDOMClient.createRoot(container);
-
-// initial render
-root.render(<MyApp />);
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
