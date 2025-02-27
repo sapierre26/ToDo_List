@@ -3,7 +3,7 @@ import React from 'react'
 import './App.css'
 
 // import SplitScreen from "./SplitScreen.jsx"
-import CalendarComponent from './CalendarComponent';
+import CalendarComponent from './components/CalendarComponent';
 
 
 function App() {
