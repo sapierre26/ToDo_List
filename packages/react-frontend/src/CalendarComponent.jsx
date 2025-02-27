@@ -6,7 +6,7 @@ import startOfWeek from 'date-fns/startOfWeek'
 import getDay from 'date-fns/getDay'
 import enUS from 'date-fns/locale/en-US'
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
+import {useResizeDetector} from "react-resize-detector";
 const locales = {
     'en-US': enUS,
 }
@@ -21,6 +21,7 @@ const localizer = dateFnsLocalizer({
 
 const CalendarComponent = () => {
     const [events, setEvents] = useState([]);
+    const {width, ref} = useResizeDetector();
 
     useEffect(() => {
         const savedEvents = JSON.parse(localStorage.getItem("events"));
@@ -47,7 +48,7 @@ const CalendarComponent = () => {
     };
 
     return (
-        <div>
+        <div ref={ref} className="calendar-container">
             <Calendar
                 localizer={localizer}
                 events={events}
@@ -56,10 +57,10 @@ const CalendarComponent = () => {
                 defaultView="month"
                 selectable
                 style={{border: "1px solid #ccc",
-                    height: 900,
+                    height: 700,
                     borderRadius: "8px",
                     backgroundColor: "#fff",
-                    width: 1300,
+                    width: 1350,
                     }}
             />
         </div>

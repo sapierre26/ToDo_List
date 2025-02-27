@@ -1,8 +1,10 @@
 #root {
-  max-width: 1280px;
+  max-width: 1340px;
+  max-height: 750;
   margin: 0 auto;
+  overflow-anchor: auto;
+  justify-items: center;
 }
-
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -22,6 +24,17 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.calendar-container {
+    overflow-anchor: auto;
+    height: auto;
+    width: auto;
+    margin: auto;
+    padding: 1.5rem
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
