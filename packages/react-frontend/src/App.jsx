@@ -1,18 +1,18 @@
 //ToDoList
-import { useState } from 'react'
+import React from 'react'
 import './App.css'
+<<<<<<< HEAD
 import Month from "./Month"
 import Week from "./Week"
 import Day from "./Day"
 import SplitScreen from "./SplitScreen.jsx"
+=======
+import CalendarComponent from './CalendarComponent';
+>>>>>>> main
 
 function App() {
-	const today = new Date();
-	const [month, setmonth] = useState(today.getMonth());
-	const [year, setYear] = useState(today.getFullYear());
-	const [day, setDay] = useState(today.getDate());
-	const [view, setView] = useState('month');
 	return (
+<<<<<<< HEAD
 		<div className="buttons">
 			<button onClick={() => setView('month')}>Month</button> <button onClick={() => setView('week')}>Week</button>  <button onClick={() => setView('day')}>Day</button>
 			<div className="container">
@@ -39,6 +39,12 @@ function App() {
 		</div>
 	);
 
+=======
+        <div style={{ height: "95vh", width: "100%", padding: "20px", display: "block", justifyContent: "center", alignItems: "center" }}>
+            <CalendarComponent />
+        </div>
+    );
+>>>>>>> main
 }
 
 export default App;

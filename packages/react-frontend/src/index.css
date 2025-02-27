@@ -3,7 +3,6 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: #000000;
   background-color: #ffffff;
@@ -13,6 +12,26 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.rbc-row {
+}
+
+.rbc-month-view {
+    position: relative;
+    flex-direction: column;
+        flex: 1 0 0;
+    width: 100%;
+}
+.rbc-month-header {
+
+}
+
+.rbc-day-bg {
+    font-weight: bold;
+}
+
+.rbc-calendar {
+    padding: 2rem;
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -40,7 +59,6 @@ legend {
 body {
   margin: 0;
   display: flex;
-  place-items: top;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -51,7 +69,7 @@ h1 {
 }
 
 .container, .small-container, .medium-container {
-  max-width: 1200px;
+  max-width: 1400px;
   padding: 0 rem;
   margin-left: auto;
   margin-right: auto;
@@ -73,6 +91,7 @@ button {
 	border-color: black;
 	border: solid round;
 	margin-bottom: 0.7rem;
+	margin-right: 0.7rem;
 	border-radius: 5px;
 }
 /**
@@ -89,13 +108,6 @@ table {
 }
 
 /*the sunday-saturday color pick*/
-thead th {
-	background-color: black;
-	color: white;
-	font-weight: bold;
-	border-bottom: 2px solid #dedede;
-}
-
 tfoot th {
   border-top: 2px solid #dedede;
 }
@@ -113,6 +125,13 @@ tbody td:empty {
 }
 /*this is for the border lines of the table*/
 th, td {
+	font-family: "Noto Sans", sans-serif;
+	background-color: white;
+	color: black;
+	font-style: normal;
+	font-weight: normal;
+	border-bottom: black;
+	
 	border: 2px solid black;
 	text-align: center;
 	padding: 0.5rem;
