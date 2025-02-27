@@ -1,7 +1,7 @@
 /* src/SplitScreenBack.jsx */
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./SplitScreen.scss"
+import styles from "./SplitScreen.css"
 
 class SplitScreen extends Component {
 	render() {
