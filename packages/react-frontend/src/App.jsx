@@ -38,13 +38,7 @@ function App() {
 			</div>
 		</div>
 	);
-	
-	return (
-		<SplitScreen 
-			rightSide={<div className={rightSide}>Right</div>}
-			leftSide={<div className{leftSide}>Left</div>}
-		/>
-	);
+
 }
 
 export default App;
