@@ -12,7 +12,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.rbc-row {
+    font-family: Georgia, serif;
+}
 
+.rbc-calendar {
+    font-family: Georgia, serif;
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -73,6 +79,7 @@ button {
 	border-color: black;
 	border: solid round;
 	margin-bottom: 0.7rem;
+	margin-right: 0.7rem;
 	border-radius: 5px;
 }
 /**
@@ -89,13 +96,6 @@ table {
 }
 
 /*the sunday-saturday color pick*/
-thead th {
-	background-color: black;
-	color: white;
-	font-weight: bold;
-	border-bottom: 2px solid #dedede;
-}
-
 tfoot th {
   border-top: 2px solid #dedede;
 }
@@ -113,6 +113,13 @@ tbody td:empty {
 }
 /*this is for the border lines of the table*/
 th, td {
+	font-family: "Noto Sans", sans-serif;
+	background-color: white;
+	color: black;
+	font-style: normal;
+	font-weight: normal;
+	border-bottom: black;
+	
 	border: 2px solid black;
 	text-align: center;
 	padding: 0.5rem;

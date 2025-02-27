@@ -20,5 +20,12 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "prettier": "^3.5.0"
+  },
+  "dependencies": {
+    "@syncfusion/ej2-react-buttons": "^28.2.3",
+    "@syncfusion/ej2-react-dropdowns": "^28.2.5",
+    "@syncfusion/ej2-react-inputs": "^28.2.3",
+    "@syncfusion/ej2-react-popups": "^28.2.3",
+    "@syncfusion/ej2-react-schedule": "^28.2.5"
   }
 }
