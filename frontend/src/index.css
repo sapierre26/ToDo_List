@@ -12,17 +12,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.rbc-row {
-}
 
 .rbc-month-view {
     position: relative;
     flex-direction: column;
         flex: 1 0 0;
     width: 100%;
-}
-.rbc-month-header {
-
 }
 
 .rbc-day-bg {
