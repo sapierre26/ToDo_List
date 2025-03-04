@@ -3,7 +3,6 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: #000000;
   background-color: #ffffff;
@@ -12,12 +11,26 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .rbc-row {
-    font-family: Georgia, serif;
+}
+
+.rbc-month-view {
+    position: relative;
+    flex-direction: column;
+        flex: 1 0 0;
+    width: 100%;
+}
+.rbc-month-header {
+
+}
+
+.rbc-day-bg {
+    font-weight: bold;
 }
 
 .rbc-calendar {
-    font-family: Georgia, serif;
+    padding: 2rem;
 }
 a {
   font-weight: 500;
@@ -46,7 +59,6 @@ legend {
 body {
   margin: 0;
   display: flex;
-  place-items: top;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -57,7 +69,7 @@ h1 {
 }
 
 .container, .small-container, .medium-container {
-  max-width: 1200px;
+  max-width: 1400px;
   padding: 0 rem;
   margin-left: auto;
   margin-right: auto;

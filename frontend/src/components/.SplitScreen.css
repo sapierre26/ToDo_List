@@ -1,0 +1,20 @@
+.SplitScreen {
+	position: relative;
+	height: 100vh;
+
+
+	.rightSide, .leftSide {
+		position: relative;
+		width: 50%;
+	}
+
+	.rightSide {
+		background: "lightblue";
+		height: 100%;
+	}
+
+	.leftSide {
+		background: "lightcoral";
+		height: 100%;
+	}
+}
