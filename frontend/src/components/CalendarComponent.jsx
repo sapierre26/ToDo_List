@@ -1,67 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import {Calendar, dateFnsLocalizer} from 'react-big-calendar'
-import format from 'date-fns/format'
-import parse from 'date-fns/parse'
-import startOfWeek from 'date-fns/startOfWeek'
-import getDay from 'date-fns/getDay'
-import enUS from 'date-fns/locale/en-US'
+import {Calendar, dateFnsLocalizer} from 'react-big-calendar';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
+import startOfWeek from 'date-fns/startOfWeek';
+import getDay from 'date-fns/getDay';
+import enUS from 'date-fns/locale/en-US';
+import 'react-datepicker/dist/react-datepicker.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import {useResizeDetector} from 'react-resize-detector';
+import Datepicker from 'react-datepicker';
+
 const locales = {
     'en-US': enUS,
 }
+
 const MyCustomToolbar = ({label, onNavigate, onView}) => {
-    //custom toolbar and props are date and onNavigate
+    //custom toolbar and props are date, onNavigate, and onView
+    const [startDate, setStartDate] = useState(new Date());
     
-    const date = new Date(label);
-    const month = label.split(' ');
-    console.log(month[0]);
-    
-    //Months to get the target value in a naive code
-    const months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-
-    const years = Array.from({ length:  200}, (_, i) => new Date().getFullYear() - 100 + i); // Past 5 years to future 5 years
-
-    const handleMonthChange = (event) => {
-        const newMonth = months.indexOf(event.target.value);
-        onNavigate('DATE', new Date(date.getFullYear(), newMonth, 1));
+    const handleDateChange = (date) => {
+        setStartDate(date);
+        onNavigate('DATE', date); // Moves the calendar view to the selected date
     };
 
-    const handleYearChange = (event) => {
-        const newYear = parseInt(event.target.value);
-        onNavigate('DATE', new Date(newYear, date.getMonth(), 1));
+    const handleTodayClick = () => {
+        const today = new Date();
+        setStartDate(today);
+        onNavigate('TODAY'); // Navigate calendar to today
     };
-
+    
     return (
-        <div>
-            <div className='rbc-btn-group'>
-                <button onClick={() => onNavigate('PREV')}>←</button>
-                
-                <button type='button' onClick={() => onNavigate('TODAY')}>Today</button>
+        <div style={{display: 'flex', paddingBottom: '1rem'}}>
+            <div className='calendar-nav' style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                    <button onClick={() => onNavigate('PREV')}>←</button> 
+                    <button onClick={handleTodayClick}>Today</button>
+                    <button onClick={() => onNavigate('NEXT')}>→</button>
+            </div>          
+        
+            <div className='rbc-toolbar-label' style={{alignContent: 'baseline', flexGrow: 1, justifyItems: 'center'}}>
+                <Datepicker
+                    selected={startDate}
+                    onChange={handleDateChange}
+                    dateFormat='MMMM dd, yyyy'
+                    tabIndex={1}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode='select'
+                    onKeyDown={(e) => e.preventDefault()}
+                    onFocus={(e) => e.target.blur()}
+                    className='custom-datepicker'
 
-                <button onClick={() => onNavigate('NEXT')}>→</button>
+                />
             </div>
-            <div className='rbc-btn-group' style={{position: 'relative', display: 'flex', justifyContent: 'right', alignItems: 'right'}}>
+
+            <div className='calendar-view'>
                 <button onClick={() => onView('month')}>Month</button>
                 <button onClick={() => onView('week')}>Week</button>
                 <button onClick={() => onView('day')}>Day</button>
-            </div>
-            <div className='rbc-btn-group' style={{position:'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '0.7rem'}}>
-                <select value={months[date.getMonth()]} onChange={handleMonthChange} style={{color: '#000000', backgroundColor: '#ffffff', fontSize: 'larger', fontFamily: 'inherit'}}>
-                    {months.map((month, index) => (
-                        <option key={index} value={month}>{month}</option>
-                    ))}
-                </select>
-
-                <select value={date.getFullYear()} onChange={handleYearChange}  style={{color: '#000000', backgroundColor: '#ffffff', fontSize: 'larger', fontFamily: 'inherit'}}>
-                    {years.map((year) => (
-                        <option key={year} value={year}>{year}</option>
-                    ))}
-                </select>
-            </div>
+                <button onClick={() => onView('agenda')}>Agenda</button>
+            </div> 
         </div>
     );
 };
@@ -77,7 +73,6 @@ const localizer = dateFnsLocalizer({
 
 const CalendarComponent = () => {
     const [events, setEvents] = useState([]);
-    const {width, ref} = useResizeDetector();
 
     useEffect(() => {
         const savedEvents = JSON.parse(localStorage.getItem('events'));
@@ -104,17 +99,17 @@ const CalendarComponent = () => {
     };
 
     return (
-        <div ref={ref} className='calendar-container'>
+        <div className='calendar-container'>
             <Calendar
+                components={{
+                    toolbar: MyCustomToolbar 
+                }}
                 localizer={localizer}
                 events={events}
                 startAccessor='start'
                 endAccessor='end'
                 defaultView='month'
                 selectable
-                components={{
-                    toolbar: MyCustomToolbar 
-                }}
                 style={{border: '1px solid #ccc',
                     height: 700,
                     borderRadius: '8px',

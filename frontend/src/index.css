@@ -12,11 +12,38 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.rbc-btn-group:active {
+  box-shadow: 0.5px #666;
+  transform: translateY(4px);
+  display:flex;
+}
+.rbc-toolbar-label {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.react-datepicker__tab-loop {
+    z-index: 9999;
+}
+
+.custom-datepicker {
+  cursor: pointer;
+  color: black;
+  background-color: white;
+  z-index: 9999;
+  position: relative;
+}
+
+.react-datepicker-popper {
+  z-index: 9999;
+  line-height: 0;
+}
 
 .rbc-month-view {
     position: relative;
     flex-direction: column;
-        flex: 1 0 0;
+    flex: 1 0 0;
     width: 100%;
 }
 
@@ -70,7 +97,6 @@ h1 {
   margin-right: auto;
 }
 
-}
 button:hover {
   border-color: #646cff;
 }
@@ -80,81 +106,17 @@ button:focus-visible {
 }
 
 /* all the properties of the button*/
+
 button {
+  cursor: pointer;
 	border-style: double solid ridge;
-	background-color: gray;
+	background-color: white;
 	border-color: black;
 	border: solid round;
+  color: black;
 	margin-bottom: 0.7rem;
 	margin-right: 0.7rem;
 	border-radius: 5px;
-}
-/**
- * Tables
- */
- 
-/*table layout*/
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-	width: 100%;
-	max-width: 100%;
-	table-layout: fixed;
-}
-
-/*the sunday-saturday color pick*/
-tfoot th {
-  border-top: 2px solid #dedede;
-}
-
-/*Make cells square-like*/
-tbody td {
-	height: 100px;
-	vertical-align: top;
-	position: relative;
-}
-
-/*for empty cells*/
-tbody td:empty {
-  background-color: white;
-}
-/*this is for the border lines of the table*/
-th, td {
-	font-family: "Noto Sans", sans-serif;
-	background-color: white;
-	color: black;
-	font-style: normal;
-	font-weight: normal;
-	border-bottom: black;
-	
-	border: 2px solid black;
-	text-align: center;
-	padding: 0.5rem;
-	font-size: 1.2rem;
-}
-
-caption {
-  padding: 1rem 0;
-  caption-side: bottom;
-  color: #ababab;
-}
-
-.striped-table tbody tr:nth-child(odd) {
-  background-color: #f8f8f8;
-}
-
-.contain-table {
-  overflow-x: auto;
-}
-
-@media (max-width: 768px) {
-  table {
-    font-size: 0.9rem;
-  }
-
-  tbody td {
-    height: 80px; /* Reduce cell height on smaller screens */
-  }
 }
 
 @media (min-width: 600px) {
