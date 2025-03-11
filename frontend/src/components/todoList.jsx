@@ -5,11 +5,19 @@ const TodoList = () => {
     const [taskInput, setTaskInput] = useState('');
     const [priorityInput, setPriorityInput] = useState('low');
     const [dueDateInput, setDueDateInput] = useState('');
+    const [error, setError] = useState('');
 
     // Add a new task
     const addTask = () => {
-        if (!taskInput || !dueDateInput) return; // prevents adding empty tasks 
-
+        if (!taskInput) {
+            setError("cannot add empty task");
+            setTimeout(() => setError(''), 3000);
+            return; // prevents adding empty tasks 
+        } else if (!dueDateInput) {
+            setError("please add due date");
+            setTimeout(() => setError(''), 3000);
+            return;
+        }
         const newTask = {
             id: Date.now(),
             description: taskInput,
@@ -61,7 +69,7 @@ const TodoList = () => {
                 />
                 <button onClick={addTask}>Add Task</button>
             </div>
-
+            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
             <table>
                 <thead>
                     <tr>
