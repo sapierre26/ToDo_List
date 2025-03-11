@@ -9,12 +9,13 @@ function App() {
         <Router>
             <div style={{ height: "95vh", width: "100%", padding: "20px" }}>
                 <nav style={{ marginBottom: '20px' }}>
-                    <Link to="/">Calendar</Link> | <Link to="/tasks">To-Do List</Link>
+                    <Link to="/calendar" className="button-link">Calendar</Link>
+                    <Link to="/todolist" className="button-link">Todo List</Link>
                 </nav>
 
                 <Routes>
-                    <Route path="/" element={<CalendarComponent />} />
-                    <Route path="/tasks" element={<TodoList />} />
+                    <Route path="/calendar" element={<CalendarComponent />} />
+                    <Route path="/todolist" element={<TodoList />} />
                 </Routes>
             </div>
         </Router>
