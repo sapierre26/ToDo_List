@@ -9,7 +9,8 @@ function App() {
         <Router>
             <div style={{ height: "95vh", width: "100%", padding: "20px" }}>
                 <nav style={{ marginBottom: '20px' }}>
-                    <Link to="/calendar">Calendar</Link> | <Link to="/todolist">Todo List</Link>
+                    <Link to="/calendar" className="button-link">Calendar</Link>
+                    <Link to="/todolist" className="button-link">Todo List</Link>
                 </nav>
 
                 <Routes>

@@ -27,6 +27,7 @@
     "@syncfusion/ej2-react-inputs": "^28.2.3",
     "@syncfusion/ej2-react-popups": "^28.2.3",
     "@syncfusion/ej2-react-schedule": "^28.2.5",
-    "mongoose": "^8.11.0"
+    "mongoose": "^8.11.0",
+    "react-router-dom": "^7.3.0"
   }
 }
