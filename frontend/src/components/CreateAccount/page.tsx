@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import "./login.css";
 
-const Login = () => {
+const createAccount = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false); // State for Remember Me checkbox
-    const [emailError, setEmailError] = useState('');
+    const [email, setEmail] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [emailError, setEmailError] = useState('');
 
     const onSubmit = () => {
         setEmailError('');
@@ -19,14 +18,13 @@ const Login = () => {
         } else {
             // Handle successful login (e.g., submit the form)
             console.log("Form submitted with username:", username, "and password:", password);
-            console.log("Remember Me:", rememberMe); // Log the rememberMe state
         }
     };
     
     return (
         <div>
-            <h2>Login</h2>
-            <div>
+            <h2>Create an account</h2>
+            <div> 
                 <input
                     type="text"
                     placeholder="Username"
@@ -39,21 +37,10 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <div>
-                    <input
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)} // Toggle Remember Me state
-                    />
-                    <label>Remember Me</label>
-                </div>
-                <button onClick={onSubmit}>Login</button>
-                
-                {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
-                {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
+                <button onClick={onSubmit}>Create an account</button>
             </div>
         </div>
     );
-}
+};
 
-export default Login;
+export default createAccount;
