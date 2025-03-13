@@ -58,9 +58,7 @@ export const addTask = async (task: Task) => {
             console.log(res.ok);
             if (!res.ok) {
               // check server response
-              return false;
-              console.log(response);
-              // throw new Error(res.status + "-" + res.statusText)
+              throw new Error(res.status + "-" + res.statusText)
             }
             return true;
           })
