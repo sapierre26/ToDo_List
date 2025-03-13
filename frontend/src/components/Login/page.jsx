@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./login.css";
+import style from './login.module.css';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -24,8 +24,8 @@ const Login = () => {
     };
     
     return (
-        <div>
-            <h2>Login</h2>
+        <div className={style.loginContainer}>
+            <h3>Login</h3>
             <div>
                 <input
                     type="text"
@@ -39,7 +39,7 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <div>
+                <div className={style.checkboxContainer}>
                     <input
                         type="checkbox"
                         checked={rememberMe}
@@ -49,8 +49,8 @@ const Login = () => {
                 </div>
                 <button onClick={onSubmit}>Login</button>
                 
-                {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
-                {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
+                {emailError && <p>{emailError}</p>}
+                {passwordError && <p>{passwordError}</p>}
             </div>
         </div>
     );

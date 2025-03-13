@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import format from "date-fns/format";
-import parse from "date-fns/parse";
-import startOfWeek from "date-fns/startOfWeek";
-import getDay from "date-fns/getDay";
-import enUS from "date-fns/locale/en-US";
-import "react-datepicker/dist/react-datepicker.css";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import Datepicker from "react-datepicker";
-
-import AddTask from "../todolist/addTask";
+import React, { useState, useEffect } from 'react';
+import {Calendar, dateFnsLocalizer} from 'react-big-calendar';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
+import startOfWeek from 'date-fns/startOfWeek';
+import getDay from 'date-fns/getDay';
+import enUS from 'date-fns/locale/en-US';
+import 'react-datepicker/dist/react-datepicker.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Datepicker from 'react-datepicker';
+import './calendar.css';
 
 const locales = {
   "en-US": enUS,

@@ -1,0 +1,83 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Create Account Form Container */
+.create-account-container {
+    background-color: #eaf5ea; /* Soft pastel green background */
+    border: 2px solid #a8d5ba; /* Subtle green border */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    padding: 30px; /* Spacing inside the container */
+    margin-top: 15px; /* Space above the container */
+    text-align: center; /* Centers inline content inside the container */
+    width: 100%;
+    max-width: 400px; /* Limit the width to 400px */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+/* Title */
+h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #333;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+/* Input Fields */
+input {
+    width: 75%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #fafafa;
+    font-family: monospace;
+    color: black;
+}
+
+input:focus {
+    border-color: #4CAF50; /* Green border when focused */
+    outline: none;
+}
+
+/* Error Messages */
+p {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    font-family: monospace;
+}
+
+/* Submit Button */
+button {
+    width: 75%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #63746a; /* Green background */
+    color: white;
+    font-family: monospace;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+/* Button Hover Effect */
+button:hover {
+    background-color: #62be6c; /* Darker green on hover */
+}
