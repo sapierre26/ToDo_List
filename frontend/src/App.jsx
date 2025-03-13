@@ -16,7 +16,6 @@ function App() {
                     <Link to="/Todolist" className="button-link">Todo List</Link>
                     <Link to="/Login" className="button-link">Login</Link>
                     <Link to="/createAccount" className="button-link">Create Account</Link>
-                    <Link to="/table" className="button-link">Table</Link>
                 </nav>
 
                 <Routes>
@@ -24,7 +23,6 @@ function App() {
                     <Route path="/Todolist" element={<TodoList />} />
                     <Route path="/Login" element={<Login />} />
                     <Route path="/createAccount" element={<CreateAccount />} />
-                    <Route path="/table" element={<Table />} />
                 </Routes>
             </div>
         </Router>

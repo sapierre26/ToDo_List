@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-// import style from './createAccount.css'; 
-// import AddTask from '../todolist/addTask';
+import style from './createAccount.module.css'; 
 
-const createAccount = () => {
+const CreateAccount = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -12,23 +11,32 @@ const createAccount = () => {
     const [emailError, setEmailError] = useState('');
 
     const onSubmit = () => {
+        // Reset error messages before validation
         setEmailError('');
         setPasswordError('');
         
-        if (!username) {
-            setEmailError("Please enter your username");
+        // Check if any input fields are empty
+        if (!firstName || !lastName || !username || !password || !email) {
+            setEmailError("All fields are required.");
+        } else if (!lastName || !username || !password || !email) {
+            setEmailError("Please enter your first name");
         } else if (!password) {
             setPasswordError("Please enter a password");
         } else {
-            // Handle successful login (e.g., submit the form)
-            console.log("Form submitted with username:", username, "and password:", password);
+            // Handle successful form submission
+            console.log("Form submitted with details:", { firstName, lastName, username, email, password });
+            // Reset the form after successful submission
+            setFirstName('');
+            setLastName('');
+            setUsername('');
+            setEmail('');
+            setPassword('');
         }
     };
     
     return (
         <div>
-            {/* <AddTask /> */}
-            <h2>Create an account</h2>
+            <h3>Create an account</h3>
             <div> 
                 <input 
                     type="text"
@@ -55,10 +63,19 @@ const createAccount = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
                 <button onClick={onSubmit}>Create an account</button>
+
+                {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+                {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
             </div>
         </div>
     );
 };
 
-export default createAccount;
+export default CreateAccount;
