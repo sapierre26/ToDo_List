@@ -14,3 +14,5 @@ UML Activity Diagram: https://miro.com/welcomeonboard/QzEyck55c1RIRWJWaHlOUU8vbk
 Style Guide: We are using React/JavaScript. So we chose to install Prettier and added that to ESLint, to keep our code style consistent throughout our project. 
 
 User Personas: https://www.canva.com/design/DAGgyBEa9AY/rUvEakiSPpsgSXwGkHJLnQ/edit?utm_content=DAGgyBEa9AY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+Tech Spec Draft: https://docs.google.com/document/d/1hWV5syOu-bb61XjBpSeayaNnQos67DJc28cS4TUjJbg/edit?usp=sharing

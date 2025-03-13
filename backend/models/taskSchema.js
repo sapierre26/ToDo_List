@@ -1,24 +1,21 @@
-import mongoose, { Schema } from "mongoose";
+// import mongoose, { Schema } from "mongoose";
+const mongoose = require("mongoose");
+const { tasksConnection } = require("../connection");
 
-export type Task = {
-    date: string;
-    title: string; 
-    label: string;
-    priority: string;
-    description: string;
-};
-
-const taskSchema = new Schema<Task>({
+const taskSchema = new mongoose.Schema({
     date: { type: String, required: true },
     title: { type: String, required: true },
     priority: { type: String, required: true },
     label: { type: String, required: true },
     description: { type: String, required: false },
-});
+},
+    { collections: "tasks" });
 
-const Task = mongoose.models['tasks'] || mongoose.model('tasks', taskSchema);
+// const Task = mongoose.models['tasks'] || mongoose.model('tasks', taskSchema);
 
-export default Task;
+const Task = tasksConnection.model("tasks", taskSchema);
+
+module.exports = Task;
 
 // whenever task is called
 // async function getTasks(){

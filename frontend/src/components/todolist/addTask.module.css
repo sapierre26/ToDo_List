@@ -1,0 +1,65 @@
+/* Form Container */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+/* Input Fields */
+.field, .task, .description {
+    width: 75%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #f1f1f1; 
+    font-family: monospace; 
+    color: black;
+    margin-top: 10px;
+}
+
+.field:focus, .task:focus, .description:focus {
+    border-color: #ccc; /* Keep the border color the same on focus */
+    outline: none; /* Remove the default outline */
+}
+
+/* Style for the comment field (description box) */
+.task {
+    min-height: 40px;  /* Reduce the height to match other fields */
+    resize: none;  /* Remove the ability to resize */
+}
+
+/* Placeholder Styling */
+.field::placeholder, .task::placeholder {
+    color: #888;
+}
+
+.description {
+    width: 100%;
+    height: 50px;
+}
+
+/* Submit Button */
+.button {
+    /* margin-top: 10px; */
+    background-color: #f1f1f1;
+    color: #6a6969;
+    font-family: monospace;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    width: 65px;
+    height: 28px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.button:hover {
+    background-color: #ccc;
+} 
