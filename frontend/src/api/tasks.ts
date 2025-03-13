@@ -71,3 +71,55 @@ export const addTask = async (task: Task) => {
             return null;
         }
     };
+
+export const getTaskByID = async (date: string): Promise<Task | null> => {
+    try {
+        const res = await fetch(`${tasksURL}/${date}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-store",
+        });
+
+        // Check if the response is OK (status code 200-299)
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        // Parse the JSON response
+        const task: Task = await res.json();
+        console.log("Fetched task:", task); // Remove this log in production if not necessary
+
+        return task;
+    } catch (error) {
+        console.error(`Error fetching task with ID ${date}:`, error);
+        return null;
+    }
+};
+
+
+
+export const deleteTask = async (taskId: string): Promise<boolean> => {
+        try {
+          const res = await fetch(`${tasksURL}/${taskId}`, {  // Ensure the taskId is correct in the URL
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            cache: "no-store",
+          });
+      
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+          const data = await res.json();  // Handle the response body
+          console.log(data.message);  // Log success message
+      
+          return true;
+        } catch (error) {
+          console.error(`Error deleting task with ID ${taskId}:`, error);
+          return false;
+        }
+      };
+      

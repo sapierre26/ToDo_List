@@ -131,7 +131,7 @@ const CalendarComponent = () => {
           width: 1350,
         }}
       />
-      <AddTask />
+      {/* <AddTask /> */}
     </div>
   );
 };
