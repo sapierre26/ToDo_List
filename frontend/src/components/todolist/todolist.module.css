@@ -13,6 +13,27 @@ h1, h2, h3, th {
     font-family: monospace; 
 }
 
+thead {
+    background-color: #f1f1f1; /* Light background color for the header */
+    text-align: left; /* Align text to the left (you can change it to center or right if needed) */
+    font-weight: bold; /* Make text bold for better readability */
+}
+
+th {
+    padding: 18px 25px; /* Increase padding for better spacing between headers */
+    border-bottom: 2px solid #ccc; /* Bottom border for separation */
+    font-size: 14px; /* Set font size */
+    text-align: center; /* Center-align the header text */
+    background-color: #eaf5ea; /* Light green background for headers */
+    margin-bottom: 10px; /* Add space below each header (optional, but helps to separate from rows) */
+    letter-spacing: 1px; /* Add spacing between letters for better readability */
+}
+
+/* Optional: Increase row height for better header visibility */
+table {
+    border-spacing: 0 10px; /* Adds space between rows (use with caution as it affects overall layout) */
+}
+
 td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
@@ -69,6 +90,7 @@ select {
     font-family: monospace;
     color: black;
     margin-top: 10px;
+    text-align: center;
 }
 
 button {
