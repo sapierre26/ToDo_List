@@ -8,6 +8,7 @@ import enUS from 'date-fns/locale/en-US';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Datepicker from 'react-datepicker';
+import './calendar.css';
 
 const locales = {
     'en-US': enUS,

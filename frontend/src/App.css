@@ -52,12 +52,14 @@
   color: #888;
 }
 
+
 .button-link {
   text-decoration: none; /* Remove underline */
   padding: 10px 20px; /* Button padding */
-  background-color: #007bff; /* Button background color */
+  background-color: #a8d5ba; /* Button background color */
   color: white; /* Button text color */
   border-radius: 5px; /* Rounded corners */
   font-size: 16px;
   transition: background-color 0.3s ease; /* Smooth color transition */
+  font-family: monospace;
 }

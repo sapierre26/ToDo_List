@@ -1,0 +1,92 @@
+.addTaskContainer {
+    background-color: #eaf5ea; /* Soft pastel green background */
+    border: 2px solid #a8d5ba; /* Subtle green border */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    padding: 20px; /* Spacing inside the container */
+    margin-top: 15px; /* Space above the container */
+    text-align: center; /* Centers inline content inside the container */
+}
+
+h1, h2, h3, th {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-family: monospace; 
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+p {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    font-family: monospace;
+}
+
+/* Table rows */
+.tableRow {
+    background-color: #ffffff; /* White background for rows */
+}
+
+.tableRow:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row color (light gray) */
+}
+
+.tableRow:hover {
+    background-color: #f1f1f1; /* Hover effect for rows */
+}
+
+/* Table cells */
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Light border between rows */
+}
+
+
+.field, .task, .description {
+    width: 75%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #f1f1f1; 
+    font-family: monospace; 
+    color: black;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Dropdown styling */
+select {
+    width: 79%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #f1f1f1;
+    font-family: monospace;
+    color: black;
+    margin-top: 10px;
+}
+
+button {
+    width: 75%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #63746a; /* Green background */
+    color: white;
+    font-family: monospace;
+    cursor: pointer; /* Adds a pointer cursor when hovering over the button */
+    margin-top: 10px;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    text-align: center; /* Centers inline content inside the container */
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #62be6c; /* Darker green when hovered */
+}

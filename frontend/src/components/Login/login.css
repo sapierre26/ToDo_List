@@ -1,84 +1,81 @@
-/* Center the login container */
-.login-container {
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-    font-family: Arial, sans-serif;
-  }
-  
-  .login-box {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-    border: 2px solid #007bff; /* Border around the whole box */
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-  }
-  
-  input[type="text"],
-  input[type="password"],
-  input[type="checkbox"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  label {
-    font-size: 14px;
-    margin-left: 5px;
-  }
-  
-  p {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-    text-align: left;
-  }
-  
-  div {
-    margin-bottom: 20px;
-  }
-  
-  /* Style for checkbox and label inline */
-  .checkbox-container {
-    display: flex;
-    align-items: center; /* Align the checkbox with the label */
-    justify-content: flex-start; /* Align left */
-    margin: 10px 0; /* Add some margin for spacing */
-  }
-  
+/* Form Container */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: flex-start;  /* Align form items to the left */
+  margin-left: 0;  /* Ensure no additional left margin */
+}
 
-  
-  
+h2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+/* Input Fields */
+.field, .task, .description {
+  width: 75%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #f1f1f1; 
+  font-family: monospace; 
+  color: black;
+  margin-top: 10px;
+}
+
+.field:focus, .task:focus, .description:focus {
+  border-color: #ccc; /* Keep the border color the same on focus */
+  outline: none; /* Remove the default outline */
+}
+
+/* Style for the comment field (description box) */
+.task {
+  min-height: 40px;  /* Reduce the height to match other fields */
+  resize: none;  /* Remove the ability to resize */
+}
+
+/* Placeholder Styling */
+.field::placeholder, .task::placeholder {
+  color: #888;
+}
+
+.description {
+  width: 251px;
+  height: 50px;
+}
+
+/* Submit Button */
+.button {
+  background-color: #f1f1f1;
+  color: #6a6969;
+  font-family: monospace;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  width: 65px;
+  height: 28px;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: #ccc;
+}
+
+/* Checkbox Container */
+.checkbox-container {
+  display: flex;
+  align-items: center; /* Align the checkbox with the label */
+  justify-content: flex-start; /* Align left */
+  margin: 10px 0; /* Add some margin for spacing */
+}
+
+/* Form Error Message */
+p {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: left;
+}
