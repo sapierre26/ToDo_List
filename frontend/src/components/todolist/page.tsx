@@ -20,7 +20,6 @@ function MyApp() {
   }, []); // Empty dependency array ensures this runs once on component mount
     
     const handleTaskAdded = (newTask: Task) => {
-      console.log("hello")
       setTasks((prevTasks) => [...prevTasks, newTask]); // Add the new task to the task list
     };
   return (
