@@ -21,6 +21,68 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  try {
+    const {
+      _id,
+      title,
+      date,
+      priority,
+      label,
+      description
+    } = req.body;
+    const newTask = new Task({
+      _id,
+      title,
+      date,
+      priority,
+      label,
+      description
+    });
+    await newTask.save();
+    res.send({msg: `${newTask} added to the taskDB`});
+  }catch (error) {
+    let errorMessage;
+    if (error instanceof Error) { 
+      errorMessage = error.message; 
+    } else { 
+      errorMessage = String(errorMessage); 
+    }
+    res.status(400).send({error: errorMessage});
+    console.log(`Error: ${errorMessage}`);
+  }
+});
 
+router.put("/", async (req, res) => {
+  try {
+    const {
+      _id,
+      title,
+      date,
+      priority,
+      label,
+      description
+    } = req.body;
+    const newTask = new Task({
+      _id,
+      title,
+      date,
+      priority,
+      label,
+      description
+    });
+    await newTask.save();
+    res.send({msg: `${newTask} added to the taskDB`});
+  }catch (error) {
+    let errorMessage;
+    if (error instanceof Error) { 
+      errorMessage = error.message; 
+    } else { 
+      errorMessage = String(errorMessage); 
+    }
+    res.status(400).send({error: errorMessage});
+    console.log(`Error: ${errorMessage}`);
+  }
+});
 
 module.exports = router;

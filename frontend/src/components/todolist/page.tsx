@@ -18,7 +18,10 @@ function MyApp() {
         console.log("Error fetching tasks:", error);
       });
   }, []); // Empty dependency array ensures this runs once on component mount
-
+    
+    const handleTaskAdded = (newTask) => {
+      setTasks((prevTasks) => [...prevTasks, newTask]); // Add the new task to the task list
+    };
   return (
     <div className="app-container">
       <div className="tasks-container">
