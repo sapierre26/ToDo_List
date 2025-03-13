@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import style from "./addTask.module.css"; // Assuming the correct path for your CSS
 import { addTask } from "../../api/tasks";
 
-const AddTask = () => {
+const AddTask = ({ onTaskAdded }) => {
   const [title, setTitle] = useState(""); // Track task title
   const [date, setDate] = useState(""); // Track task date
   const [priority, setPriority] = useState(""); // Track task priority
@@ -32,6 +32,8 @@ const AddTask = () => {
       const isTaskAdded = await addTask(newTask);
 
       if (isTaskAdded) {
+        console.log("here");
+        onTaskAdded(newTask);
         // Clear form fields after submitting
         setTitle("");
         setDate("");
@@ -42,7 +44,6 @@ const AddTask = () => {
         console.log("Task posted successfully!");
 
         // Notify the parent component to update the task list
-        onTaskAdded(newTask);
       }
     } catch (err) {
       console.error("Error posting task:", err);
