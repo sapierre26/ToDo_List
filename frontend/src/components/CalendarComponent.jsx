@@ -11,13 +11,36 @@ import Datepicker from 'react-datepicker';
 
 const locales = {
     'en-US': enUS,
-}
+};
+
+const MyAgendaTool = ({onView}) => {
+    return (
+        <div>
+            <button onClick={() => onView('agenda')}>Agenda</button>
+        </div>
+    );
+};
 
 const MyCustomToolbar = ({label, onNavigate, onView}) => {
     //custom toolbar and props are date, onNavigate, and onView
     const [startDate, setStartDate] = useState(new Date());
+
+    useEffect(() => {
+        let curr = startDate.getDate();
+        if (curr < 10) {
+            curr = '0' + curr;
+        }
+        console.log(curr);
+        let date = curr + ' ' + label;
+        const newDate = parse(date, 'dd MMMM yyyy', new Date());
+
+        if (!isNaN(newDate.getTime())) { // Check if the date is valid
+            setStartDate(newDate);
+        }
+    }, [label]);
     
     const handleDateChange = (date) => {
+        console.log(date);
         setStartDate(date);
         onNavigate('DATE', date); // Moves the calendar view to the selected date
     };
@@ -29,36 +52,54 @@ const MyCustomToolbar = ({label, onNavigate, onView}) => {
     };
     
     return (
-        <div style={{display: 'flex', paddingBottom: '1rem'}}>
-            <div className='calendar-nav' style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                    <button onClick={() => onNavigate('PREV')}>←</button> 
-                    <button onClick={handleTodayClick}>Today</button>
-                    <button onClick={() => onNavigate('NEXT')}>→</button>
-            </div>          
-        
-            <div className='rbc-toolbar-label' style={{alignContent: 'baseline', flexGrow: 1, justifyItems: 'center'}}>
-                <Datepicker
-                    selected={startDate}
-                    onChange={handleDateChange}
-                    dateFormat='MMMM dd, yyyy'
-                    tabIndex={1}
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode='select'
-                    onKeyDown={(e) => e.preventDefault()}
-                    onFocus={(e) => e.target.blur()}
-                    className='custom-datepicker'
+        <div>
+            <div>
+                <div style={{display: 'flex', paddingBottom: '1rem'}}>
+                    <div className='calendar-nav' style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                            <button onClick={() => onNavigate('PREV')}>←</button> 
+                            <button onClick={handleTodayClick}>Today</button>
+                            <button onClick={() => onNavigate('NEXT')}>→</button>
+                    </div>          
+                
+                    <div className='rbc-toolbar-label' style={{alignContent: 'baseline', flexGrow: 1, justifyItems: 'center'}}>
+                        <Datepicker
+                            selected={startDate}
+                            onChange={handleDateChange}
+                            dateFormat='MMMM dd, yyyy'
+                            tabIndex={1}
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode='select'
+                            onKeyDown={(e) => e.preventDefault()}
+                            onFocus={(e) => e.target.blur()}
+                            className='custom-datepicker'
 
-                />
+                        />
+                    </div>
+
+                    <div className='calendar-view'>
+                        <button onClick={() => onView('month')}>Month</button>
+                        <button onClick={() => onView('week')}>Week</button>
+                        <button onClick={() => onView('day')}>Day</button>
+                        <button onClick={() => onView('agenda')}>Agenda</button>
+                    </div>
+                </div>
             </div>
-
-            <div className='calendar-view'>
-                <button onClick={() => onView('month')}>Month</button>
-                <button onClick={() => onView('week')}>Week</button>
-                <button onClick={() => onView('day')}>Day</button>
-                <button onClick={() => onView('agenda')}>Agenda</button>
-            </div> 
-        </div>
+{/* <div className="agenda-container"
+style={{
+flex: 0,
+border: "1px solid #ccc",
+padding: "1rem",
+height: "500px",
+width: 300,
+borderRadius: "8px",
+backgroundColor: "#fafafa",
+overflowY: "auto",
+}}
+>
+<button onClick={() => onView('agenda')}>Agenda</button>
+</div> */}
+    </div>
     );
 };
 
@@ -69,7 +110,8 @@ const localizer = dateFnsLocalizer({
     startOfWeek: () => startOfWeek(new Date(), {weekStartsOn: 0}),
     getDay,
     locales,
-})                                  
+});
+
 
 const CalendarComponent = () => {
     const [events, setEvents] = useState([]);
@@ -109,6 +151,8 @@ const CalendarComponent = () => {
                 startAccessor='start'
                 endAccessor='end'
                 defaultView='month'
+                onSelectSlot={handleEvents}
+                onSelectEvent={handleDeleteEvent}
                 selectable
                 style={{border: '1px solid #ccc',
                     height: 700,

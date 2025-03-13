@@ -33,6 +33,9 @@
   background-color: white;
   z-index: 9999;
   position: relative;
+  border-style: outset;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .react-datepicker-popper {
@@ -52,7 +55,7 @@
 }
 
 .rbc-calendar {
-    padding: 2rem;
+  padding: 2rem;
 }
 a {
   font-weight: 500;
