@@ -1,3 +1,49 @@
+.addTaskContainer {
+  background-color: #eaf5ea; /* Soft pastel green background */
+  border: 2px solid #a8d5ba; /* Subtle green border */
+  border-radius: 8px; /* Rounded corners for a softer look */
+  padding: 20px; /* Spacing inside the container */
+  margin-top: 15px; /* Space above the container */
+  text-align: center; /* Centers inline content inside the container */
+}
+
+thead {
+  background-color: #f1f1f1; /* Light background color for the header */
+  text-align: left; /* Align text to the left (you can change it to center or right if needed) */
+  font-weight: bold; /* Make text bold for better readability */
+}
+
+th {
+  padding: 14px 14px; /* Increase padding for better spacing between headers */
+  border-bottom: 2px solid #ccc; /* Bottom border for separation */
+  font-size: 14px; /* Set font size */
+  text-align: center; /* Center-align the header text */
+  background-color: #578057; /* Light green background for headers */
+  margin-bottom: 10px; /* Add space below each header (optional, but helps to separate from rows) */
+  letter-spacing: 1px; /* Add spacing between letters for better readability */
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #63746a; /* Green background */
+  color: white;
+  font-family: monospace;
+  cursor: pointer; /* Adds a pointer cursor when hovering over the button */
+  margin-top: 10px;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+  text-align: center; /* Centers inline content inside the container */
+}
+
+
 .app-container {
   display: flex;
   flex-direction: column;
