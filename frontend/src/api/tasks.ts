@@ -35,3 +35,41 @@ export const getTasks = async (): Promise<Task[] | null> => {
         return null;
     }
 };
+
+export const addTask = async (task: Task) => {
+    try {
+        const res = await fetch(tasksURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-store", 
+            body: JSON.stringify({
+                _id: task._id,
+                date: task.date,
+                title: task.title, 
+                label: task.label,
+                priority: task.priority,
+                description: task.description,
+            }),
+        })
+        .then(async (res) => {
+            const response = await res.json();
+            console.log(res.ok);
+            if (!res.ok) {
+              // check server response
+              return false;
+              console.log(response);
+              // throw new Error(res.status + "-" + res.statusText)
+            }
+            return true;
+          })
+          .catch((error) => {
+            console.error("Error: ", error);
+            return false;
+          });
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+            return null;
+        }
+    };
