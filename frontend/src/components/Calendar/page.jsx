@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Calendar, dateFnsLocalizer} from 'react-big-calendar';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import getDay from 'date-fns/getDay';
+import { format, parse, startOfWeek, getDay } from 'date-fns';
 import enUS from 'date-fns/locale/en-US';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -17,6 +14,19 @@ const locales = {
 const MyCustomToolbar = ({ label, onNavigate, onView }) => {
   //custom toolbar and props are date, onNavigate, and onView
   const [startDate, setStartDate] = useState(new Date());
+
+  useEffect(() => {
+    let curr = startDate.getDate();
+    if (curr < 10) {
+        curr = '0' + curr;
+    }
+    let date = curr + ' ' + label;
+    const newDate = parse(date, 'dd MMMM yyyy', new Date());
+
+    if (!isNaN(newDate.getTime())) { // Check if the date is valid
+        setStartDate(newDate);
+    }
+  }, [label]);
 
   const handleDateChange = (date) => {
     setStartDate(date);
