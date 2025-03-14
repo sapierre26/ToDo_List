@@ -34,8 +34,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "lib": "^5.1.0",
     "mongodb": "^6.14.2",
-    "mongoose": "^8.11.0",
+    "mongoose": "^8.12.1",
     "next": "^15.2.2",
     "react-router-dom": "^7.3.0"
   }

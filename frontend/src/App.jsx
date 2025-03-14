@@ -27,7 +27,8 @@ function App() {
         </nav>
 
         <Routes>
-          <Route path="/Calendar" element={<CalendarComponent />} />
+          <Route path="/Calendar" element={<CalendarComponent />
+        } />
           <Route path="/Todolist" element={<MyApp />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/createAccount" element={<CreateAccount />} />
