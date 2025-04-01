@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import style from "./addTask.module.css"; // Assuming the correct path for your CSS
 import { addTask } from "../../api/tasks";
 
-const AddTask = () => {
+const AddTask = ({ onTaskAdded }) => {
   const [title, setTitle] = useState(""); // Track task title
   const [date, setDate] = useState(""); // Track task date
   const [priority, setPriority] = useState(""); // Track task priority
@@ -19,9 +19,16 @@ const AddTask = () => {
       return;
     }
 
+    const taskDate = new Date(date);
+
+    if (isNaN(taskDate)) {
+      console.error("Invalid date format");
+      return;
+    }
+
     const newTask = {
       title,
-      date,
+      date: taskDate.toISOString(),
       priority,
       label,
       description,
@@ -32,6 +39,9 @@ const AddTask = () => {
       const isTaskAdded = await addTask(newTask);
 
       if (isTaskAdded) {
+        // Notify the parent component to update the task list
+        onTaskAdded(newTask);
+
         // Clear form fields after submitting
         setTitle("");
         setDate("");
@@ -40,9 +50,6 @@ const AddTask = () => {
         setDescription("");
 
         console.log("Task posted successfully!");
-
-        // Notify the parent component to update the task list
-        onTaskAdded(newTask);
       }
     } catch (err) {
       console.error("Error posting task:", err);
@@ -63,7 +70,7 @@ const AddTask = () => {
       />
       <input
         className={style.field}
-        type="text"
+        type="date"
         name="task-date"
         placeholder="Date"
         required

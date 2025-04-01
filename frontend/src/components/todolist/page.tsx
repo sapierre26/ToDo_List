@@ -23,6 +23,10 @@ function TodoList() {
       });
   }, []); // Empty dependency array ensures this runs once on component mount
 
+  const handleTaskAdded = (newTask: Task) => {
+    setTasks((prevTasks) => [...prevTasks, newTask]); // Add the new task to the task list
+  };
+
   const handleDelete = (taskId: string) => {
     console.log("Deleting task with ID:", taskId);  // Log to check if the correct taskId is passed
     deleteTask(taskId)
@@ -75,7 +79,7 @@ function TodoList() {
         )}
       </div>
       <div className="addTaskContainer">
-        <AddTask />
+        <AddTask onTaskAdded={handleTaskAdded}/>
       </div>
     </div>
   );

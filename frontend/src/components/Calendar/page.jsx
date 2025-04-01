@@ -1,42 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import {Calendar, dateFnsLocalizer} from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
-import enUS from 'date-fns/locale/en-US';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import Datepicker from 'react-datepicker';
-import './calendar.css';
+import React, { useState, useEffect } from "react";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { format, parse, startOfWeek, getDay } from "date-fns";
+import enUS from "date-fns/locale/en-US";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import Datepicker from "react-datepicker";
+import "./calendar.css";
 
+// Define locales for the calendar
 const locales = {
   "en-US": enUS,
 };
 
-const MyCustomToolbar = ({ label, onNavigate, onView }) => {
-  //custom toolbar and props are date, onNavigate, and onView
+// Custom toolbar to control navigation and date selection
+const MyCustomToolbar = ({ label, onNavigate, onView, date }) => {
   const [startDate, setStartDate] = useState(new Date());
 
   useEffect(() => {
-    let curr = startDate.getDate();
-    if (curr < 10) {
-        curr = '0' + curr;
+    // This effect will run whenever the label (current month) changes
+    if (date) {
+      setStartDate(date);
     }
-    let date = curr + ' ' + label;
-    const newDate = parse(date, 'dd MMMM yyyy', new Date());
-
-    if (!isNaN(newDate.getTime())) { // Check if the date is valid
-        setStartDate(newDate);
-    }
-  }, [label]);
+  }, [date]);
 
   const handleDateChange = (date) => {
     setStartDate(date);
-    onNavigate("DATE", date); // Moves the calendar view to the selected date
+    onNavigate("DATE", date); // Move to the selected date in the calendar view
   };
 
   const handleTodayClick = () => {
     const today = new Date();
     setStartDate(today);
-    onNavigate("TODAY"); // Navigate calendar to today
+    onNavigate("TODAY"); // Navigate to today in the calendar
   };
 
   return (
@@ -86,6 +81,7 @@ const MyCustomToolbar = ({ label, onNavigate, onView }) => {
   );
 };
 
+// Configure the localizer for dateFns
 const localizer = dateFnsLocalizer({
   format,
   parse,
@@ -94,8 +90,11 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
+// Main Calendar component
 const CalendarComponent = () => {
   const [events, setEvents] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date()); // Track the current selected date
+  const [view, setView] = useState("month"); // Track the current view
 
   useEffect(() => {
     const savedEvents = JSON.parse(localStorage.getItem("events"));
@@ -120,18 +119,33 @@ const CalendarComponent = () => {
     }
   };
 
+  const handleDateClick = (slotInfo) => {
+    // Set the current date when a date is clicked
+    setCurrentDate(slotInfo.start);
+  };
+
+  const handleViewChange = (view) => {
+    setView(view); // Update the view state when the view changes
+  };
+
   return (
     <div className="calendar-container">
       <Calendar
         components={{
-          toolbar: MyCustomToolbar,
+          toolbar: (props) => (
+            <MyCustomToolbar {...props} date={currentDate} /> // Pass currentDate to toolbar
+          ),
         }}
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        defaultView="month"
+        defaultView={view}
         selectable
+        onSelectSlot={handleDateClick} // Handle date clicks on the calendar
+        onSelectEvent={handleEvents} // Handle event clicks
+        onNavigate={(date) => setCurrentDate(date)} // Update currentDate when navigating
+        onView={handleViewChange} // Update view when it changes
         style={{
           border: "1px solid #ccc",
           height: 700,
@@ -141,7 +155,6 @@ const CalendarComponent = () => {
           width: 1350,
         }}
       />
-      {/* <AddTask /> */}
     </div>
   );
 };

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const { tasksConnection } = require("../connection");
 
 const taskSchema = new mongoose.Schema({
-    date: { type: String, required: true },
+    date: { type: Date, required: true },
     title: { type: String, required: true },
     priority: { type: String, required: true },
     label: { type: String, required: true },

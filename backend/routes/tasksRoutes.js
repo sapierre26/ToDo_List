@@ -32,10 +32,11 @@ router.post("/", async (req, res) => {
       label,
       description
     } = req.body;
+    const taskDate = new Date(date);
     const newTask = new Task({
       _id,
       title,
-      date,
+      date: taskDate,
       priority,
       label,
       description

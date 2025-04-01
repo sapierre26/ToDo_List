@@ -36,7 +36,7 @@ export const getTasks = async (): Promise<Task[] | null> => {
     }
 };
 
-export const addTask = async (task: Task) => {
+export const addTask = async (task: Task) : Promise<boolean> => {
     try {
         const res = await fetch(tasksURL, {
             method: "POST",
@@ -46,31 +46,33 @@ export const addTask = async (task: Task) => {
             cache: "no-store", 
             body: JSON.stringify({
                 _id: task._id,
-                date: task.date,
+                date: task.date.toString(),
                 title: task.title, 
                 label: task.label,
                 priority: task.priority,
                 description: task.description,
             }),
-        })
-        .then(async (res) => {
-            const response = await res.json();
-            console.log(res.ok);
-            if (!res.ok) {
-              // check server response
-              throw new Error(res.status + "-" + res.statusText)
-            }
-            return true;
-          })
-          .catch((error) => {
-            console.error("Error: ", error);
-            return false;
-          });
-        } catch (error) {
-            console.error("Error fetching tasks:", error);
-            return null;
-        }
-    };
+        });
+        
+     // Check if the response is OK (status code 200-299)
+     if (!res.ok) {
+        // If not, throw an error with the status and message
+        const response = await res.json();
+        console.error(
+          `Failed to add task: ${response.message || res.statusText}`
+        );
+        return false; // Return false if the task was not added successfully
+      }
+  
+      // If the task was added successfully
+      console.log("Task added successfully!");
+      return true;
+    } catch (error) {
+      // Log any errors that occur during the fetch or handling process
+      console.error("Error adding task:", error);
+      return false; // Return false if an error occurs
+    }
+  };
 
 export const getTaskByID = async (date: string): Promise<Task | null> => {
     try {
