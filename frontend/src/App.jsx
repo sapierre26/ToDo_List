@@ -6,13 +6,17 @@ import MyApp from "./components/todolist/page";
 import Login from "./components/Login/page";
 import CreateAccount from "./components/CreateAccount/page";
 import Table from "./components/Table/page";
+import SplitApp from "./components/SplitScreen/page";
 
 function App() {
   return (
     <Router>
       <div style={{ height: "95vh", width: "100%", padding: "20px" }}>
         <nav style={{ marginBottom: "20px" }}>
-          <Link to="/Calendar" className="button-link">
+          <Link to="/SplitScreen" className="button-link">
+	    Home
+	  </Link>
+	  <Link to="/Calendar" className="button-link">
             Calendar
           </Link>
           <Link to="/Todolist" className="button-link">

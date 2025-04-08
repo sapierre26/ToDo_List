@@ -1,20 +1,11 @@
-.SplitScreen {
-	position: relative;
-	height: 100vh;
+.simDiv {
+	background: red;
+	width: 100%;
+	height: 100%;
+}
 
-
-	.rightSide, .leftSide {
-		position: relative;
-		width: 50%;
-	}
-
-	.rightSide {
-		background: "lightblue";
-		height: 100%;
-	}
-
-	.leftSide {
-		background: "lightcoral";
-		height: 100%;
-	}
+.statDiv {
+	background: blue;
+	width: 100%;
+	height: 100%;
 }

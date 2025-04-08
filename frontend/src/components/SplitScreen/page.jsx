@@ -1,29 +1,20 @@
-/* src/SplitScreenBack.jsx */
-import React from "react";
-import PropTypes from "prop-types";
-import styles from "./SplitScreen.css"
+import React from 'react';
+import SplitPane from 'react-split-pane';
 
-class SplitScreen extends Component {
-	render() {
-		const { rightSide, leftSide } = this.props;
-
-		return (
-			<div className={styles.SplitScreen}>
-				<div className={styles.rightSide}>
-					{rightSide}
+function SplitApp() {
+	return (
+		<div style={{ height: '100vh' }}>
+			<SplitPane split="vertical" defaultSize={200}>
+				<div style={{ backgroundColor: '#eee' }}>
+					<h1>Left Side</h1>
 				</div>
-				<div className={styles.leftSide}>
-					{leftSide}
+				<div style={{ backgroundColor: '#fafafa' }}>
+					<h1>Right Side</h1>
 				</div>
-			</div>
-		);
-	}
-
+			</SplitPane>
+		</div>
+	);
 }
 
-SplitScreen.propTypes = {
-	rightSide: PropTypes.node.isRequired,
-	leftSide: PropTypes.node.isRequired
-};
 
-export default SplitScreen
+export default SplitApp;
