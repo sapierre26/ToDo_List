@@ -1,4 +1,4 @@
-import Reach from 'react';
+import React from 'react';
 
 const LeftSide = () => {
 	return (
@@ -8,4 +8,4 @@ const LeftSide = () => {
 	);
 };
 
-export default LeftPane;
+export default LeftSide;
