@@ -32,6 +32,30 @@
 }
 
 /* Original navigation buttons */
+/*Styling for priority filter sidebar */
+
+.priority-container {
+    font-family: monospace;
+    color: #888;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/*Styling for priority filter sidebar */
+
+.priority-container {
+    font-family: monospace;
+    color: #888;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+
+/* Original navigation buttons */
 .calendar-nav {
   display: flex;
   justify-content: flex-start;

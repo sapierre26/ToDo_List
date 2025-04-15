@@ -9,6 +9,8 @@ import AddTask from "../todolist/addTask";
 import { getTasksAndEventsByEndDate, getTasksForMonth } from "../../api/tasks";
 import "./calendar.css";
 
+import PriorityFilterSidebar from '../CalendarSidebar/page.jsx';
+
 const locales = {
   "en-US": enUS,
 };
@@ -33,10 +35,17 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
   const [startDate, setStartDate] = useState(date || new Date());
 
   useEffect(() => {
-    if (date) {
-      setStartDate(date);
+    let curr = startDate.getDate();
+    if (curr < 10) {
+        curr = '0' + curr;
     }
-  }, [date]);
+    let date = curr + ' ' + label;
+    const newDate = parse(date, 'dd MMMM yyyy', new Date());
+
+    if (!isNaN(newDate.getTime())) { // Check if the date is valid
+        setStartDate(newDate);
+    }
+  }, [label]);
 
   const handleDateChange = (date) => {
     setStartDate(date);
@@ -120,7 +129,8 @@ const CalendarComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [clickTimeout, setClickTimeout] = useState(null);
 
-  // Fetch tasks for the entire month (like Agenda view did)
+  const [selectedPriority, setSelectedPriority] = useState(null);
+  const filteredEvents = selectedPriority ? events.filter((event) => event.priority === selectedPriority) : events;
   useEffect(() => {
     const fetchTasks = async () => {
       setIsLoading(true);
@@ -208,6 +218,12 @@ const CalendarComponent = () => {
 
   return (
     <div className="calendar-page-container">
+      <div className="priority-container">
+        <PriorityFilterSidebar
+          selectedPriority={selectedPriority}
+          onSelectPriority={setSelectedPriority}
+        />
+      </div>
       <div className="calendar-container">
         <Calendar
           components={{

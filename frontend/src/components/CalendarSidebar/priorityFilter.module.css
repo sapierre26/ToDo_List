@@ -1,0 +1,42 @@
+.sidebar {
+    padding: 20px;
+    background-color: #ffffff;
+    border-right: 1px solid #ccc;
+    min-width: 200px;
+    max-width: 250px;
+    height: 100%;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 8px;
+    
+}
+  
+.priorityList {
+  list-style: none;
+  padding: 0;
+}
+
+.priorityButton {
+  color: #888;
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #eaeaea;
+  cursor: pointer;
+  font-family: monospace;
+}
+
+.priorityButton:hover {
+  background-color: #ccc;
+}
+
+.selected {
+  background-color: #888;
+  color: white;
+}
+  
