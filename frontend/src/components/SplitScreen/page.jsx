@@ -1,5 +1,6 @@
 import React from 'react';
-import LeftSide from './LeftSide';
+// import LeftSide from './LeftSide';
+import TodoList from '../todolist/page';
 import RightSide from './RightSide';
 
 const SplitScreen = () => {
@@ -16,7 +17,9 @@ const SplitScreen = () => {
 			overflow: 'hidden',
 			boxSizing: 'border-box'
 		}}>
-			<LeftSide />
+			<div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#f0f0f0' }}>
+				<TodoList />
+			</div>
 			<RightSide />
 		</div>
 	);
