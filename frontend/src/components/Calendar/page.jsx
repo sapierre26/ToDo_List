@@ -7,6 +7,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Datepicker from 'react-datepicker';
 import './calendar.css';
 
+import PriorityFilterSidebar from '../CalendarSidebar/page.jsx';
+
 const locales = {
   "en-US": enUS,
 };
@@ -96,7 +98,8 @@ const localizer = dateFnsLocalizer({
 
 const CalendarComponent = () => {
   const [events, setEvents] = useState([]);
-
+  const [selectedPriority, setSelectedPriority] = useState(null);
+  const filteredEvents = selectedPriority ? events.filter((event) => event.priority === selectedPriority) : events;
   useEffect(() => {
     const savedEvents = JSON.parse(localStorage.getItem("events"));
     if (savedEvents) setEvents(savedEvents);
@@ -121,27 +124,35 @@ const CalendarComponent = () => {
   };
 
   return (
-    <div className="calendar-container">
-      <Calendar
-        components={{
-          toolbar: MyCustomToolbar,
-        }}
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        defaultView="month"
-        selectable
-        style={{
-          border: "1px solid #ccc",
-          height: 700,
-          borderRadius: "8px",
-          backgroundColor: "#fff",
-          fontFamily: "inherit",
-          width: 1350,
-        }}
-      />
-      {/* <AddTask /> */}
+    <div style={{display: "flex", alignItems: 'flex-start'}}> 
+      <div className="priority-container">
+        <PriorityFilterSidebar 
+          selectedPriority={selectedPriority} 
+          onSelectPriority={setSelectedPriority}
+        /> 
+      </div>
+      <div className="calendar-container">
+        <Calendar
+          components={{
+            toolbar: MyCustomToolbar,
+          }}
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          defaultView="month"
+          selectable
+          style={{
+            border: "1px solid #ccc",
+            height: 700,
+            borderRadius: "8px",
+            backgroundColor: "#fff",
+            fontFamily: "inherit",
+            width: 1350,
+          }}
+        />
+        {/* <AddTask /> */}
+      </div>
     </div>
   );
 };
