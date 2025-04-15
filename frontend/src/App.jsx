@@ -6,7 +6,7 @@ import MyApp from "./components/todolist/page";
 import Login from "./components/Login/page";
 import CreateAccount from "./components/CreateAccount/page";
 import Table from "./components/Table/page";
-import SplitApp from "./components/SplitScreen/page";
+import SplitScreen from "./components/SplitScreen/page";
 
 function App() {
   return (
@@ -36,6 +36,7 @@ function App() {
           <Route path="/Todolist" element={<MyApp />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/createAccount" element={<CreateAccount />} />
+	  <Route path="/SplitScreen" elment={<SplitScreen />} />
         </Routes>
       </div>
     </Router>

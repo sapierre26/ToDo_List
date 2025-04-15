@@ -1,6 +1,6 @@
 import React from 'react';
 import LeftSide from './LeftSide';
-import RightSide from '.RightSide';
+import RightSide from './RightSide';
 
 const SplitScreen = () => {
 	return (
