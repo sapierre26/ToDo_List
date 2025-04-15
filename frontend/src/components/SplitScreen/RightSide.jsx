@@ -5,16 +5,23 @@ import enUS from 'date-fns/locale/en-US';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Datepicker from 'react-datepicker';
+import './calendar.css';
 
-const RightSide = () => {
-	return (
-		<div style = {{ flex: 1, backgroundColor: '#ffffff', padding: '20px' }}>
-			const locales = {
+const locales = {
   "en-US": enUS,
 };
 
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 0 }),
+  getDay,
+  locales,
+});
+
+// custom toolbar
 const MyCustomToolbar = ({ label, onNavigate, onView }) => {
-  //custom toolbar and props are date, onNavigate, and onView
+//custom toolbar and props are date, onNavigate, and onView
   const [startDate, setStartDate] = useState(new Date());
 
   useEffect(() => {
@@ -56,46 +63,14 @@ const MyCustomToolbar = ({ label, onNavigate, onView }) => {
         <button onClick={() => onNavigate("NEXT")}>→</button>
       </div>
 
-      <div
-        className="rbc-toolbar-label"
-        style={{
-          alignContent: "baseline",
-          flexGrow: 1,
-          justifyItems: "center",
-        }}
-      >
-        <Datepicker
-          selected={startDate}
-          onChange={handleDateChange}
-          dateFormat="MMMM dd, yyyy"
-          tabIndex={1}
-          showMonthDropdown
-          showYearDropdown
-          dropdownMode="select"
-          onKeyDown={(e) => e.preventDefault()}
-          onFocus={(e) => e.target.blur()}
-          className="custom-datepicker"
-        />
-      </div>
-
       <div className="calendar-view">
         <button onClick={() => onView("month")}>Month</button>
-        <button onClick={() => onView("week")}>Week</button>
-        <button onClick={() => onView("day")}>Day</button>
-        <button onClick={() => onView("agenda")}>Agenda</button>
       </div>
     </div>
   );
 };
 
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 0 }),
-  getDay,
-  locales,
-});
-
+// actual calendar component
 const CalendarComponent = () => {
   const [events, setEvents] = useState([]);
 
@@ -123,7 +98,7 @@ const CalendarComponent = () => {
   };
 
   return (
-    <div className="calendar-container">
+    <div className="calendar-container" style={{ height: '100%' }}>
       <Calendar
         components={{
           toolbar: MyCustomToolbar,
@@ -132,11 +107,11 @@ const CalendarComponent = () => {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        defaultView="month"
+        defaultView="day"
+	views={['day']}
         selectable
         style={{
           border: "1px solid #ccc",
-          height: 700,
           borderRadius: "8px",
           backgroundColor: "#fff",
           fontFamily: "inherit",
@@ -147,7 +122,18 @@ const CalendarComponent = () => {
     </div>
   );
 };
-		</div>	
+
+const RightSide = () => {
+	return (
+		<div style={{ 
+			flex: 1, 
+			backgroundColor: '#ffffff', 
+			padding: '20px',
+			borderSizing: 'border-box',
+			overflow: 'hidden'
+		}}>
+			<CalendarComponent />
+		</div>
 	);
 };
 
