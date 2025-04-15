@@ -1,20 +1,14 @@
 import React from 'react';
-import SplitPane from 'react-split-pane';
+import LeftSide from './LeftSide';
+import RightSide from '.RightSide';
 
-function SplitApp() {
+const SplitScreen = () => {
 	return (
-		<div style={{ height: '100vh' }}>
-			<SplitPane split="vertical" defaultSize={200}>
-				<div style={{ backgroundColor: '#eee' }}>
-					<h1>Left Side</h1>
-				</div>
-				<div style={{ backgroundColor: '#fafafa' }}>
-					<h1>Right Side</h1>
-				</div>
-			</SplitPane>
+		<div style={{ display: 'flex', height: '100vh' }}>
+			<LeftSide />
+			<RightSide />
 		</div>
 	);
-}
+};
 
-
-export default SplitApp;
+export default SplitScreen;
