@@ -1,88 +1,128 @@
 import React, { useEffect, useState } from "react";
-import { Task, getTasks, deleteTask } from "../../api/tasks"; // Assuming the getTasks function is in api.js
+import { Task, getTasks, deleteTask } from "../../api/tasks";
 import AddTask from "./addTask";
-import './page.module.css';  // Assuming you have a separate CSS file for styling
+import styles from './page.module.css';
 
-function TodoList() {
-  const [tasks, setTasks] = useState<Task[]>([]); // State to hold fetched tasks
-  const [taskInput, setTaskInput] = useState('');
-  const [priorityInput, setPriorityInput] = useState('low');
-  const [dueDateInput, setDueDateInput] = useState('');
-  const [error, setError] = useState('');
+const TodoList: React.FC = () => {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [showAddTask, setShowAddTask] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   useEffect(() => {
-    // Fetch tasks and update state
-    getTasks()
-      .then((tasks) => {
-        if (tasks) {
-          setTasks(tasks); // Update the state with the fetched tasks
-        }
-      })
-      .catch((error) => {
-        console.log("Error fetching tasks:", error);
-      });
-  }, []); // Empty dependency array ensures this runs once on component mount
+    fetchTasks();
+  }, []);
 
-  const handleTaskAdded = (newTask: Task) => {
-    setTasks((prevTasks) => [...prevTasks, newTask]); // Add the new task to the task list
+  const fetchTasks = async () => {
+    try {
+      const fetchedTasks = await getTasks();
+      if (fetchedTasks) setTasks(fetchedTasks);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
   };
 
-  const handleDelete = (taskId: string) => {
-    console.log("Deleting task with ID:", taskId);  // Log to check if the correct taskId is passed
-    deleteTask(taskId)
-      .then(() => {
-        setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
-      })
-      .catch((error) => {
-        console.error("Error deleting task:", error);
-      });
+  const handleTaskAdded = (newTask: Task) => {
+    setTasks(prev => [...prev, newTask]);
+    setShowAddTask(false);
+  };
+
+  const handleDelete = async (taskId: string) => {
+    try {
+      await deleteTask(taskId);
+      setTasks(prev => prev.filter(task => task._id !== taskId));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) 
+      ? "Invalid Date" 
+      : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return isNaN(date.getTime())
+      ? "Invalid Date"
+      : date.toLocaleDateString([], { month: 'short', day: 'numeric' });
   };
 
   return (
-    <div className="app-container">
-      <h2>Tasks</h2>
-      <div className="tasks-container">
-        {tasks.length > 0 ? (
-          <table className="tasks-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Priority</th>
-              <th>Label</th>
-              <th>Date</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((task) => (
-              <tr key={task._id}>
-                <td>{task.title}</td>
-                <td>{task.priority}</td>
-                <td>{task.label}</td>
-                <td>{task.date}</td>
-                <td>{task.description}</td>
-                <td>
-                  <button 
-                    onClick={() => handleDelete(task._id)} 
-                    className="delete-btn"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2>To-Do List</h2>
+      </div>
+      <div className={styles.taskList}>
+        {tasks.length === 0 ? (
+          <p className={styles.emptyState}>No tasks!</p>
         ) : (
-          <p>No tasks available</p> // Display this if no tasks are found
+          <table className={styles.taskTable}>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Priority</th>
+                <th>Date/Time</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tasks.map(task => (
+                <tr key={task._id}>
+                  <td>{task.title}</td>
+                  <td className={styles[task.label.toLowerCase()]}>{task.label}</td>
+                  <td className={styles[task.priority.toLowerCase()]}>{task.priority}</td>
+                  <td>
+                    {formatDate(task.startDate)}
+                    <br />
+                    {task.label === 'Event' ? (
+                      `${formatTime(task.startDate)} - ${formatTime(task.endDate)}`
+                    ) : (
+                      formatTime(task.endDate)
+                    )}
+                  </td>
+                  <td>{task.description}</td>
+                  <td>
+                    <button 
+                      className={styles.deleteButton}
+                      onClick={() => task._id && handleDelete(task._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
-      <div className="addTaskContainer">
-        <AddTask onTaskAdded={handleTaskAdded}/>
-      </div>
+      {showAddTask && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <AddTask 
+              taskDate={selectedDate || undefined}
+              onTaskAdded={handleTaskAdded}
+              onClose={() => setShowAddTask(false)}
+            />
+          </div>
+        </div>
+      )}
+      {!showAddTask && (
+        <button 
+          className={styles.addButton}
+          onClick={() => {
+            setSelectedDate(new Date());
+            setShowAddTask(true);
+          }}
+        >
+          + Add Task
+        </button>
+      )}
     </div>
   );
-}
+};
 
 export default TodoList;

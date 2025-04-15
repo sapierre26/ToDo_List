@@ -3,63 +3,123 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
 }
 
 h3 {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    font-family: monospace;
+    color: #888;
+    font-size: 18px;
+    margin-top: 15px;
 }
 
 /* Input Fields */
-.field, .task, .description {
-    width: 75%;
+.field, .description {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    background-color: #f1f1f1; 
-    font-family: monospace; 
+    background-color: #f1f1f1;
+    font-family: monospace;
     color: black;
     margin-top: 10px;
 }
 
-.field:focus, .task:focus, .description:focus {
-    border-color: #ccc; /* Keep the border color the same on focus */
-    outline: none; /* Remove the default outline */
-}
-
-/* Style for the comment field (description box) */
-.task {
-    min-height: 40px;  /* Reduce the height to match other fields */
-    resize: none;  /* Remove the ability to resize */
-}
-
-/* Placeholder Styling */
-.field::placeholder, .task::placeholder {
-    color: #888;
+.field:focus, .description:focus {
+    border-color: #ccc;
+    outline: none;
 }
 
 .description {
     width: 100%;
     height: 50px;
+    resize: none;
+}
+
+/* Placeholder Styling */
+.field::placeholder, .description::placeholder {
+    color: #888;
 }
 
 /* Submit Button */
-.button {
-    /* margin-top: 10px; */
+.submitButton {
     background-color: #f1f1f1;
     color: #6a6969;
     font-family: monospace;
     border: 1px solid #ccc;
-    border-radius: 2px;
-    width: 65px;
-    height: 28px;
     border-radius: 5px;
-    font-size: 12px;
-    margin-top: 10px;
+    width: 110px;
+    height: 35px;
+    font-size: 11px;
+    cursor: pointer;
 }
 
 .button:hover {
     background-color: #ccc;
-} 
+}
+
+/* Option Selectors */
+.optionContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.optionLabel {
+    font-size: 16px;
+    font-family: monospace;
+    color: #888;
+    width: 60px;
+    margin-right: 10px;
+}
+  
+.optionGroup {
+    display: flex;
+    gap: 8px;
+    margin-left: 15px;
+    margin-top: -5px;
+}
+
+.optionButton {
+    padding: 6px 12px;
+    border: 1px solid #888;
+    background-color: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #333;
+    font-size: 12px;
+    height: 25px;
+    font-family: monospace;
+}
+
+.optionButton:hover {
+    background-color: #f1f1f1;
+}
+
+.optionButton.active {
+    background-color: #888;
+    color: white;
+    border-color: #888;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    width: 18px;
+    margin-bottom: 100px;
+}
+  
+.header {
+    position: relative;
+    padding-top: 10px;
+  }
+  

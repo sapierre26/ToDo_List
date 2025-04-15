@@ -1,110 +1,157 @@
-import React, { useState } from "react";
-import style from "./addTask.module.css"; // Assuming the correct path for your CSS
+import React, { useState, useEffect } from "react";
+import style from "./addTask.module.css";
 import { addTask } from "../../api/tasks";
 
-const AddTask = ({ onTaskAdded }) => {
-  const [title, setTitle] = useState(""); // Track task title
-  const [date, setDate] = useState(""); // Track task date
-  const [priority, setPriority] = useState(""); // Track task priority
-  const [label, setLabel] = useState(""); // Track task label
-  const [description, setDescription] = useState(""); // Track task description
+const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
+  const [formData, setFormData] = useState({
+    title: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+    priority: "Low",
+    label: "Task",
+    description: "",
+  });
 
-  // Handle form submission for posting a task
-  const postTask = async (event) => {
-    event.preventDefault(); // Prevent default form submission
+  useEffect(() => {
+    if (taskDate) {
+      setFormData((prev) => ({
+        ...prev,
+        date: taskDate.toISOString().split("T")[0],
+      }));
+    }
+  }, [taskDate]);
 
-    // Validate inputs
-    if (!title || !date || !priority || !label || !description) {
-      console.error("Task information is required.");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { title, date, startTime, endTime, priority, label, description } = formData;
+
+    if (!title || !date || !endTime || !description) {
+      alert("Please fill all required fields");
       return;
     }
 
-    const taskDate = new Date(date);
+    const startDateTime = label === "Event"
+      ? `${date}T${startTime}:00`
+      : `${date}T${endTime}:00`;
 
-    if (isNaN(taskDate)) {
-      console.error("Invalid date format");
-      return;
-    }
-
-    const newTask = {
-      title,
-      date: taskDate.toISOString(),
-      priority,
-      label,
-      description,
-    };
+    const endDateTime = `${date}T${endTime}:00`;
 
     try {
-      // Call the addTask function and await its response
-      const isTaskAdded = await addTask(newTask);
+      const newTask = {
+        title,
+        label,
+        priority,
+        description,
+        startDate: startDateTime,
+        endDate: endDateTime,
+      };
 
-      if (isTaskAdded) {
-        // Notify the parent component to update the task list
-        onTaskAdded(newTask);
-
-        // Clear form fields after submitting
-        setTitle("");
-        setDate("");
-        setPriority("");
-        setLabel("");
-        setDescription("");
-
-        console.log("Task posted successfully!");
+      const success = await addTask(newTask);
+      if (success) {
+        onTaskAdded({ ...newTask, _id: Date.now().toString() });
+        onClose();
       }
     } catch (err) {
-      console.error("Error posting task:", err);
+      console.error("Error creating task:", err);
     }
   };
 
   return (
-    <form className={style.form} onSubmit={postTask}>
-      <h3>Add Task</h3>
+    <form className={style.form} onSubmit={handleSubmit}>
+      <div className={style.header}>
+        <button type="button" className={style.closeButton} onClick={onClose}>×</button>
+        <h3>Add {formData.label}</h3>
+      </div>
+
+      <div className={style.optionContainer}>
+        <span className={style.optionLabel}>Type:</span>
+        <div className={style.optionGroup}>
+          {["Task", "Event"].map((type) => (
+            <button
+              key={type}
+              type="button"
+              className={`${style.optionButton} ${formData.label === type ? style.active : ""}`}
+              onClick={() => setFormData((prev) => ({ ...prev, label: type }))}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <input
         className={style.field}
         type="text"
-        name="task-title"
+        name="title"
         placeholder="Title"
+        value={formData.title}
+        onChange={handleChange}
         required
-        value={title}
-        onChange={(e) => setTitle(e.target.value)} // Update task title
       />
+
       <input
         className={style.field}
         type="date"
-        name="task-date"
-        placeholder="Date"
+        name="date"
+        value={formData.date}
+        onChange={handleChange}
         required
-        value={date}
-        onChange={(e) => setDate(e.target.value)} // Update task date
       />
+
+      {formData.label === "Event" && (
+        <input
+          className={style.field}
+          type="time"
+          name="startTime"
+          value={formData.startTime}
+          onChange={handleChange}
+          required
+        />
+      )}
+
       <input
         className={style.field}
-        type="text"
-        name="task-priority"
-        placeholder="Priority"
+        type="time"
+        name="endTime"
+        value={formData.endTime}
+        onChange={handleChange}
         required
-        value={priority}
-        onChange={(e) => setPriority(e.target.value)} // Update task priority
+        placeholder={formData.label === "Event" ? "End Time" : "Time"}
       />
-      <input
-        className={style.field}
-        type="text"
-        name="task-label"
-        placeholder="Label"
-        required
-        value={label}
-        onChange={(e) => setLabel(e.target.value)} // Update task label
-      />
+
+      <div className={style.optionContainer}>
+        <span className={style.optionLabel}>Priority:</span>
+        <div className={style.optionGroup}>
+          {["Low", "Medium", "High"].map((level) => (
+            <button
+              key={level}
+              type="button"
+              className={`${style.optionButton} ${formData.priority === level ? style.active : ""}`}
+              onClick={() => setFormData((prev) => ({ ...prev, priority: level }))}
+            >
+              {level}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <textarea
         className={style.description}
         name="description"
         placeholder="Description"
+        value={formData.description}
+        onChange={handleChange}
         required
-        value={description}
-        onChange={(e) => setDescription(e.target.value)} // Update task description
-      ></textarea>
-      <button className={style.button} type="submit">
-        Submit
+      />
+
+      <button className={style.submitButton} type="submit">
+        Submit {formData.label}
       </button>
     </form>
   );
