@@ -6,6 +6,7 @@ import MyApp from "./components/todolist/page";
 import Login from "./components/Login/page";
 import CreateAccount from "./components/CreateAccount/page";
 import Table from "./components/Table/page";
+import UserProfile from "./components/UserProfile/page";
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
           <Link to="/createAccount" className="button-link">
             Create Account
           </Link>
+          <Link to="/UserProfile" className="button-link">
+            User Profile
+          </Link>
+
         </nav>
 
         <Routes>
@@ -32,6 +37,8 @@ function App() {
           <Route path="/Todolist" element={<MyApp />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/createAccount" element={<CreateAccount />} />
+          <Route path="/UserProfile" element={<UserProfile />} />
+
         </Routes>
       </div>
     </Router>
