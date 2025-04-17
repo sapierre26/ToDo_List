@@ -7,7 +7,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Datepicker from 'react-datepicker';
 import './calendar.css';
 
-import PriorityFilterSidebar from '../CalendarSidebar/page.jsx';
+import PriorityFilterSidebar from '../PriorityFilterSidebar/page.jsx';
 
 const locales = {
   "en-US": enUS,
