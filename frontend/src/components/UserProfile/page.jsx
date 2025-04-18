@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from "react"
 
 const UserProfile = () => {
+    //handle image upload
     const [userPic, setUserPic] = useState(null);
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -8,26 +9,40 @@ const UserProfile = () => {
             setUserPic(URL.createObjectURL(file));
         }
     }
+
+    //fetch username and password (let"s see how we can do this)
+    const [username, setUsername] = useState("");
+    
     return (
-        <div className='UserProfile'>
+        <div className="UserProfile">
             <h2>User Profile</h2>
-            <div className='UserSettings' style={{display: 'flex'}}>
-                <div className='UserInfo'>
-                    <div className='UserPic'>
+            <div className="UserSettings" style={{display: "flex"}}>
+                <div className="UserInfo">
+                    <div className="UserPic">
                     {userPic ? 
-                    (
-                        <img src={userPic} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />) : 
-                        (
-                        <span>Upload</span>
-)}
+                    (<img 
+                        src={userPic} 
+                        alt="profilePicture"
+                        style={{
+                            height: "300px",
+                            width: "350px"
+                        }}
+                    />) : 
+                        (<span></span>)}
                         <input 
                             type="file"
                             onChange={(handleImageUpload)}
+                            style={{
+                                width: "45%"
+                            }}
                         />
                     </div>
-                    <label>Name</label>
+                    <h2>
+                        <span className="Username">Name</span>
+                    </h2>
                 </div>
-                <div className='UserChangeInfo'>
+                <div className="UserChangeInfo">
+                    
                     <input
                         type="text"
                         placeholder="Username"
@@ -42,7 +57,7 @@ const UserProfile = () => {
                     />
                 </div>
             </div>
-            <div className='support'>
+            <div className="support">
                 <button>Delete my account</button>
                 <button>Contact support via email</button>
                 <button>Log out</button>
