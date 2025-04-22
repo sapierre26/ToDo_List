@@ -6,6 +6,7 @@ import MyApp from "./components/todolist/page";
 import Login from "./components/Login/page";
 import CreateAccount from "./components/CreateAccount/page";
 import Table from "./components/Table/page";
+import SplitScreen from "./components/SplitScreen/page";
 import UserProfile from "./components/UserProfile/page";
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
     <Router>
       <div style={{ height: "95vh", width: "100%", padding: "20px" }}>
         <nav style={{ marginBottom: "20px" }}>
-          <Link to="/Calendar" className="button-link">
+	  <Link to="/Calendar" className="button-link">
             Calendar
           </Link>
           <Link to="/Todolist" className="button-link">
@@ -32,11 +33,12 @@ function App() {
         </nav>
 
         <Routes>
-          <Route path="/Calendar" element={<CalendarComponent />
-        } />
+          <Route path="/Calendar" element={<CalendarComponent />} />
           <Route path="/Todolist" element={<MyApp />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/createAccount" element={<CreateAccount />} />
+	  <Route path="/SplitScreen" element={<SplitScreen />} />
+	  <Route path="*" element={<div>Page not found.</div>} />
           <Route path="/UserProfile" element={<UserProfile />} />
 
         </Routes>

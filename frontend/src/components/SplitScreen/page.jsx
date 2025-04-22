@@ -1,29 +1,31 @@
-/* src/SplitScreenBack.jsx */
-import React from "react";
-import PropTypes from "prop-types";
-import styles from "./SplitScreen.css"
+import React from 'react';
+// import LeftSide from './LeftSide';
+import TodoList from '../todolist/page';
+// import RightSide from './RightSide';
+import Calendar from '../Calendar/page';
 
-class SplitScreen extends Component {
-	render() {
-		const { rightSide, leftSide } = this.props;
-
-		return (
-			<div className={styles.SplitScreen}>
-				<div className={styles.rightSide}>
-					{rightSide}
-				</div>
-				<div className={styles.leftSide}>
-					{leftSide}
-				</div>
+const SplitScreen = () => {
+	return (
+		<div style={{ 
+			position: 'fixed',
+			top: 0,
+			left: 0,
+			height: '100vh', 
+			width: '100vw',
+			display: 'flex',
+			margin: 0, 
+			padding: 0,
+			overflow: 'hidden',
+			boxSizing: 'border-box'
+		}}>
+			<div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#f0f0f0' }}>
+				<TodoList />
 			</div>
-		);
-	}
-
-}
-
-SplitScreen.propTypes = {
-	rightSide: PropTypes.node.isRequired,
-	leftSide: PropTypes.node.isRequired
+			<div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#ffffff' }}>
+				<Calendar />
+			</div>
+		</div>
+	);
 };
 
-export default SplitScreen
+export default SplitScreen;
