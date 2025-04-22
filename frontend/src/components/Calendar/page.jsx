@@ -115,7 +115,7 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
         <button onClick={() => onView("day")}>Day</button>
       </div>
     </div>
-  );
+  )
 };
 
 const CalendarComponent = () => {
@@ -249,7 +249,8 @@ const CalendarComponent = () => {
           events={events}
           startAccessor="start"
           endAccessor="end"
-          defaultView={view}
+          defaultView='month'
+          view={view}
           views={['month', 'week', 'day']} // Removed 'agenda' from views
           selectable
           onSelectSlot={handleSelectSlot}
