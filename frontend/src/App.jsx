@@ -13,9 +13,6 @@ function App() {
     <Router>
       <div style={{ height: "95vh", width: "100%", padding: "20px" }}>
         <nav style={{ marginBottom: "20px" }}>
-          <Link to="/SplitScreen" className="button-link">
-	    Home
-	  </Link>
 	  <Link to="/Calendar" className="button-link">
             Calendar
           </Link>
@@ -31,12 +28,12 @@ function App() {
         </nav>
 
         <Routes>
-          <Route path="/Calendar" element={<CalendarComponent />
-        } />
+          <Route path="/Calendar" element={<CalendarComponent />} />
           <Route path="/Todolist" element={<MyApp />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/createAccount" element={<CreateAccount />} />
-	  <Route path="/SplitScreen" elment={<SplitScreen />} />
+	  <Route path="/SplitScreen" element={<SplitScreen />} />
+	  <Route path="*" element={<div>Page not found.</div>} />
         </Routes>
       </div>
     </Router>
