@@ -1,5 +1,40 @@
-/* General styling for the entire calendar container */
+/* Main container */
+.calendar-page-container {
+  display: flex;
+  width: 100%;
+  font-family: monospace;
+  color: #888;
+  background-color: #f1f1f1;
+  padding: 20px;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Calendar container - maintains original size */
 .calendar-container {
+  width: 150%;
+  background-color: #f1f1f1;
+}
+
+/* Side panel matching calendar height */
+.side-panel {
+  width: 450px;
+  background-color: #fff;
+  border: 1px solid #888;
+  border-radius: 8px;
+  padding: 20px;
+  height: 650px; /* Matches calendar height */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-top: 35px;
+}
+
+/* Original navigation buttons */
+/*Styling for priority filter sidebar */
+
+.priority-container {
     font-family: monospace;
     color: #888;
     background-color: #f1f1f1;
@@ -8,95 +43,244 @@
     padding: 20px;
 }
 
-/* Styling for the calendar navigation bar */
-.calendar-nav {
+/*Styling for priority filter sidebar */
+
+.priority-container {
+    font-family: monospace;
+    color: #888;
+    background-color: #f1f1f1;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
+    justify-content: center;
+    padding: 20px;
 }
 
-/* Styling for the calendar toolbar buttons (prev, today, next) */
+
+/* Original navigation buttons */
+.calendar-nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
 .calendar-nav button {
-    background-color: transparent;
-    border: 1px solid #888;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    color: #333; /* Change font color for normal state */
+  background-color: transparent;
+  border: 1px solid #888;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #333;
 }
 
 .calendar-nav button:hover {
-    background-color: #888;
-    color: #fff; /* Change font color when hovered */
+  background-color: #888;
+  color: #fff;
 }
 
-
-/* Styling for the date picker */
-.rbc-toolbar-label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.custom-datepicker {
-    font-family: monospace;
-    color: #888;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #888;
-    border-radius: 5px;
-}
-
-.custom-datepicker:focus {
-    border-color: #888;
-}
-
-/* Styling for the view buttons (month, week, day, agenda) */
+/* View buttons */
 .calendar-view {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+  display: flex;
+  gap: 10px;
 }
 
 .calendar-view button {
-    background-color: transparent;
-    border: 1px solid #888;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    color: #333;
+  background-color: transparent;
+  border: 1px solid #888;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #333;
 }
 
 .calendar-view button:hover {
-    background-color: #888;
-    color: #fff;
+  background-color: #888;
+  color: #fff;
 }
 
-/* Styling for the calendar itself */
+/* Calendar styling */
 .rbc-calendar {
-    border: 1px solid #888;
-    border-radius: 8px;
-    background-color: #fff;
-    font-family: monospace;
+  border: 1px solid #888;
+  border-radius: 8px;
+  background-color: #fff;
+  font-family: monospace;
+  height: 700px;
+  width: 100%;
 }
 
-/* Style for event cells */
-.rbc-event {
-    background-color: #f1f1f1;
-    color: #888;
-    border-radius: 5px;
-    padding: 5px;
-    border: 1px solid #ddd;
+.rbc-toolbar {
+  display: flex;
+  padding-bottom: 1rem;
 }
 
-.rbc-event:hover {
-    background-color: #888;
-    color: #fff;
+.rbc-toolbar-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Style for event title */
-.rbc-event-content {
-    font-family: monospace;
-    font-size: 14px;
+/* Close button styling */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 0.9em;
+  cursor: pointer;
+  color: #888;
+  padding: 2px 5px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  z-index: 10;
+}
+
+.close-button:hover {
+  color: #333;
+  background-color: #f1f1f1;
+}
+
+/* Add Task container */
+.add-task-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Task list container */
+.tasks-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Task list styling */
+.task-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  padding: 12px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.task-time {
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.task-title {
+  font-weight: normal;
+}
+
+.no-tasks {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  margin: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .calendar-page-container {
+    flex-direction: column;
+  }
+  
+  .calendar-container,
+  .side-panel {
+    width: 100%;
+  }
+  
+  .side-panel {
+    height: auto;
+    min-height: 300px;
+    margin-top: 20px;
+  }
+}
+
+/* Task List Styles */
+.task-item {
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  list-style: none;
+}
+
+.task-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.task-label {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #e0e0e0;
+  text-transform: capitalize;
+}
+
+.task-priority {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.task-priority.high {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+.task-priority.medium {
+  background: #fff8e1;
+  color: #ff8f00;
+}
+
+.task-priority.low {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.task-title {
+  font-weight: 500;
+  margin: 4px 0;
+}
+
+.task-description {
+  color: #555;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Label-specific colors */
+.task-item.event {
+  border-left: 3px solid #3f51b5;
+}
+
+.task-item.task {
+  border-left: 3px solid #4caf50;
+}
+
+.task-item.reminder {
+  border-left: 3px solid #ff9800;
 }

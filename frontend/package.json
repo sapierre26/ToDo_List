@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest --config jest.config.mjs"
+    "test": "jest"
   },
   "dependencies": {
     "18": "^0.0.0",
@@ -27,8 +27,9 @@
     "@babel/preset-react": "^7.26.3",
     "@eslint/js": "^9.17.0",
     "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
+    "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.13.10",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
@@ -43,6 +44,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "react-testing-library": "^8.0.1",
+    "ts-jest": "^29.3.2",
     "vite": "^6.2.0"
   }
 }

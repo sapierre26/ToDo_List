@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Table from './Table';
+import Table from './page';
+import '@testing-library/jest-dom';
 
 // Sample tasks to test with
 const mockTasks = [
