@@ -1,0 +1,16 @@
+.UserSettings {
+    border: 10rem solid;
+    border-color: black;
+}
+
+.userPic {
+    width: 24rem;
+    height: 16rem;
+    background-color: #ccc; /* Gray background */
+    border: 4px double black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
