@@ -118,7 +118,7 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
   )
 };
 
-const CalendarComponent = () => {
+export const CalendarComponent = () => {
   const [events, setEvents] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState("month");
