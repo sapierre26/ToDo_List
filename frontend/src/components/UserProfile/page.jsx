@@ -1,6 +1,12 @@
 import React, {useState, useEffect} from "react"
+import "./userProfile.module.css";
 
 const UserProfile = () => {
+    const user = {
+        name: 'Manmeet Gill',
+        username: 'manmeetg18',
+        password: 'apple@10',
+    }
     //handle image upload
     const [userPic, setUserPic] = useState(null);
     const handleImageUpload = (e) => {
@@ -17,43 +23,53 @@ const UserProfile = () => {
         <div className="UserProfile">
             <h2>User Profile</h2>
             <div className="UserSettings" style={{display: "flex"}}>
-                <div className="UserInfo">
+                <div className="UserInfo" >
                     <div className="UserPic">
                     {userPic ? 
                     (<img 
                         src={userPic} 
-                        alt="profilePicture"
                         style={{
                             height: "300px",
-                            width: "350px"
+                            width: "350px",
+                            paddingRight: "2rem",
                         }}
+                        alt="profilePicture"
                     />) : 
                         (<span></span>)}
-                        <input 
-                            type="file"
-                            onChange={(handleImageUpload)}
-                            style={{
-                                width: "45%"
-                            }}
-                        />
+                        <label className="Filebox">
+                            <input 
+                                type="file"
+                                className="FileInput"
+                                onChange={(handleImageUpload)}
+                                style={{
+                                    padding: "2px",
+                                    width: "15rem",
+                                    display: "flex"
+                                }}
+                            />
+                        </label>
                     </div>
                     <h2>
-                        <span className="Username">Name</span>
+                        <span className="Username">{user.name}</span>
                     </h2>
                 </div>
                 <div className="UserChangeInfo">
                     
                     <input
                         type="text"
-                        placeholder="Username"
+                        value={user.username}
+                        disabled
                     />
                     <input 
                         type="password"
-                        placeholder="Password"
+                        autocomplete="current-password webauthn"
+                        value={user.password}
+                        disabled
                     />
                     <input 
                         type="email"
                         placeholder="Email"
+                        disabled
                     />
                 </div>
             </div>

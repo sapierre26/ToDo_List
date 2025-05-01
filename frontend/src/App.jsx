@@ -32,7 +32,7 @@ function App() {
 
         </nav>
 
-        <Routes>
+        <Routes style={{padding: "20rem"}}>
           <Route path="/Calendar" element={<CalendarComponent />} />
           <Route path="/Todolist" element={<MyApp />} />
           <Route path="/Login" element={<Login />} />
