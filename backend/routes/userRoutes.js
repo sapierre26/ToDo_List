@@ -13,4 +13,15 @@ router.get("/", async (req, res) => {
     }
   });
 
+//get user by username
+router.get("/:username", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) return res.status(404).send({ message: "User not found" });
+    res.send(user);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+});
+
 module.exports = router
