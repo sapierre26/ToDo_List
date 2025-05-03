@@ -24,7 +24,8 @@ const CreateAccount = () => {
             setPasswordError("Please enter a password");
         } else {
             // Handle successful form submission
-            console.log("Form submitted with details:", { firstName, lastName, username, email, password });
+            const { password, ...safeData } = FormData;
+            console.log("form submitted (safe): ", safeData);
             // Reset the form after successful submission
             setFirstName('');
             setLastName('');

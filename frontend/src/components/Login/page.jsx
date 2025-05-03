@@ -4,25 +4,51 @@ import style from './login.module.css';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false); // State for Remember Me checkbox
+    const [rememberMe, setRememberMe] = useState(false);
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         setEmailError('');
         setPasswordError('');
-        
+
+        let hasError = false;
+
         if (!username) {
             setEmailError("Please enter your username");
-        } else if (!password) {
+            hasError = true;
+        }
+
+        if (!password) {
             setPasswordError("Please enter a password");
-        } else {
-            // Handle successful login (e.g., submit the form)
-            console.log("Form submitted with username:", username, "and password:", password);
-            console.log("Remember Me:", rememberMe); // Log the rememberMe state
+            hasError = true;
+        }
+
+        if (hasError) return;
+
+        try {
+            const response = await fetch("http://localhost:8000/api/Users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username, pwd: password })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Login failed:", errorData);
+            } else {
+                const result = await response.json();
+                console.log("Login successful:", result);
+                console.log("Remember Me:", rememberMe);
+                // Redirect or store token as needed
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
         }
     };
-    
+
     return (
         <div className={style.loginContainer}>
             <h3>Login</h3>
@@ -33,27 +59,29 @@ const Login = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
+                {emailError && <p>{emailError}</p>}
+
                 <input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
+                {passwordError && <p>{passwordError}</p>}
+
                 <div className={style.checkboxContainer}>
                     <input
                         type="checkbox"
                         checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)} // Toggle Remember Me state
+                        onChange={(e) => setRememberMe(e.target.checked)}
                     />
                     <label>Remember Me</label>
                 </div>
+
                 <button onClick={onSubmit}>Login</button>
-                
-                {emailError && <p>{emailError}</p>}
-                {passwordError && <p>{passwordError}</p>}
             </div>
         </div>
     );
-}
+};
 
 export default Login;

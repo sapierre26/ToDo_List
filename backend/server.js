@@ -1,9 +1,5 @@
 const cors = require('cors')
 const express = require("express")
-// import express from "express";
-// import cors from "cors";
-// import userEndpoints from "./routes/userRoutes.js";
-// import tasksEndpoints from "./routes/tasksRoutes.js";
 
 const app = express() ;
 app.use(express.json());
@@ -11,11 +7,11 @@ app.use(cors());
 
 const userEndpoints = require("./routes/userRoutes.js")
 const tasksEndpoints = require("./routes/tasksRoutes.js")
+const authRoutes = require('./routes/auth');
 
-
+app.use('/api/Users', authRoutes);   // api/auth/login 
 app.use("/api/Users", userEndpoints)
 app.use("/api/tasks", tasksEndpoints)
-
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

@@ -5,7 +5,6 @@ import CalendarComponent from "./components/Calendar/page";
 import MyApp from "./components/todolist/page";
 import Login from "./components/Login/page";
 import CreateAccount from "./components/CreateAccount/page";
-import Table from "./components/Table/page";
 import SplitScreen from "./components/SplitScreen/page";
 import UserProfile from "./components/UserProfile/page";
 
@@ -33,6 +32,7 @@ function App() {
         </nav>
 
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/Calendar" element={<CalendarComponent />} />
           <Route path="/Todolist" element={<MyApp />} />
           <Route path="/Login" element={<Login />} />
