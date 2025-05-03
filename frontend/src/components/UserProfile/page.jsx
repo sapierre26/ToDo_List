@@ -20,6 +20,7 @@ const UserProfile = () => {
             name: "Manmeet Gill",
             username: "manmeetg18",
             password: "apple@10",
+            email: "mgill17@calpoly.edu",
           };
     
           const fetchMock = () => Promise.resolve(mockUserData);
@@ -34,6 +35,19 @@ const UserProfile = () => {
     
         fetchUser();
       }, []);
+
+    /*masking the email*/
+    const maskEmail = (email) => {
+        if (!email || !email.includes('@')) return "";
+        const [local, domain] = email.split("@");
+        console.log(`${local}`);
+        if (local.length <= 3) return "***@" + domain;
+
+        const visibleEmail = local.slice(0, 3);
+        const mask = "*".repeat(local.length -4);
+        console.log(`${visibleEmail}${mask}@${domain}`);
+        return `${visibleEmail}${mask}@${domain}`;
+    }
     return (
         <div className="UserProfile">
             <h2>User Profile</h2>
@@ -77,13 +91,13 @@ const UserProfile = () => {
                     />
                     <input 
                         type="password"
-                        autocomplete="current-password webauthn"
+                        autoComplete="current-password webauthn"
                         value={userData?.password || ""}
                         disabled
                     />
                     <input 
                         type="email"
-                        placeholder="EmAil"
+                        value={maskEmail(userData?.email) || ""}
                         disabled
                     />
                 </div>
