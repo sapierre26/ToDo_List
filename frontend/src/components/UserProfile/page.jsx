@@ -1,12 +1,7 @@
 import React, {useState, useEffect} from "react"
 import "./userProfile.module.css";
 
-const UserProfile = () => {
-    const user = {
-        name: 'Manmeet Gill',
-        username: 'manmeetg18',
-        password: 'apple@10',
-    }
+const UserProfile = () => {  
     //handle image upload
     const [userPic, setUserPic] = useState(null);
     const handleImageUpload = (e) => {
@@ -17,13 +12,33 @@ const UserProfile = () => {
     }
 
     //fetch username and password (let"s see how we can do this)
-    const [username, setUsername] = useState("");
+    // const [username, setUsername] = useState("");
+    const [userData, setUserData] = useState(null);
+    useEffect(() => {
+        const fetchUser = async () => {
+          const mockUserData = {
+            name: "Manmeet Gill",
+            username: "manmeetg18",
+            password: "apple@10",
+          };
     
+          const fetchMock = () => Promise.resolve(mockUserData);
+    
+          try {
+            const data = await fetchMock();
+            setUserData(data);
+          } catch (err) {
+            console.log("FETCHING USER: ", err)
+          }
+        };
+    
+        fetchUser();
+      }, []);
     return (
         <div className="UserProfile">
             <h2>User Profile</h2>
             <div className="UserSettings" style={{display: "flex"}}>
-                <div className="UserInfo" >
+                <div className="UserInfo" style={{paddingInlineEnd: "3rem"}}>
                     <div className="UserPic">
                     {userPic ? 
                     (<img 
@@ -31,7 +46,7 @@ const UserProfile = () => {
                         style={{
                             height: "300px",
                             width: "350px",
-                            paddingRight: "2rem",
+                            borderRadius: "25px",
                         }}
                         alt="profilePicture"
                     />) : 
@@ -50,25 +65,25 @@ const UserProfile = () => {
                         </label>
                     </div>
                     <h2>
-                        <span className="Username">{user.name}</span>
+                        <span className="Username">{userData?.name}</span>
                     </h2>
                 </div>
                 <div className="UserChangeInfo">
                     
                     <input
                         type="text"
-                        value={user.username}
+                        value={userData?.username || ""}
                         disabled
                     />
                     <input 
                         type="password"
                         autocomplete="current-password webauthn"
-                        value={user.password}
+                        value={userData?.password || ""}
                         disabled
                     />
                     <input 
                         type="email"
-                        placeholder="Email"
+                        placeholder="EmAil"
                         disabled
                     />
                 </div>

@@ -1,14 +1,33 @@
-.UserSettings {
-    border: 0rem solid;
-    border-color: black;
+.UserProfile {
+    padding: 2rem;
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f8f9fa;
+    border-radius: 16px;
+    max-width: 700px;
+    margin: auto;
 }
-/* 
-.UserPic {
-    width: 10rem;
-    height: 20rem;
-    background-color: #ccc; 
-    border: 4px double black;
+  
+.UserSettings {
     display: flex;
-    align-items: center;
-    justify-content: center;
-} */
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+  
+.UserPic img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+.UserChangeInfo input {
+    display: block;
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+}
+  
