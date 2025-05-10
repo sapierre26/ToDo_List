@@ -15,7 +15,7 @@
 .rbc-btn-group:active {
   box-shadow: 0.5px #666;
   transform: translateY(4px);
-  display:flex;
+  display: flex;
 }
 .rbc-toolbar-label {
   position: relative;
@@ -24,7 +24,7 @@
 }
 
 .react-datepicker__tab-loop {
-    z-index: 9999;
+  z-index: 9999;
 }
 
 .custom-datepicker {
@@ -44,14 +44,14 @@
 }
 
 .rbc-month-view {
-    position: relative;
-    flex-direction: column;
-    flex: 1 0 0;
-    width: 100%;
+  position: relative;
+  flex-direction: column;
+  flex: 1 0 0;
+  width: 100%;
 }
 
 .rbc-day-bg {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .rbc-calendar {
@@ -93,7 +93,9 @@ h1 {
   line-height: 1.1;
 }
 
-.container, .small-container, .medium-container {
+.container,
+.small-container,
+.medium-container {
   max-width: 1400px;
   padding: 0 rem;
   margin-left: auto;
@@ -112,14 +114,14 @@ button:focus-visible {
 
 button {
   cursor: pointer;
-	border-style: double solid ridge;
-	background-color: white;
-	border-color: black;
-	border: solid round;
+  border-style: double solid ridge;
+  background-color: white;
+  border-color: black;
+  border: solid round;
   color: black;
-	margin-bottom: 0.7rem;
-	margin-right: 0.7rem;
-	border-radius: 5px;
+  margin-bottom: 0.7rem;
+  margin-right: 0.7rem;
+  border-radius: 5px;
 }
 
 @media (min-width: 600px) {

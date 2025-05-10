@@ -1,19 +1,17 @@
-
 .sidebar {
-    padding: 20px;
-    background-color: #ffffff;
-    border-right: 1px solid #ccc;
-    min-width: 200px;
-    max-width: 250px;
-    height: 100%;
-    font-family: monospace;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    border-radius: 8px;
-    
+  padding: 20px;
+  background-color: #ffffff;
+  border-right: 1px solid #ccc;
+  min-width: 200px;
+  max-width: 250px;
+  height: 100%;
+  font-family: monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 8px;
 }
-  
+
 .priorityList {
   list-style: none;
   padding: 0;
@@ -40,4 +38,3 @@
   background-color: #888;
   color: white;
 }
-  

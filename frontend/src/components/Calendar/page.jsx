@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay, isSameDay } from "date-fns";
 import enUS from "date-fns/locale/en-US";
@@ -9,6 +9,7 @@ import AddTask from "../todolist/addTask";
 import { getTasksAndEventsByEndDate, getTasksForMonth } from "../../api/tasks";
 import "./calendar.css";
 import PriorityFilterSidebar from "../PriorityFilterSidebar/page.jsx";
+import PropTypes from "prop-types";
 
 const locales = { "en-US": enUS };
 
@@ -26,16 +27,11 @@ const MonthEvent = ({ event }) => (
   </div>
 );
 
-// const EventContent = ({ event }) => (
-//   <div className="rbc-event-content">
-//     <div className="event-title">{event.title}</div>
-//     <div className="event-time">
-//       {event.resource?.label === 'Event'
-//         ? `${format(event.start, "h:mm a")} - ${format(event.end, "h:mm a")}`
-//         : `${format(event.end, "h:mm a")}`}
-//     </div>
-//   </div>
-// );
+MonthEvent.propTypes = {
+  event: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
   const [startDate, setStartDate] = useState(date || new Date());
@@ -44,7 +40,7 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
     const formattedDate = format(startDate, "dd MMMM yyyy");
     const newDate = parse(formattedDate, "dd MMMM yyyy", new Date());
     if (!isNaN(newDate.getTime())) setStartDate(newDate);
-  }, [label]);
+  }, [label, startDate]);
 
   const handleDateChange = (date) => {
     setStartDate(date);
@@ -116,6 +112,14 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
   );
 };
 
+MyCustomToolbar.propTypes = {
+  label: PropTypes.string.isRequired,
+  onNavigate: PropTypes.func.isRequired,
+  onView: PropTypes.func.isRequired,
+  date: PropTypes.instanceOf(Date).isRequired,
+  setTaskDate: PropTypes.func.isRequired,
+};
+
 const CalendarComponent = () => {
   const [tasks, setTasks] = useState([]);
   const [calendarEvents, setCalendarEvents] = useState([]);
@@ -133,7 +137,7 @@ const CalendarComponent = () => {
 
   const filteredEvents = selectedPriority
     ? mergedEvents.filter(
-        (event) => event.resource?.priority === selectedPriority
+        (event) => event.resource?.priority === selectedPriority,
       )
     : mergedEvents;
 
@@ -144,12 +148,12 @@ const CalendarComponent = () => {
         const startOfMonth = new Date(
           currentDate.getFullYear(),
           currentDate.getMonth(),
-          1
+          1,
         );
         const endOfMonth = new Date(
           currentDate.getFullYear(),
           currentDate.getMonth() + 1,
-          0
+          0,
         );
         const items = await getTasksForMonth(startOfMonth, endOfMonth);
 
@@ -183,7 +187,7 @@ const CalendarComponent = () => {
             start: new Date(item.startDate),
             end: new Date(item.endDate),
             resource: item,
-          }))
+          })),
         );
       } catch (error) {
         console.error("Error fetching tasks/events:", error);

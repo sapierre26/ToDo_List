@@ -28,14 +28,14 @@
 }
 
 .calendar-container {
-    overflow-anchor: auto;
-    height: auto;
-    width: auto;
-    margin: auto;
-    padding: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  overflow-anchor: auto;
+  height: auto;
+  width: auto;
+  margin: auto;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -51,7 +51,6 @@
 .read-the-docs {
   color: #888;
 }
-
 
 .button-link {
   text-decoration: none; /* Remove underline */
