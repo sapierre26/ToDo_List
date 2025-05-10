@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npx eslint . && npx prettier --check .",
+	  "test": "npx jest",
+	  "dev": "nodemon backend/server.js",
+	  "start": "node backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +32,8 @@
     "prettier": "^3.5.0",
     "react-router-dom": "^7.3.0",
     "supertest": "^7.0.0",
-    "ts-jest": "^29.2.6"
+    "ts-jest": "^29.2.6",
+    "vite": "^6.3.5"
   },
   "dependencies": {
     "@types/next": "^8.0.7",

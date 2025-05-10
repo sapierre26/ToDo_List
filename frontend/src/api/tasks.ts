@@ -1,21 +1,10 @@
-export interface Task {
-    _id?: string;
-    title: string;
-    label: 'Event' | 'Task';
-    priority: 'Low' | 'Medium' | 'High';
-    description: string;
-    startDate: string;
-    endDate: string;
-}
-
 const tasksURL = "http://localhost:8000/api/tasks";
 
-// Helper function to format date as YYYY-MM-DD
-const formatDate = (date: Date): string => {
+const formatDate = (date) => {
     return date.toISOString().split('T')[0];
 };
 
-export const getTasks = async (): Promise<Task[] | null> => {
+export const getTasks = async () => {
     try {
         const res = await fetch(tasksURL);
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -26,7 +15,7 @@ export const getTasks = async (): Promise<Task[] | null> => {
     }
 };
 
-export const getTasksAndEventsByEndDate = async (date: Date): Promise<Task[] | null> => {
+export const getTasksAndEventsByEndDate = async (date) => {
     try {
         const dateStr = formatDate(date);
         const res = await fetch(`${tasksURL}?date=${dateStr}`);
@@ -39,7 +28,7 @@ export const getTasksAndEventsByEndDate = async (date: Date): Promise<Task[] | n
     }
 };
 
-export const getTasksForMonth = async (startDate: Date, endDate: Date): Promise<Task[] | null> => {
+export const getTasksForMonth = async (startDate, endDate) => {
     try {
         const startStr = formatDate(startDate);
         const endStr = formatDate(endDate);
@@ -53,7 +42,7 @@ export const getTasksForMonth = async (startDate: Date, endDate: Date): Promise<
     }
 };
 
-export const addTask = async (task: Omit<Task, '_id'>): Promise<Task | null> => {
+export const addTask = async (task) => {
     try {
         const res = await fetch(tasksURL, {
             method: "POST",
@@ -69,7 +58,7 @@ export const addTask = async (task: Omit<Task, '_id'>): Promise<Task | null> => 
     }
 };
 
-export const deleteTask = async (taskId: string): Promise<boolean> => {
+export const deleteTask = async (taskId) => {
     try {
         const res = await fetch(`${tasksURL}/${taskId}`, { 
             method: "DELETE" 
@@ -82,7 +71,7 @@ export const deleteTask = async (taskId: string): Promise<boolean> => {
     }
 };
 
-export const updateTask = async (taskId: string, updates: Partial<Task>): Promise<Task | null> => {
+export const updateTask = async (taskId, updates) => {
     try {
         const res = await fetch(`${tasksURL}/${taskId}`, {
             method: "PUT",

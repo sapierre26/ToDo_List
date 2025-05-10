@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import { format, parse, startOfWeek, getDay, isSameMonth, isSameDay } from "date-fns";
+import { format, parse, startOfWeek, getDay, isSameDay } from "date-fns";
 import enUS from "date-fns/locale/en-US";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -8,12 +8,9 @@ import Datepicker from "react-datepicker";
 import AddTask from "../todolist/addTask";
 import { getTasksAndEventsByEndDate, getTasksForMonth } from "../../api/tasks";
 import "./calendar.css";
+import PriorityFilterSidebar from "../PriorityFilterSidebar/page.jsx";
 
-import PriorityFilterSidebar from '../PriorityFilterSidebar/page.jsx';
-
-const locales = {
-  "en-US": enUS,
-};
+const locales = { "en-US": enUS };
 
 const localizer = dateFnsLocalizer({
   format,
@@ -23,28 +20,30 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const MonthEvent = ({ event }) => {
-  return (
-    <div className="rbc-month-event-content">
-      <div className="event-title">{event.title}</div>
-    </div>
-  );
-};
+const MonthEvent = ({ event }) => (
+  <div className="rbc-month-event-content">
+    <div className="event-title">{event.title}</div>
+  </div>
+);
+
+// const EventContent = ({ event }) => (
+//   <div className="rbc-event-content">
+//     <div className="event-title">{event.title}</div>
+//     <div className="event-time">
+//       {event.resource?.label === 'Event'
+//         ? `${format(event.start, "h:mm a")} - ${format(event.end, "h:mm a")}`
+//         : `${format(event.end, "h:mm a")}`}
+//     </div>
+//   </div>
+// );
 
 const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
   const [startDate, setStartDate] = useState(date || new Date());
 
   useEffect(() => {
-    let curr = startDate.getDate();
-    if (curr < 10) {
-        curr = '0' + curr;
-    }
-    let date = curr + ' ' + label;
-    const newDate = parse(date, 'dd MMMM yyyy', new Date());
-
-    if (!isNaN(newDate.getTime())) { // Check if the date is valid
-        setStartDate(newDate);
-    }
+    const formattedDate = format(startDate, "dd MMMM yyyy");
+    const newDate = parse(formattedDate, "dd MMMM yyyy", new Date());
+    if (!isNaN(newDate.getTime())) setStartDate(newDate);
   }, [label]);
 
   const handleDateChange = (date) => {
@@ -80,7 +79,6 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
       default:
         return;
     }
-
     setStartDate(newDate);
     setTaskDate(newDate);
     onNavigate(action, newDate);
@@ -88,13 +86,13 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
 
   return (
     <div style={{ display: "flex", paddingBottom: "1rem" }}>
-      <div className="calendar-nav" style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
+      <div className="calendar-nav">
         <button onClick={() => handleNavigate("PREV")}>←</button>
         <button onClick={handleTodayClick}>Today</button>
         <button onClick={() => handleNavigate("NEXT")}>→</button>
       </div>
 
-      <div className="rbc-toolbar-label" style={{ flexGrow: 1, justifyItems: "center" }}>
+      <div className="rbc-toolbar-label">
         <Datepicker
           selected={startDate}
           onChange={handleDateChange}
@@ -115,11 +113,12 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
         <button onClick={() => onView("day")}>Day</button>
       </div>
     </div>
-  )
+  );
 };
 
 const CalendarComponent = () => {
-  const [events, setEvents] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [calendarEvents, setCalendarEvents] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState("month");
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
@@ -128,41 +127,66 @@ const CalendarComponent = () => {
   const [dailyTasks, setDailyTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [clickTimeout, setClickTimeout] = useState(null);
-
   const [selectedPriority, setSelectedPriority] = useState(null);
-  const filteredEvents = selectedPriority ? events.filter((event) => event.priority === selectedPriority) : events;
+
+  const mergedEvents = [...tasks, ...calendarEvents];
+
+  const filteredEvents = selectedPriority
+    ? mergedEvents.filter(
+        (event) => event.resource?.priority === selectedPriority
+      )
+    : mergedEvents;
+
   useEffect(() => {
     const fetchTasks = async () => {
       setIsLoading(true);
       try {
-        const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-        const tasks = await getTasksForMonth(startOfMonth, endOfMonth);
+        const startOfMonth = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          1
+        );
+        const endOfMonth = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + 1,
+          0
+        );
+        const items = await getTasksForMonth(startOfMonth, endOfMonth);
 
-        const taskEvents = tasks.map(task => ({
-          id: task._id,
-          title: task.title,
-          start: new Date(task.startDate),
-          end: new Date(task.endDate),
-          allDay: task.label === 'Event',
-          resource: task
-        }));
+        const taskList = [];
+        const eventList = [];
 
-        setEvents(taskEvents);
-        
-        if (view !== 'month') {
-          const dailyTasks = await getTasksAndEventsByEndDate(selectedDate);
-          setDailyTasks(dailyTasks.map(task => ({
-            id: task._id,
-            title: task.title,
-            start: new Date(task.startDate),
-            end: new Date(task.endDate),
-            allDay: task.label === 'Event',
-            resource: task
-          })));
-        }
+        items.forEach((item) => {
+          const calendarItem = {
+            id: item._id,
+            title: item.title,
+            start: new Date(item.startDate),
+            end: new Date(item.endDate),
+            resource: item,
+          };
+
+          if (item.label === "Event") {
+            eventList.push(calendarItem);
+          } else {
+            taskList.push(calendarItem);
+          }
+        });
+
+        setTasks(taskList);
+        setCalendarEvents(eventList);
+
+        const dailyItems = await getTasksAndEventsByEndDate(selectedDate);
+        setDailyTasks(
+          dailyItems.map((item) => ({
+            id: item._id,
+            title: item.title,
+            start: new Date(item.startDate),
+            end: new Date(item.endDate),
+            resource: item,
+          }))
+        );
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.error("Error fetching tasks/events:", error);
       } finally {
         setIsLoading(false);
       }
@@ -176,9 +200,7 @@ const CalendarComponent = () => {
     setIsAddTaskModalOpen(false);
   };
 
-  const handleSelectSlot = (slotInfo) => {
-    const { start } = slotInfo;
-    
+  const handleSelectSlot = ({ start }) => {
     if (clickTimeout) {
       clearTimeout(clickTimeout);
       setClickTimeout(null);
@@ -193,9 +215,7 @@ const CalendarComponent = () => {
     }
   };
 
-  const handleViewChange = (view) => {
-    setView(view);
-  };
+  const handleViewChange = (view) => setView(view);
 
   const handleTaskAdded = (newTask) => {
     const newEvent = {
@@ -203,16 +223,19 @@ const CalendarComponent = () => {
       title: newTask.title,
       start: new Date(newTask.startDate),
       end: new Date(newTask.endDate),
-      allDay: newTask.label === 'Event',
-      resource: newTask
+      resource: newTask,
     };
-    
-    setEvents(prev => [...prev, newEvent]);
-    
-    if (isSameDay(new Date(newTask.startDate), selectedDate)) {
-      setDailyTasks(prev => [...prev, newEvent]);
+
+    if (newTask.label === "Event") {
+      setCalendarEvents((prev) => [...prev, newEvent]);
+    } else {
+      setTasks((prev) => [...prev, newEvent]);
     }
-    
+
+    if (isSameDay(new Date(newTask.startDate), selectedDate)) {
+      setDailyTasks((prev) => [...prev, newEvent]);
+    }
+
     setIsAddTaskModalOpen(false);
   };
 
@@ -228,116 +251,110 @@ const CalendarComponent = () => {
         <Calendar
           components={{
             toolbar: (props) => (
-              <MyCustomToolbar 
-                {...props} 
+              <MyCustomToolbar
+                {...props}
                 date={currentDate}
-                setTaskDate={setSelectedDate}
+                setTaskDate={(date) => {
+                  setSelectedDate(date);
+                  if (view !== "month") setCurrentDate(date);
+                }}
                 onNavigate={(action, date) => {
-                  setCurrentDate(date || currentDate);
-                  if (view !== 'month') {
-                    setSelectedDate(date || currentDate);
-                  }
+                  if (view !== "month" && date) setSelectedDate(date);
                 }}
                 onView={handleViewChange}
               />
             ),
-            month: {
-              event: MonthEvent // Use our custom month event component
-            }
+            month: { event: MonthEvent },
           }}
           localizer={localizer}
-          events={events}
+          events={filteredEvents}
           startAccessor="start"
           endAccessor="end"
-          defaultView='month'
           view={view}
-          views={['month', 'week', 'day']} // Removed 'agenda' from views
+          views={["month", "week", "day"]}
           selectable
           onSelectSlot={handleSelectSlot}
           onSelectEvent={(event) => {
             setSelectedDate(new Date(event.start));
-            if (view !== 'day') {
-              setView('day');
-            }
+            if (view !== "day") setView("day");
           }}
-          onDoubleClickEvent={() => {}}
           onNavigate={(date) => {
             setCurrentDate(date);
-            if (view !== 'month') {
-              setSelectedDate(date);
-            }
+            if (view !== "month") setSelectedDate(date);
           }}
           onView={handleViewChange}
-          style={{
-            height: "calc(100vh - 100px)",
-            margin: "10px",
+          style={{ height: "calc(100vh - 100px)", margin: "10px" }}
+          eventPropGetter={(event) => {
+            const isEvent = event.resource?.label === "Event";
+            return {
+              className: isEvent
+                ? "rbc-event-event"
+                : `rbc-event-${event.resource?.priority?.toLowerCase() || "medium"}`,
+            };
           }}
-          eventPropGetter={(event) => ({
-            className: `rbc-event-${event.resource?.priority?.toLowerCase() || 'medium'}`
-          })}
         />
       </div>
 
       <div className="side-panel">
-      {isAddTaskModalOpen ? (
-        <div className="add-task-container">
-          <AddTask
-            taskDate={taskDate}
-            onTaskAdded={handleTaskAdded}
-            onClose={() => setIsAddTaskModalOpen(false)}
-          />
-        </div>
-      ) : (
-        <div className="tasks-container">
-          <h2>Tasks for {format(selectedDate, "MMMM dd, yyyy")}</h2>
-          {isLoading ? (
-            <p>Loading tasks...</p>
-          ) : dailyTasks.length > 0 ? (
-            <ul className="task-list">
-              {dailyTasks.map((event) => {
-                const taskData = event.resource || {}; // Safely access resource data
-                const isEvent = taskData.label === 'Event';
-                
-                return (
-                  <li 
-                    key={event.id} 
-                    className={`task-item ${taskData.label?.toLowerCase() || 'task'}`}
-                  >
-                    <div className="task-content">
-                      <div className="task-meta">
-                        <span className="task-label">
-                          {taskData.label || (isEvent ? 'Event' : 'Task')}
-                        </span>
-                        {!isEvent && (
-                          <span className={`task-priority ${taskData.priority?.toLowerCase() || 'medium'}`}>
-                            {taskData.priority || 'Medium'}
+        {isAddTaskModalOpen ? (
+          <div className="add-task-container">
+            <AddTask
+              taskDate={taskDate}
+              onTaskAdded={handleTaskAdded}
+              onClose={() => setIsAddTaskModalOpen(false)}
+            />
+          </div>
+        ) : (
+          <div className="tasks-container">
+            <h2>Tasks for {format(selectedDate, "MMMM dd, yyyy")}</h2>
+            {isLoading ? (
+              <p>Loading tasks...</p>
+            ) : dailyTasks.length > 0 ? (
+              <ul className="task-list">
+                {dailyTasks.map((event) => {
+                  const taskData = event.resource || {};
+                  const isEvent = taskData.label === "Event";
+
+                  return (
+                    <li
+                      key={event.id}
+                      className={`task-item ${taskData.label?.toLowerCase() || "task"}`}
+                    >
+                      <div className="task-content">
+                        <div className="task-meta">
+                          <span className="task-label">
+                            {taskData.label || (isEvent ? "Event" : "Task")}
                           </span>
-                        )}
-                        {!event.allDay && (
+                          {!isEvent && (
+                            <span
+                              className={`task-priority ${taskData.priority?.toLowerCase() || "medium"}`}
+                            >
+                              {taskData.priority || "Medium"}
+                            </span>
+                          )}
                           <span className="task-time">
-                            {format(event.start, "h:mm a")} - {format(event.end, "h:mm a")}
+                            {isEvent
+                              ? `${format(event.start, "h:mm a")} - ${format(event.end, "h:mm a")}`
+                              : `${format(event.end, "h:mm a")}`}
                           </span>
+                        </div>
+                        <h3 className="task-title">{event.title}</h3>
+                        {taskData.description && (
+                          <p className="task-description">
+                            {taskData.description}
+                          </p>
                         )}
                       </div>
-                      
-                      <h3 className="task-title">{event.title}</h3>
-                      
-                      {taskData.description && (
-                        <p className="task-description">
-                          {taskData.description}
-                        </p>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : (
-            <p className="no-tasks">No tasks for this date</p>
-          )}
-        </div>
-      )}
-    </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="no-tasks">No tasks for this date</p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
