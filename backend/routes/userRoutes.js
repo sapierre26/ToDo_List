@@ -5,13 +5,13 @@ const User = require("../models/userSchema.js");
 
 //get all users
 router.get("/", async (req, res) => {
-    try {
-      const users = await User.find({})
-      res.send(users);
-    } catch (error) {
-      res.status(400).send(error);
-    }
-  });
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 
 //get user by username
 router.get("/:username", async (req, res) => {
@@ -24,4 +24,4 @@ router.get("/:username", async (req, res) => {
   }
 });
 
-module.exports = router
+module.exports = router;

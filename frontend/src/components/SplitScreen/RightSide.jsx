@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import {Calendar, dateFnsLocalizer} from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
-import enUS from 'date-fns/locale/en-US';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import Datepicker from 'react-datepicker';
-import './calendar.css';
+import { useState, useEffect } from "react";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { format, parse, startOfWeek, getDay } from "date-fns";
+import enUS from "date-fns/locale/en-US";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "./calendar.css";
+import PropTypes from "prop-types"; // Import PropTypes
 
 const locales = {
   "en-US": enUS,
@@ -19,28 +18,22 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-// custom toolbar
+// Custom toolbar
 const MyCustomToolbar = ({ label, onNavigate, onView }) => {
-//custom toolbar and props are date, onNavigate, and onView
   const [startDate, setStartDate] = useState(new Date());
 
   useEffect(() => {
     let curr = startDate.getDate();
     if (curr < 10) {
-        curr = '0' + curr;
+      curr = "0" + curr;
     }
-    let date = curr + ' ' + label;
-    const newDate = parse(date, 'dd MMMM yyyy', new Date());
+    let date = curr + " " + label;
+    const newDate = parse(date, "dd MMMM yyyy", new Date());
 
-    if (!isNaN(newDate.getTime())) { // Check if the date is valid
-        setStartDate(newDate);
+    if (!isNaN(newDate.getTime())) {
+      setStartDate(newDate);
     }
-  }, [label]);
-
-  const handleDateChange = (date) => {
-    setStartDate(date);
-    onNavigate("DATE", date); // Moves the calendar view to the selected date
-  };
+  }, [label, startDate]); // Added startDate to dependencies
 
   const handleTodayClick = () => {
     const today = new Date();
@@ -70,7 +63,12 @@ const MyCustomToolbar = ({ label, onNavigate, onView }) => {
   );
 };
 
-// actual calendar component
+MyCustomToolbar.propTypes = {
+  label: PropTypes.string.isRequired,
+  onNavigate: PropTypes.func.isRequired,
+  onView: PropTypes.func.isRequired,
+};
+
 const CalendarComponent = () => {
   const [events, setEvents] = useState([]);
 
@@ -83,22 +81,8 @@ const CalendarComponent = () => {
     localStorage.setItem("events", JSON.stringify(events));
   }, [events]);
 
-  const handleEvents = ({ start, end }) => {
-    const title = window.prompt("Event Title: ");
-    if (title) {
-      const newEvent = { title, start, end, allDay: true };
-      setEvents([...events, newEvent]);
-    }
-  };
-
-  const handleDeleteEvent = (event) => {
-    if (window.confirm(`Delete '${event.title}'?`)) {
-      setEvents(events.filter((e) => e !== event));
-    }
-  };
-
   return (
-    <div className="calendar-container" style={{ height: '100%' }}>
+    <div className="calendar-container" style={{ height: "100%" }}>
       <Calendar
         components={{
           toolbar: MyCustomToolbar,
@@ -108,7 +92,7 @@ const CalendarComponent = () => {
         startAccessor="start"
         endAccessor="end"
         defaultView="day"
-	views={['day']}
+        views={["day"]}
         selectable
         style={{
           border: "1px solid #ccc",
@@ -118,23 +102,24 @@ const CalendarComponent = () => {
           width: 1350,
         }}
       />
-      {/* <AddTask /> */}
     </div>
   );
 };
 
 const RightSide = () => {
-	return (
-		<div style={{ 
-			flex: 1, 
-			backgroundColor: '#ffffff', 
-			padding: '20px',
-			borderSizing: 'border-box',
-			overflow: 'hidden'
-		}}>
-			<CalendarComponent />
-		</div>
-	);
+  return (
+    <div
+      style={{
+        flex: 1,
+        backgroundColor: "#ffffff",
+        padding: "20px",
+        borderSizing: "border-box",
+        overflow: "hidden",
+      }}
+    >
+      <CalendarComponent />
+    </div>
+  );
 };
 
 export default RightSide;

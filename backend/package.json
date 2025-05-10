@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "lint": "npx eslint . && npx prettier --check .",
     "dev": "nodemon server.js dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
