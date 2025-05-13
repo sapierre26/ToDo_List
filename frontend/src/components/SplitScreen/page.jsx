@@ -2,7 +2,7 @@ import React from 'react';
 // import LeftSide from './LeftSide';
 import TodoList from '../todolist/page';
 // import RightSide from './RightSide';
-import Calendar from '../Calendar/page';
+import CalendarComponent from '../Calendar/page';
 
 const SplitScreen = () => {
 	return (
@@ -22,7 +22,7 @@ const SplitScreen = () => {
 				<TodoList />
 			</div>
 			<div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#ffffff' }}>
-				<Calendar />
+				<CalendarComponent />
 			</div>
 		</div>
 	);
