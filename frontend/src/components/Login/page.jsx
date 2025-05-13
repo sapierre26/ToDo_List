@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import style from './login.module.css';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
-    const onSubmit = async () => {
+    const onSubmit = async (e) => {
+        e.preventDefault();
         setEmailError('');
         setPasswordError('');
+        setErrorMessage('');
 
         let hasError = false;
 
@@ -27,39 +32,45 @@ const Login = () => {
         if (hasError) return;
 
         try {
-            const response = await fetch("http://localhost:8000/api/Users/login", {
+            const response = await fetch("http://localhost:8000/api/users/login", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, pwd: password })
             });
 
+            const data = await response.json();
+
             if (!response.ok) {
-                const errorData = await response.json();
-                console.error("Login failed:", errorData);
-            } else {
-                const result = await response.json();
-                console.log("Login successful:", result);
-                console.log("Remember Me:", rememberMe);
-                // Redirect or store token as needed
+                throw new Error(data.message || "Login failed");
             }
-        } catch (error) {
-            console.error("Error during login:", error);
+
+            console.log("Login successful:", data);
+
+            // Optional: save token if needed
+            localStorage.setItem("token", data.token);
+
+            // ✅ Notify parent component that login was successful
+            if (onLoginSuccess) onLoginSuccess();
+
+            // ✅ Redirect to Calendar
+            navigate("/Calendar");
+        } catch (err) {
+            console.error("Error during login:", err.message);
+            setErrorMessage(err.message || "An error occurred");
         }
     };
 
     return (
         <div className={style.loginContainer}>
             <h3>Login</h3>
-            <div>
+            <form onSubmit={onSubmit}>
                 <input
                     type="text"
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
-                {emailError && <p>{emailError}</p>}
+                {emailError && <p className={style.error}>{emailError}</p>}
 
                 <input
                     type="password"
@@ -67,7 +78,7 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                {passwordError && <p>{passwordError}</p>}
+                {passwordError && <p className={style.error}>{passwordError}</p>}
 
                 <div className={style.checkboxContainer}>
                     <input
@@ -78,8 +89,10 @@ const Login = () => {
                     <label>Remember Me</label>
                 </div>
 
-                <button onClick={onSubmit}>Login</button>
-            </div>
+                {errorMessage && <p className={style.error}>{errorMessage}</p>}
+
+                <button type="submit">Login</button>
+            </form>
         </div>
     );
 };

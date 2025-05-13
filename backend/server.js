@@ -1,43 +1,33 @@
-const cors = require('cors')
-const express = require("express")
+// server.js
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./db.js");
+const authRoutes = require("./routes/authRoutes.js");
+const userRoutes = require("./routes/userRoutes.js");
+const tasksRoutes = require("./routes/tasksRoutes.js");
+require("dotenv").config();
 
-const app = express() ;
-app.use(express.json());
+const app = express();
+connectDB();
+
 app.use(cors());
+app.use(express.json());
 
-const userEndpoints = require("./routes/userRoutes.js")
-const tasksEndpoints = require("./routes/tasksRoutes.js")
-const authRoutes = require('./routes/auth');
-
-app.use('/api/Users', authRoutes);   // api/auth/login 
-app.use("/api/Users", userEndpoints)
-app.use("/api/tasks", tasksEndpoints)
-
+// Logger middleware
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT');
-    next();
+  console.log(`${req.method} ${req.path}`);
+  next();
 });
 
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/tasks", tasksRoutes);
 
-//testing middleware
-function loggerMiddleware(request, response, next) {
-    console.log(`${request.method} ${request.path}`);
-    next();
-}
-
-//logs testing middleware to console
-app.use(loggerMiddleware)
-
-app.get('/', (req, res) => {
-    res.status(200)
-    res.send("To-Do List Root")
-})
+// Root
+app.get("/", (req, res) => {
+  res.status(200).send("To-Do List Root");
+});
 
 const PORT = process.env.PORT || 8000;
-
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-module.exports = app;

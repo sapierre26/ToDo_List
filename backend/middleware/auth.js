@@ -1,6 +1,8 @@
+// middleware/auth.js
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-const authenticateToken = (req, res, next) => {
+const auth = (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) return res.status(401).json({ message: "Access denied" });
 
@@ -13,4 +15,4 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
-module.exports = authenticateToken;
+module.exports = auth;

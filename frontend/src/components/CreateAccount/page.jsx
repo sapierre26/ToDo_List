@@ -9,32 +9,46 @@ const CreateAccount = () => {
     const [email, setEmail] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
-    const onSubmit = () => {
-        // Reset error messages before validation
+    const onSubmit = async () => {
         setEmailError('');
         setPasswordError('');
-        
-        // Check if any input fields are empty
+        setSuccessMessage('');
+
         if (!firstName || !lastName || !username || !password || !email) {
             setEmailError("All fields are required.");
-        } else if (!lastName || !username || !password || !email) {
-            setEmailError("Please enter your first name");
-        } else if (!password) {
-            setPasswordError("Please enter a password");
-        } else {
-            // Handle successful form submission
-            const { password, ...safeData } = FormData;
-            console.log("form submitted (safe): ", safeData);
-            // Reset the form after successful submission
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8000/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: `${firstName} ${lastName}`,
+                    username,
+                    pwd: password
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Registration failed");
+            }
+
+            setSuccessMessage("Account created successfully!");
             setFirstName('');
             setLastName('');
             setUsername('');
             setEmail('');
             setPassword('');
+        } catch (err) {
+            setPasswordError(err.message);
         }
     };
-    
+
     return (
         <div>
             <h3>Create an account</h3>
@@ -51,7 +65,6 @@ const CreateAccount = () => {
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                 />
-
                 <input
                     type="text"
                     placeholder="Username"
@@ -59,21 +72,22 @@ const CreateAccount = () => {
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <input
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
                 <button onClick={onSubmit}>Create an account</button>
 
                 {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
                 {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
+                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             </div>
         </div>
     );

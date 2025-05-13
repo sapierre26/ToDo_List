@@ -1,19 +1,32 @@
-// src/Auth/AuthContext.tsx
-import { createContext, useContext, useState } from "react";
+import { createContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({
-    user: null,
-    token: null,
-  });
+  const [token, setToken] = useState(() => localStorage.getItem('token'));
+  const [user, setUser] = useState(null);
+
+  const login = (token) => {
+    localStorage.setItem('token', token);
+    setToken(token);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+    setUser(null);
+  };
+
+  useEffect(() => {
+    if (token) {
+      // Optional: decode token to get user info or verify
+      // setUser(decodedUser)
+    }
+  }, [token]);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider value={{ token, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);

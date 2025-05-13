@@ -16,7 +16,7 @@ const generateAccessToken = (username, userId) => {
   return new Promise((resolve, reject) => {
     jwt.sign(
       { username, id: userId },
-      process.env.TOKEN_SECRET,
+      process.env.TOKEN_SECRET_KEY,
       { expiresIn: '1d' },
       (err, token) => {
         if (err) {
@@ -78,7 +78,7 @@ export const loginUser = async (req, res) => {
     if (matched) {
       const token = jwt.sign(
         { username: retrievedUser.username, id: retrievedUser._id },
-        process.env.TOKEN_SECRET,
+        process.env.TOKEN_SECRET_KEY,
         { expiresIn: '1h' }
       );
 
