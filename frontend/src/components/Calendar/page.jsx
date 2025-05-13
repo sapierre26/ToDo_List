@@ -120,8 +120,6 @@ MyCustomToolbar.propTypes = {
   setTaskDate: PropTypes.func.isRequired,
 };
 
-export const CalendarComponent = () => {
-  const [events, setEvents] = useState([]);
 const CalendarComponent = () => {
   const [tasks, setTasks] = useState([]);
   const [calendarEvents, setCalendarEvents] = useState([]);
