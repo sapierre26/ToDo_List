@@ -1,105 +1,104 @@
 /* General styling for the entire calendar container */
 .calendar-container {
-    font-family: monospace;
-    color: #888;
-    background-color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+  font-family: monospace;
+  color: #888;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
 /* Styling for the calendar navigation bar */
 .calendar-nav {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Styling for the calendar toolbar buttons (prev, today, next) */
 .calendar-nav button {
-    background-color: transparent;
-    border: 1px solid #888;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    color: #333; /* Change font color for normal state */
+  background-color: transparent;
+  border: 1px solid #888;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #333; /* Change font color for normal state */
 }
 
 .calendar-nav button:hover {
-    background-color: #888;
-    color: #fff; /* Change font color when hovered */
+  background-color: #888;
+  color: #fff; /* Change font color when hovered */
 }
-
 
 /* Styling for the date picker */
 .rbc-toolbar-label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .custom-datepicker {
-    font-family: monospace;
-    color: #888;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #888;
-    border-radius: 5px;
+  font-family: monospace;
+  color: #888;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #888;
+  border-radius: 5px;
 }
 
 .custom-datepicker:focus {
-    border-color: #888;
+  border-color: #888;
 }
 
 /* Styling for the view buttons (month, week, day, agenda) */
 .calendar-view {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
 }
 
 .calendar-view button {
-    background-color: transparent;
-    border: 1px solid #888;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 12px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    color: #333;
+  background-color: transparent;
+  border: 1px solid #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #333;
 }
 
 .calendar-view button:hover {
-    background-color: #888;
-    color: #fff;
+  background-color: #888;
+  color: #fff;
 }
 
 /* Styling for the calendar itself */
 .rbc-calendar {
-    border: 1px solid #888;
-    border-radius: 8px;
-    background-color: #fff;
-    font-family: monospace;
+  border: 1px solid #888;
+  border-radius: 8px;
+  background-color: #fff;
+  font-family: monospace;
 }
 
 /* Style for event cells */
 .rbc-event {
-    background-color: #f1f1f1;
-    color: #888;
-    border-radius: 5px;
-    padding: 5px;
-    border: 1px solid #ddd;
+  background-color: #f1f1f1;
+  color: #888;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ddd;
 }
 
 .rbc-event:hover {
-    background-color: #888;
-    color: #fff;
+  background-color: #888;
+  color: #fff;
 }
 
 /* Style for event title */
 .rbc-event-content {
-    font-family: monospace;
-    font-size: 14px;
+  font-family: monospace;
+  font-size: 14px;
 }

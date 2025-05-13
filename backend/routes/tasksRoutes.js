@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// app.use(express.json());  
+// app.use(express.json());
 
 const Task = require("../models/taskSchema.js");
 router.use("/", (req, res, next) => {
@@ -14,32 +14,32 @@ router.get("/", async (req, res) => {
 
     if (date) {
       // Existing date-specific logic
-      const [year, month, day] = date.split('-');
-      const startOfDay = new Date(year, month-1, day);
-      const endOfDay = new Date(year, month-1, day);
+      const [year, month, day] = date.split("-");
+      const startOfDay = new Date(year, month - 1, day);
+      const endOfDay = new Date(year, month - 1, day);
       endOfDay.setHours(23, 59, 59, 999);
 
       query = {
         $or: [
-          { 
+          {
             startDate: { $lte: endOfDay },
-            endDate: { $gte: startOfDay }
+            endDate: { $gte: startOfDay },
           },
           {
             endDate: {
               $gte: startOfDay,
-              $lte: endOfDay
-            }
-          }
-        ]
+              $lte: endOfDay,
+            },
+          },
+        ],
       };
     } else if (startDate && endDate) {
       // New month-range logic
       query = {
         endDate: {
           $gte: new Date(startDate),
-          $lte: new Date(endDate)
-        }
+          $lte: new Date(endDate),
+        },
       };
     }
 
@@ -53,15 +53,8 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const {
-      _id,
-      title,
-      startDate,
-      endDate,
-      priority,
-      label,
-      description
-    } = req.body;
+    const { _id, title, startDate, endDate, priority, label, description } =
+      req.body;
 
     const startTaskDate = new Date(startDate);
     const endTaskDate = new Date(endDate);
@@ -73,7 +66,7 @@ router.post("/", async (req, res) => {
       endDate: endTaskDate,
       priority,
       label,
-      description
+      description,
     });
 
     await newTask.save();
@@ -113,35 +106,27 @@ router.post("/", async (req, res) => {
 //   }
 // });
 
-
 router.put("/", async (req, res) => {
   try {
-    const {
-      _id,
-      title,
-      date,
-      priority,
-      label,
-      description
-    } = req.body;
+    const { _id, title, date, priority, label, description } = req.body;
     const newTask = new Task({
       _id,
       title,
       date,
       priority,
       label,
-      description
+      description,
     });
     await newTask.save();
-    res.send({msg: `${newTask} added to the taskDB`});
-  }catch (error) {
+    res.send({ msg: `${newTask} added to the taskDB` });
+  } catch (error) {
     let errorMessage;
-    if (error instanceof Error) { 
-      errorMessage = error.message; 
-    } else { 
-      errorMessage = String(errorMessage); 
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else {
+      errorMessage = String(errorMessage);
     }
-    res.status(400).send({error: errorMessage});
+    res.status(400).send({ error: errorMessage });
     console.log(`Error: ${errorMessage}`);
   }
 });

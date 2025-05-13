@@ -35,25 +35,24 @@
 /*Styling for priority filter sidebar */
 
 .priority-container {
-    font-family: monospace;
-    color: #888;
-    background-color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+  font-family: monospace;
+  color: #888;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
 /*Styling for priority filter sidebar */
 
 .priority-container {
-    font-family: monospace;
-    color: #888;
-    background-color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+  font-family: monospace;
+  color: #888;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
-
 
 /* Original navigation buttons */
 .calendar-nav {
@@ -146,6 +145,7 @@
 /* Add Task container */
 .add-task-container {
   height: 100%;
+  width: 200px;
   display: flex;
   flex-direction: column;
 }
@@ -196,12 +196,12 @@
   .calendar-page-container {
     flex-direction: column;
   }
-  
+
   .calendar-container,
   .side-panel {
     width: 100%;
   }
-  
+
   .side-panel {
     height: auto;
     min-height: 300px;
@@ -215,7 +215,7 @@
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   list-style: none;
 }
 
