@@ -6,6 +6,7 @@ const express = require("express");
 // import tasksEndpoints from "./routes/tasksRoutes.js";
 
 const app = express();
+module.exports = app;
 app.use(express.json());
 app.use(cors());
 
