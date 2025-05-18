@@ -9,9 +9,9 @@
   ],
   "scripts": {
     "lint": "npx eslint . && npx prettier --check .",
-	  "test": "npx jest",
-	  "dev": "nodemon backend/server.js",
-	  "start": "node backend/server.js"
+    "dev": "nodemon backend/server.js",
+    "start": "node backend/server.js",
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
