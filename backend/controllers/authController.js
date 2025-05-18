@@ -63,4 +63,34 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("username email name");
+    if (!user) return res.status(404).json({ msg: "User not found" });
+    res.json(user);
+  } catch (err) {
+    console.error("Profile fetch error:", err);
+    res.status(500).json({ msg: "Server error" });
+  }
+};
+
+const updateProfileImage = async (req, res) => {
+  if (!req.file) return res.status(400).json({ msg: "no file uploaded" });
+
+  try {
+    const imagePath = `/uploads/${req.file.filename}`;
+
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { image: imagePath },
+      { new: true }
+    ).select("username email name image");
+
+    res.json(user);
+  } catch (err) {
+    console.error("Image upload error:", err);
+    res.status(500).json({ msg: "failed to upload image" });
+  }
+};
+
+module.exports = { register, login, getProfile, updateProfileImage };

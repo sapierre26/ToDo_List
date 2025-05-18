@@ -1,5 +1,6 @@
 // server.js
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const connectDB = require("./db.js");
 const authRoutes = require("./routes/authRoutes.js");
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", tasksRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Root
 app.get("/", (req, res) => {
