@@ -10,7 +10,8 @@ const { userConnection } = require("../connection");
 // };
 
 // Can add more fields later if needed
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     name: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: true },

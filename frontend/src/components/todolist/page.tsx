@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Task, getTasks, deleteTask } from "../../api/tasks";
 import AddTask from "./addTask";
-import styles from './page.module.css';
+import styles from "./page.module.css";
 
 const TodoList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -22,14 +22,14 @@ const TodoList: React.FC = () => {
   };
 
   const handleTaskAdded = (newTask: Task) => {
-    setTasks(prev => [...prev, newTask]);
+    setTasks((prev) => [...prev, newTask]);
     setShowAddTask(false);
   };
 
   const handleDelete = async (taskId: string) => {
     try {
       await deleteTask(taskId);
-      setTasks(prev => prev.filter(task => task._id !== taskId));
+      setTasks((prev) => prev.filter((task) => task._id !== taskId));
     } catch (error) {
       console.error("Error deleting task:", error);
     }
@@ -37,16 +37,16 @@ const TodoList: React.FC = () => {
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
-    return isNaN(date.getTime()) 
-      ? "Invalid Date" 
-      : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return isNaN(date.getTime())
+      ? "Invalid Date"
+      : date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return isNaN(date.getTime())
       ? "Invalid Date"
-      : date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+      : date.toLocaleDateString([], { month: "short", day: "numeric" });
   };
 
   return (
@@ -70,23 +70,25 @@ const TodoList: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {tasks.map(task => (
+              {tasks.map((task) => (
                 <tr key={task._id}>
                   <td>{task.title}</td>
-                  <td className={styles[task.label.toLowerCase()]}>{task.label}</td>
-                  <td className={styles[task.priority.toLowerCase()]}>{task.priority}</td>
+                  <td className={styles[task.label.toLowerCase()]}>
+                    {task.label}
+                  </td>
+                  <td className={styles[task.priority.toLowerCase()]}>
+                    {task.priority}
+                  </td>
                   <td>
                     {formatDate(task.startDate)}
                     <br />
-                    {task.label === 'Event' ? (
-                      `${formatTime(task.startDate)} - ${formatTime(task.endDate)}`
-                    ) : (
-                      formatTime(task.endDate)
-                    )}
+                    {task.label === "Event"
+                      ? `${formatTime(task.startDate)} - ${formatTime(task.endDate)}`
+                      : formatTime(task.endDate)}
                   </td>
                   <td>{task.description}</td>
                   <td>
-                    <button 
+                    <button
                       className={styles.deleteButton}
                       onClick={() => task._id && handleDelete(task._id)}
                     >
@@ -102,7 +104,7 @@ const TodoList: React.FC = () => {
       {showAddTask && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
-            <AddTask 
+            <AddTask
               taskDate={selectedDate || undefined}
               onTaskAdded={handleTaskAdded}
               onClose={() => setShowAddTask(false)}
@@ -111,7 +113,7 @@ const TodoList: React.FC = () => {
         </div>
       )}
       {!showAddTask && (
-        <button 
+        <button
           className={styles.addButton}
           onClick={() => {
             setSelectedDate(new Date());

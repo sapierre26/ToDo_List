@@ -1,6 +1,6 @@
 const request = require("supertest");
 const express = require("express");
-const userRouter = require("./path/to/your/userRouter"); // Adjust path accordingly
+const userRouter = require("../routes/userRoutes"); // Adjust path accordingly
 const User = require("../models/userSchema");
 
 // Mock User model

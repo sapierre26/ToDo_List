@@ -1,0 +1,32 @@
+.UserProfile {
+  padding: 2rem;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f8f9fa;
+  border-radius: 16px;
+  max-width: 700px;
+  margin: auto;
+}
+
+.UserSettings {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.UserPic img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.UserChangeInfo input {
+  display: block;
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+}

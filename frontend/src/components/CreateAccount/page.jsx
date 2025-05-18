@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import style from './createAccount.module.css'; 
+import { useState } from "react";
+import style from "./createAccount.module.css";
 
 const CreateAccount = () => {
     const [username, setUsername] = useState('');

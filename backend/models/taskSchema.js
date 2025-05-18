@@ -2,15 +2,17 @@
 const mongoose = require("mongoose");
 const { tasksConnection } = require("../connection");
 
-const taskSchema = new mongoose.Schema({
+const taskSchema = new mongoose.Schema(
+  {
     title: String,
     startDate: { type: Date },
     endDate: { type: Date },
     priority: String,
     label: String,
     description: String,
-},
-    { collections: "tasks" });
+  },
+  { collections: "tasks" },
+);
 
 // const Task = mongoose.models['tasks'] || mongoose.model('tasks', taskSchema);
 
