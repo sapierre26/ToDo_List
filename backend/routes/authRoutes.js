@@ -20,8 +20,9 @@ const storage = multer.diskStorage({
     cb(null, `${req.user.id}_${Date.now()}${ext}`);
   },
 });
-// router.put("/profile/image", auth, upload.single("image"), updateProfileImage);
+router.put("/profile", auth, updateProfileImage);
 
 const upload = multer({ storage });
+router.put("/profile/image", auth, upload.single("image"), updateProfileImage);
 
 module.exports = router;
