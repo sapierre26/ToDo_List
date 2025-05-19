@@ -37,10 +37,22 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
   const [startDate, setStartDate] = useState(date || new Date());
 
   useEffect(() => {
-    const formattedDate = format(startDate, "dd MMMM yyyy");
-    const newDate = parse(formattedDate, "dd MMMM yyyy", new Date());
-    if (!isNaN(newDate.getTime())) setStartDate(newDate);
-  }, [label, startDate]);
+    const parsedMonthYear = parse(label, "MMMM yyyy", new Date());
+
+    if (!isNaN(parsedMonthYear.getTime())) {
+      const currentDay = startDate.getDate();
+      const targetDate = new Date(parsedMonthYear.getFullYear(), parsedMonthYear.getMonth(), currentDay);
+      const lastDayOfMonth = new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0).getDate();
+
+      if (currentDay > lastDayOfMonth) {
+        targetDate.setDate(lastDayOfMonth);
+      }
+
+      if (targetDate.toDateString() !== startDate.toDateString()) {
+        setStartDate(targetDate);
+      }
+    }
+  }, [label]);
 
   const handleDateChange = (date) => {
     setStartDate(date);
@@ -52,32 +64,11 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
     const today = new Date();
     setStartDate(today);
     setTaskDate(today);
-    onNavigate("TODAY");
+    onNavigate("TODAY", today);
   };
 
-  const handleNavigate = (action, date = null) => {
-    let newDate;
-    switch (action) {
-      case "PREV":
-        newDate = new Date(startDate);
-        newDate.setMonth(newDate.getMonth() - 1);
-        break;
-      case "NEXT":
-        newDate = new Date(startDate);
-        newDate.setMonth(newDate.getMonth() + 1);
-        break;
-      case "TODAY":
-        newDate = new Date();
-        break;
-      case "DATE":
-        newDate = date;
-        break;
-      default:
-        return;
-    }
-    setStartDate(newDate);
-    setTaskDate(newDate);
-    onNavigate(action, newDate);
+  const handleNavigate = (action) => {
+    onNavigate(action);
   };
 
   return (
@@ -261,9 +252,6 @@ const CalendarComponent = () => {
                 setTaskDate={(date) => {
                   setSelectedDate(date);
                   if (view !== "month") setCurrentDate(date);
-                }}
-                onNavigate={(action, date) => {
-                  if (view !== "month" && date) setSelectedDate(date);
                 }}
                 onView={handleViewChange}
               />
