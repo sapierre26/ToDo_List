@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("./app");
+const app = require("./server");
 
 describe("Express App", () => {
   it("should return a 200 status for the root endpoint", async () => {
