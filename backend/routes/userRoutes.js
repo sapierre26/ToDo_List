@@ -49,6 +49,8 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     console.error("login error:", err);
     res.status(500).send("server error during login");
+  }
+});
     
 //get user by username
 router.get("/:username", async (req, res) => {
