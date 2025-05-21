@@ -3,7 +3,6 @@ const express = require("express");
 const taskRouter = require("../routes/tasksRoutes"); // Adjust the path to your router
 const mongoose = require("mongoose");
 const Task = require("../models/taskSchema");
-process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
 // Mock Task model methods
 jest.mock("../models/taskSchema");
