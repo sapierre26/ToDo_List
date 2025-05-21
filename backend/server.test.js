@@ -1,5 +1,6 @@
 const request = require("supertest");
 const app = require("./app");
+process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
 describe("Express App", () => {
   it("should return a 200 status for the root endpoint", async () => {

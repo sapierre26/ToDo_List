@@ -2,6 +2,7 @@ const request = require("supertest");
 const express = require("express");
 const userRouter = require("./path/to/your/userRouter"); // Adjust path accordingly
 const User = require("../models/userSchema");
+process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
 // Mock User model
 jest.mock("../models/userSchema");

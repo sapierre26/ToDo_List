@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const { makeNewConnection } = require('../connection');
+process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
 jest.mock('mongoose'); // Mock mongoose module
 
