@@ -36,22 +36,22 @@ app.use("/api/users", userRoutes);
 app.use("/api/tasks", tasksRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// const PORT = process.env.PORT || 8000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-// const userEndpoints = require("./routes/userRoutes.js");
-// const tasksEndpoints = require("./routes/tasksRoutes.js");
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const userEndpoints = require("./routes/userRoutes.js");
+const tasksEndpoints = require("./routes/tasksRoutes.js");
 
 app.use("/api/Users", userEndpoints);
 app.use("/api/tasks", tasksEndpoints);
 
 //testing middleware
-// function loggerMiddleware(request, response, next) {
-//   console.log(`${request.method} ${request.path}`);
-//   next();
-// }
+function loggerMiddleware(request, response, next) {
+   console.log(`${request.method} ${request.path}`);
+   next();
+ }
 
 //logs testing middleware to console
-//app.use(loggerMiddleware);
+app.use(loggerMiddleware);
 
 app.get("/", (req, res) => {
   res.status(200);
