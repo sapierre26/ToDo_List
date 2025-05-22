@@ -2,6 +2,7 @@ const request = require("supertest");
 const express = require("express");
 const userRouter = require("../routes/userRoutes"); // Adjust path accordingly
 const User = require("../models/userSchema");
+require("dotenv").config();
 
 // Mock User model
 jest.mock("../models/userSchema");

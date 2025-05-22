@@ -1,6 +1,8 @@
 const request = require("supertest");
 const app = require("./server");
 
+require("dotenv").config();
+
 describe("Express App", () => {
   it("should return a 200 status for the root endpoint", async () => {
     const response = await request(app).get("/");
@@ -20,7 +22,7 @@ describe("Express App", () => {
   it("should log the correct request method and path using loggerMiddleware", async () => {
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
     await request(app).get("/api/Users");
-    expect(consoleSpy).toHaveBeenCalledWith("GET /api/Users");
+    expect(consoleSpy).toH;aveBeenCalledWith("GET /api/Users");
     consoleSpy.mockRestore();
   });
 
