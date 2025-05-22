@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const { makeNewConnection } = require("connection");
+const { makeNewConnection } = require("./server.testconnection");
 
 jest.mock("mongoose"); // Mock mongoose module
 
@@ -8,6 +8,8 @@ dotenv.config();
 
 describe("makeNewConnection", () => {
   let mockConnection;
+  let originalExit;
+  let originalEnv;
 
   beforeAll(() => {
     // Mock the connection creation
@@ -17,10 +19,23 @@ describe("makeNewConnection", () => {
       close: jest.fn(),
     };
     mongoose.createConnection.mockReturnValue(mockConnection);
+
+    // Mock console methods - Sanaia added
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+
+    // Save originals - Sanaia added
+    originalExit = process.exit;
+    process.exit = jest.fn();
+
+    // Save original env - Sanaia added
+    originalEnv = process.env;
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+    process.exit = originalExit;
+    process.env = originalEnv;
   });
 
   it("should create a new connection with the correct URL", () => {
