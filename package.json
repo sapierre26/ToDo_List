@@ -9,8 +9,8 @@
   ],
   "scripts": {
     "lint": "npx eslint . && npx prettier --check .",
-    "dev": "nodemon backend/models/db.ts",
-    "start": "node backend/models/db.ts",
+    "dev": "nodemon ./backend/server.js",
+    "start": "node ./backend/server.js",
     "test": "npx jest"
   },
   "repository": {
