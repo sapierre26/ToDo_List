@@ -1,4 +1,13 @@
-// server.js
+> 308-todolist@1.0.0 dev
+> nodemon backend/server.js
+
+[nodemon] 3.1.10
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node backend/server.js`
+MONGO_URI is not set in the environment variables.
+[nodemon] app crashed - waiting for file changes before starting...// server.js
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
