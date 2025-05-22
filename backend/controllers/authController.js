@@ -75,6 +75,7 @@ const getProfile = async (req, res) => {
 };
 
 const updateProfileImage = async (req, res) => {
+  console.log("FILE:", req.file); 
   if (!req.file) return res.status(400).json({ msg: "no file uploaded" });
 
   try {
@@ -85,7 +86,6 @@ const updateProfileImage = async (req, res) => {
       { image: imagePath },
       { new: true }
     ).select("username email name image");
-
     res.json(user);
   } catch (err) {
     console.error("Image upload error:", err);

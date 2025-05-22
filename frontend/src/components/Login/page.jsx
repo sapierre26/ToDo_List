@@ -80,13 +80,15 @@ const Login = ({ onLoginSuccess }) => {
                 />
                 {passwordError && <p className={style.error}>{passwordError}</p>}
 
-                <div className={style.checkboxContainer}>
-                    <input
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                    />
-                    <label>Remember Me</label>
+                <div>
+                    <label className={style.checkboxContainer}>Remember Me
+                        <input
+                            type="checkbox"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                        />
+                        <span class="checkmark"></span>
+                    </label>
                 </div>
 
                 {errorMessage && <p className={style.error}>{errorMessage}</p>}

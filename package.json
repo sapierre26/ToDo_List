@@ -9,10 +9,11 @@
   ],
   "scripts": {
     "lint": "npx eslint . && npx prettier --check .",
-    "dev": "nodemon backend/server.js",
-    "start": "node backend/server.js",
+    "dev": "nodemon ./backend/server.js",
+    "start": "node ./backend/server.js",
     "test": "npx jest"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sapierre26/ToDo_List.git"

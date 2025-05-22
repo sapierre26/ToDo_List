@@ -44,11 +44,11 @@ input:focus {
 }
 
 /* Checkbox Section */
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 10px;
+.checkboxContainer {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
 }
 label {
   font-size: 14px;

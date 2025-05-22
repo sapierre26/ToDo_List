@@ -14,13 +14,14 @@ router.get("/protected", auth, (req, res) => {
 });
 router.get("/profile", auth, getProfile);
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => {
+  destination: (req, file, callback) => callback(null, "/uploads/"),
+  filename: (req, file, callback) => {
     const ext = path.extname(file.originalname);
-    cb(null, `${req.user.id}_${Date.now()}${ext}`);
+    console.log(ext);
+    callback(null, `${req.user.id}_${Date.now()}${ext}`);
   },
 });
-router.put("/profile", auth, updateProfileImage);
+router.put("/profile/image", auth, updateProfileImage);
 
 const upload = multer({ storage });
 router.put("/profile/image", auth, upload.single("image"), updateProfileImage);

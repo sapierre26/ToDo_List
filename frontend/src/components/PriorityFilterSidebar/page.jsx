@@ -39,7 +39,7 @@ const PriorityFilterSidebar = ({ selectedPriority, onSelectPriority }) => {
 };
 
 PriorityFilterSidebar.propTypes = {
-  selectedPriority: PropTypes.string.isRequired,
+  selectedPriority: PropTypes.func,
   onSelectPriority: PropTypes.func.isRequired,
 };
 

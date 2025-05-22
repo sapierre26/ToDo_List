@@ -12,7 +12,8 @@ const UserProfile = () => {
   // Fetch user info on mount
   useEffect(() => {
     const fetchProfile = async () => {
-      try {
+      try 
+      {
         const res = await fetch("http://localhost:8000/api/auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -23,7 +24,9 @@ const UserProfile = () => {
         setUsername(data.username);
         setEmail(data.email);
         setName(data.name);
-      } catch (err) {
+      } 
+      catch (err) 
+      {
         console.error(err);
       }
     };
@@ -34,7 +37,8 @@ const UserProfile = () => {
   // Submit profile changes (optional: implement in backend)
   const handleSave = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/auth/profile", {
+      const res = await fetch("http://localhost:8000/api/auth/profile", 
+      {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -54,8 +58,8 @@ const UserProfile = () => {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
+    console.log
     if (!file) return;
-  
     const formData = new FormData();
     formData.append("image", file);
   
@@ -70,7 +74,7 @@ const UserProfile = () => {
   
       const data = await res.json();
       if (res.ok) {
-        setUserPic(`http://localhost:8000${data.image}`); // updated image path
+        setUserPic(`http://localhost:8000/${data.image}`); // updated image path
         setMessage("Profile picture updated!");
       } else {
         setMessage("Image upload failed.");
@@ -91,14 +95,14 @@ const UserProfile = () => {
             <img
               src={userPic}
               alt="Profile"
-              style={{ height: "200px", width: "200px", objectFit: "cover" }}
+              style={{ height: "200px", width: "200px", borderRadius: "50%", objectFit: "cover" }}
             />
           ) : (
-            <div style={{ height: "200px", width: "200px", backgroundColor: "#eee" }} />
+            <div style={{ height: "200px", width: "200px", backgroundColor: "#eee", borderRadius: "50%"}} />
           )}
           <input type="file" onChange={handleImageUpload} />
         </div>
-        <div>
+        <div className="UserInfo">
           <label>Name:</label>
           <input value={name} onChange={(e) => setName(e.target.value)} />
           <br />
