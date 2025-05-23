@@ -38,4 +38,4 @@ function makeNewConnection(url) {
 const userConnection = makeNewConnection(process.env.userDB);
 const tasksConnection = makeNewConnection(process.env.tasksDB);
 
-module.exports = { userConnection, tasksConnection };
+module.exports = { makeNewConnection, userConnection, tasksConnection };
