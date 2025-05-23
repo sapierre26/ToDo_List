@@ -70,7 +70,7 @@ router.post("/", async (req, res) => {
     });
 
     await newTask.save();
-    res.send({ msg: `${newTask} added to the taskDB` });
+    res.send({ msg: `${newTask?.title || newTask?.id || "Task"} added to the taskDB` });
   } catch (error) {
     let errorMessage;
     if (error instanceof Error) {

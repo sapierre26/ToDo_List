@@ -15,8 +15,12 @@ const taskSchema = new mongoose.Schema(
 );
 
 // const Task = mongoose.models['tasks'] || mongoose.model('tasks', taskSchema);
-
-const Task = tasksConnection.model("tasks", taskSchema);
+let Task;
+if (tasksConnection) {
+  Task = tasksConnection.model("tasks", taskSchema);
+} else {
+  Task = mongoose.model("tasks", taskSchema);
+}
 
 module.exports = Task;
 

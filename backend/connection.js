@@ -6,7 +6,7 @@ dotenv.config();
 function makeNewConnection(url) {
   if (!url) {
     console.error("MONGO_URI is not set in the environment variables.");
-    process.exit(1); // Terminate the process if MONGO_URI is missing
+    return null; // Terminate the process if MONGO_URI is missing
   }
 
   const connection = mongoose.createConnection(url, {
@@ -35,7 +35,12 @@ function makeNewConnection(url) {
 }
 
 // console.log(process.env.userDB)
-const userConnection = makeNewConnection(process.env.userDB);
-const tasksConnection = makeNewConnection(process.env.tasksDB);
+let userConnection;
+let tasksConnection;
+
+if (process.env.userDB && process.env.tasksDB) {
+  userConnection = makeNewConnection(process.env.userDB);
+  tasksConnection = makeNewConnection(process.env.tasksDB);
+}
 
 module.exports = { makeNewConnection, userConnection, tasksConnection };
