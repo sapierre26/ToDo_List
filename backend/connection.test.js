@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const { makeNewConnection } = require("./server.testconnection");
+const { makeNewConnection } = require("./server.test");
 
 jest.mock("mongoose"); // Mock mongoose module
 
