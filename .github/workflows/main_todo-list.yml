@@ -17,7 +17,10 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: read #This is required for actions/checkout
-
+    env:
+      userDB: ${{ secrets.USER_DB }}
+      tasksDB: ${{ secrets.TASKS_DB }}
+      TOKEN_SECRET_KEY: ${{ secrets.TOKEN_SECRET_KEY }}
     steps:
       - uses: actions/checkout@v4
 
