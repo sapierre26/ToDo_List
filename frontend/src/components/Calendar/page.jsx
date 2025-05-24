@@ -33,14 +33,13 @@ MonthEvent.propTypes = {
   }).isRequired,
 };
 
-const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
-  const [startDate, setStartDate] = useState(date || new Date());
+const MyCustomToolbar = ({ label, onNavigate, onView, currentDate, setCurrentDate, setTaskDate }) => {
 
   useEffect(() => {
     const parsedMonthYear = parse(label, "MMMM yyyy", new Date());
 
     if (!isNaN(parsedMonthYear.getTime())) {
-      const currentDay = startDate.getDate();
+      const currentDay = currentDate.getDate();
       const targetDate = new Date(parsedMonthYear.getFullYear(), parsedMonthYear.getMonth(), currentDay);
       const lastDayOfMonth = new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0).getDate();
 
@@ -48,22 +47,21 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
         targetDate.setDate(lastDayOfMonth);
       }
 
-      if (targetDate.toDateString() !== startDate.toDateString()) {
-        setStartDate(targetDate);
+      if (targetDate.toDateString() !== currentDate.toDateString()) {
+        setCurrentDate(targetDate);
       }
     }
-  }, [label]);
+  }, [label, currentDate, setCurrentDate]);
 
   const handleDateChange = (date) => {
-    setStartDate(date);
+    setCurrentDate(date);
     setTaskDate(date);
     onNavigate("DATE", date);
-    onDateChange(date);
   };
 
   const handleTodayClick = () => {
     const today = new Date();
-    setStartDate(today);
+    setCurrentDate(today);
     setTaskDate(today);
     onNavigate("TODAY", today);
   };
@@ -82,7 +80,7 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
 
       <div className="rbc-toolbar-label">
         <Datepicker
-          selected={startDate}
+          selected={currentDate}
           onChange={handleDateChange}
           dateFormat="MMMM dd, yyyy"
           tabIndex={1}
@@ -96,9 +94,24 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
       </div>
 
       <div className="calendar-view">
-        <button onClick={() => onView("month")}>Month</button>
-        <button onClick={() => onView("week")}>Week</button>
-        <button onClick={() => onView("day")}>Day</button>
+        <button onClick={() => {
+          onView("month");
+          onNavigate("DATE", currentDate); // Ensure calendar centers on current date
+        }}>
+          Month
+        </button>
+        <button onClick={() => {
+          onView("week");
+          onNavigate("DATE", currentDate); // Week view for selected date
+        }}>
+          Week
+        </button>
+        <button onClick={() => {
+          onView("day");
+          onNavigate("DATE", currentDate); // Day view for selected date
+        }}>
+          Day
+        </button>
       </div>
     </div>
   );
@@ -108,9 +121,9 @@ MyCustomToolbar.propTypes = {
   label: PropTypes.string.isRequired,
   onNavigate: PropTypes.func.isRequired,
   onView: PropTypes.func.isRequired,
-  date: PropTypes.instanceOf(Date).isRequired,
+  currentDate: PropTypes.instanceOf(Date).isRequired,
+  setCurrentDate: PropTypes.func.isRequired,
   setTaskDate: PropTypes.func.isRequired,
-  onDateChange: PropTypes.func.isRequired,
 };
 
 const CalendarComponent = () => {
@@ -120,7 +133,6 @@ const CalendarComponent = () => {
   const [view, setView] = useState("month");
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
   const [taskDate, setTaskDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [dailyTasks, setDailyTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [clickTimeout, setClickTimeout] = useState(null);
@@ -172,7 +184,7 @@ const CalendarComponent = () => {
         setTasks(taskList);
         setCalendarEvents(eventList);
 
-        const dailyItems = await getTasksAndEventsByEndDate(selectedDate);
+        const dailyItems = await getTasksAndEventsByEndDate(currentDate);
         setDailyTasks(
           dailyItems.map((item) => ({
             id: item._id,
@@ -190,10 +202,9 @@ const CalendarComponent = () => {
     };
 
     fetchTasks();
-  }, [currentDate, selectedDate, view]);
+  }, [currentDate, view]);
 
   const handleDateClick = (date) => {
-    setSelectedDate(date);
     setCurrentDate(date);
     setIsAddTaskModalOpen(false);
   };
@@ -205,7 +216,6 @@ const CalendarComponent = () => {
       setTaskDate(start);
       setIsAddTaskModalOpen(true);
       setCurrentDate(start);
-      setSelectedDate(start);
     } else {
       const timeout = setTimeout(() => {
         handleDateClick(start);
@@ -215,9 +225,9 @@ const CalendarComponent = () => {
     }
   };
 
-  const handleViewChange = (view) => 
-    setView(view)
-  ;
+  const handleViewChange = (view) => {
+    setView(view);
+  };  
 
   const handleTaskAdded = (newTask) => {
     const newEvent = {
@@ -234,7 +244,7 @@ const CalendarComponent = () => {
       setTasks((prev) => [...prev, newEvent]);
     }
 
-    if (isSameDay(new Date(newTask.startDate), selectedDate)) {
+    if (isSameDay(new Date(newTask.startDate), currentDate)) {
       setDailyTasks((prev) => [...prev, newEvent]);
     }
 
@@ -255,15 +265,9 @@ const CalendarComponent = () => {
             toolbar: (props) => (
               <MyCustomToolbar
                 {...props}
-                date={currentDate}
-                setTaskDate={(date) => {
-                  setSelectedDate(date);
-                  if (view !== "month") setCurrentDate(date);
-                }}
-                onDateChange={(date) => {
-                  setCurrentDate(date);
-                  setSelectedDate(date);
-                }}
+                currentDate={currentDate}
+                setCurrentDate={setCurrentDate}
+                setTaskDate={setTaskDate}
                 onView={handleViewChange}
               />
             ),
@@ -278,12 +282,10 @@ const CalendarComponent = () => {
           selectable
           onSelectSlot={handleSelectSlot}
           onSelectEvent={(event) => {
-            setSelectedDate(new Date(event.start));
             if (view !== "day") setView("day");
           }}
           onNavigate={(date) => {
             setCurrentDate(date);
-            if (view !== "month") setSelectedDate(date);
           }}
           onView={handleViewChange}
           style={{ height: "calc(100vh - 100px)", margin: "10px" }}
@@ -309,7 +311,7 @@ const CalendarComponent = () => {
           </div>
         ) : (
           <div className="tasks-container">
-            <h2>Tasks for {format(selectedDate, "MMMM dd, yyyy")}</h2>
+            <h2>Tasks for {format(currentDate, "MMMM dd, yyyy")}</h2>
             {isLoading ? (
               <p>Loading tasks...</p>
             ) : dailyTasks.length > 0 ? (
