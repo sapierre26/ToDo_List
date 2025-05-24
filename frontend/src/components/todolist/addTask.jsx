@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import { useState, useEffect } from "react";
 import style from "./addTask.module.css";
 import { addTask } from "../../api/tasks";

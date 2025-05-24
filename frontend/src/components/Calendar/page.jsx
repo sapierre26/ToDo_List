@@ -58,6 +58,7 @@ const MyCustomToolbar = ({ label, onNavigate, onView, date, setTaskDate }) => {
     setStartDate(date);
     setTaskDate(date);
     onNavigate("DATE", date);
+    onDateChange(date);
   };
 
   const handleTodayClick = () => {
@@ -109,6 +110,7 @@ MyCustomToolbar.propTypes = {
   onView: PropTypes.func.isRequired,
   date: PropTypes.instanceOf(Date).isRequired,
   setTaskDate: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired,
 };
 
 const CalendarComponent = () => {
@@ -192,6 +194,7 @@ const CalendarComponent = () => {
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
+    setCurrentDate(date);
     setIsAddTaskModalOpen(false);
   };
 
@@ -201,6 +204,8 @@ const CalendarComponent = () => {
       setClickTimeout(null);
       setTaskDate(start);
       setIsAddTaskModalOpen(true);
+      setCurrentDate(start);
+      setSelectedDate(start);
     } else {
       const timeout = setTimeout(() => {
         handleDateClick(start);
@@ -210,7 +215,9 @@ const CalendarComponent = () => {
     }
   };
 
-  const handleViewChange = (view) => setView(view);
+  const handleViewChange = (view) => 
+    setView(view)
+  ;
 
   const handleTaskAdded = (newTask) => {
     const newEvent = {
@@ -252,6 +259,10 @@ const CalendarComponent = () => {
                 setTaskDate={(date) => {
                   setSelectedDate(date);
                   if (view !== "month") setCurrentDate(date);
+                }}
+                onDateChange={(date) => {
+                  setCurrentDate(date);
+                  setSelectedDate(date);
                 }}
                 onView={handleViewChange}
               />

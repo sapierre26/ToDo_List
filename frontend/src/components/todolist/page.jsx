@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Task, getTasks, deleteTask } from "../../api/tasks";
+import { getTasks, deleteTask } from "../../api/tasks";
 import AddTask from "./addTask";
 import styles from "./page.module.css";
 
-const TodoList: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+const TodoList = () => {
+  const [tasks, setTasks] = useState([]);
   const [showAddTask, setShowAddTask] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     fetchTasks();
@@ -21,12 +21,12 @@ const TodoList: React.FC = () => {
     }
   };
 
-  const handleTaskAdded = (newTask: Task) => {
+  const handleTaskAdded = (newTask) => {
     setTasks((prev) => [...prev, newTask]);
     setShowAddTask(false);
   };
 
-  const handleDelete = async (taskId: string) => {
+  const handleDelete = async (taskId) => {
     try {
       await deleteTask(taskId);
       setTasks((prev) => prev.filter((task) => task._id !== taskId));
@@ -35,14 +35,14 @@ const TodoList: React.FC = () => {
     }
   };
 
-  const formatTime = (dateString: string) => {
+  const formatTime = (dateString) => {
     const date = new Date(dateString);
     return isNaN(date.getTime())
       ? "Invalid Date"
       : date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
     return isNaN(date.getTime())
       ? "Invalid Date"
