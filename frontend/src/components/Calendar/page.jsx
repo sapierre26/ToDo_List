@@ -96,19 +96,19 @@ const MyCustomToolbar = ({ label, onNavigate, onView, currentDate, setCurrentDat
       <div className="calendar-view">
         <button onClick={() => {
           onView("month");
-          onNavigate("DATE", currentDate); // Ensure calendar centers on current date
+          onNavigate("DATE", currentDate);
         }}>
           Month
         </button>
         <button onClick={() => {
           onView("week");
-          onNavigate("DATE", currentDate); // Week view for selected date
+          onNavigate("DATE", currentDate);
         }}>
           Week
         </button>
         <button onClick={() => {
           onView("day");
-          onNavigate("DATE", currentDate); // Day view for selected date
+          onNavigate("DATE", currentDate);
         }}>
           Day
         </button>
@@ -148,6 +148,7 @@ const CalendarComponent = () => {
 
   useEffect(() => {
     const fetchTasks = async () => {
+      const token = localStorage.getItem("token");
       setIsLoading(true);
       try {
         const startOfMonth = new Date(
@@ -160,7 +161,7 @@ const CalendarComponent = () => {
           currentDate.getMonth() + 1,
           0,
         );
-        const items = await getTasksForMonth(startOfMonth, endOfMonth);
+        const items = await getTasksForMonth(startOfMonth, endOfMonth, token);
 
         const taskList = [];
         const eventList = [];
@@ -184,7 +185,7 @@ const CalendarComponent = () => {
         setTasks(taskList);
         setCalendarEvents(eventList);
 
-        const dailyItems = await getTasksAndEventsByEndDate(currentDate);
+        const dailyItems = await getTasksAndEventsByEndDate(currentDate, token);
         setDailyTasks(
           dailyItems.map((item) => ({
             id: item._id,

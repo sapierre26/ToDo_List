@@ -44,6 +44,8 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
     const endDateTime = `${date}T${endTime}:00`;
 
     try {
+      const token = localStorage.getItem("token");
+
       const newTask = {
         title,
         label,
@@ -53,7 +55,7 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
         endDate: endDateTime,
       };
 
-      const success = await addTask(newTask);
+      const success = await addTask(newTask, token);
       if (success) {
         onTaskAdded({ ...newTask, _id: Date.now().toString() });
         onClose();

@@ -14,7 +14,8 @@ const TodoList = () => {
 
   const fetchTasks = async () => {
     try {
-      const fetchedTasks = await getTasks();
+      const token = localStorage.getItem("token");
+      const fetchedTasks = await getTasks(token);
       if (fetchedTasks) setTasks(fetchedTasks);
     } catch (error) {
       console.error("Error fetching tasks:", error);

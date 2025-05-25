@@ -4,9 +4,13 @@ const formatDate = (date) => {
   return date.toISOString().split("T")[0];
 };
 
-export const getTasks = async () => {
+export const getTasks = async (token) => {
   try {
-    const res = await fetch(tasksURL);
+    const res = await fetch(tasksURL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return await res.json();
   } catch (error) {
@@ -15,10 +19,14 @@ export const getTasks = async () => {
   }
 };
 
-export const getTasksAndEventsByEndDate = async (date) => {
+export const getTasksAndEventsByEndDate = async (date, token) => {
   try {
     const dateStr = formatDate(date);
-    const res = await fetch(`${tasksURL}?date=${dateStr}`);
+    const res = await fetch(`${tasksURL}?date=${dateStr}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+      });
 
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return await res.json();
@@ -28,12 +36,16 @@ export const getTasksAndEventsByEndDate = async (date) => {
   }
 };
 
-export const getTasksForMonth = async (startDate, endDate) => {
+export const getTasksForMonth = async (startDate, endDate, token) => {
   try {
     const startStr = formatDate(startDate);
     const endStr = formatDate(endDate);
     const res = await fetch(
-      `${tasksURL}?startDate=${startStr}&endDate=${endStr}`,
+      `${tasksURL}?startDate=${startStr}&endDate=${endStr}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }
     );
 
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -44,11 +56,14 @@ export const getTasksForMonth = async (startDate, endDate) => {
   }
 };
 
-export const addTask = async (task) => {
+export const addTask = async (task, token) => {
   try {
     const res = await fetch(tasksURL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
       body: JSON.stringify(task),
     });
 

@@ -10,6 +10,11 @@ const taskSchema = new mongoose.Schema(
     priority: String,
     label: String,
     description: String,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    }
   },
   { collections: "tasks" },
 );

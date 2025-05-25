@@ -1,16 +1,22 @@
 const express = require("express");
 const router = express.Router();
 // app.use(express.json());
+const auth = require("../middleware/auth.js");
+router.use(auth);
 
 const Task = require("../models/taskSchema.js");
+
 router.use("/", (req, res, next) => {
   console.log(`Request made to ${req.method} ${req.originalUrl}`);
   next(); // pass control to the next handler
 });
+
 router.get("/", async (req, res) => {
   try {
-    const { date, startDate, endDate } = req.query;
-    let query = {};
+    if (!req.user) return res.status(401).json({ message: "Unauthorized" });
+    const userId = req.user.id;
+    const { date, startDate, endDate} = req.query;
+    let query = { userId };
 
     if (date) {
       // Existing date-specific logic
@@ -20,6 +26,7 @@ router.get("/", async (req, res) => {
       endOfDay.setHours(23, 59, 59, 999);
 
       query = {
+        userId,
         $or: [
           {
             startDate: { $lte: endOfDay },
@@ -36,6 +43,7 @@ router.get("/", async (req, res) => {
     } else if (startDate && endDate) {
       // New month-range logic
       query = {
+        userId,
         endDate: {
           $gte: new Date(startDate),
           $lte: new Date(endDate),
@@ -67,6 +75,7 @@ router.post("/", async (req, res) => {
       priority,
       label,
       description,
+      userId: req.user.id,
     });
 
     await newTask.save();
@@ -116,6 +125,7 @@ router.put("/", async (req, res) => {
       priority,
       label,
       description,
+      userId: req.user.id,
     });
     await newTask.save();
     res.send({ msg: `${newTask} added to the taskDB` });
