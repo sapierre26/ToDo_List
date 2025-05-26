@@ -6,23 +6,22 @@ dotenv.config();
 function makeNewConnection(url) {
   if (!url) {
     console.error("MONGO_URI is not set in the environment variables.");
-    return null; // Terminate the process if MONGO_URI is missing
+    process.exit(1); // Terminate the process if MONGO_URI is missing
   }
 
   const connection = mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  const DBname = url.substring(
-    url.lastIndexOf("net/") + 4,
-    url.lastIndexOf("?"),
-  );
+  const DBname = url.includes("net/") && url.includes("?")
+    ? url.substring(url.lastIndexOf("net/") + 4, url.lastIndexOf("?"))
+    : url;
 
-  connection.on("connected", function () {
+  connection.on("connected", () => {
     console.log(`MongoDB :: connected :: ${DBname}`);
   });
 
-  connection.on("disconnected", function () {
+  connection.on("disconnected", () => {
     console.log(`MongoDB :: disconnected`);
   });
 
@@ -43,4 +42,4 @@ if (process.env.userDB && process.env.tasksDB) {
   tasksConnection = makeNewConnection(process.env.tasksDB);
 }
 
-module.exports = { makeNewConnection, userConnection, tasksConnection };
+module.exports = {makeNewConnection, userConnection, tasksConnection };
