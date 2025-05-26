@@ -10,13 +10,14 @@ const PriorityFilterSidebar = ({ selectedPriority, onSelectPriority }) => {
         <h3>FILTER</h3>
         <ul className={styles.priorityList}>
           <li>
-            <button className={`${styles.priorityButton} ${
+            <button
+              className={`${styles.priorityButton} ${
                 selectedPriority === null ? styles.selected : ""
-              }`} 
+              }`}
               onClick={() => onSelectPriority(null)}
               aria-pressed={selectedPriority === null}
             >
-                All
+              All
             </button>
           </li>
           {priorities.map((priority) => (

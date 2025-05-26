@@ -14,7 +14,8 @@ const TodoList = () => {
 
   const fetchTasks = async () => {
     try {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
       const fetchedTasks = await getTasks(token);
       if (fetchedTasks) setTasks(fetchedTasks);
     } catch (error) {

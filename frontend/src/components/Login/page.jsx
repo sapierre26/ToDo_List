@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import style from './login.module.css';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useState } from "react";
+import style from "./login.module.css";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Login = ({ onLoginSuccess }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setEmailError('');
-    setPasswordError('');
-    setErrorMessage('');
+    setEmailError("");
+    setPasswordError("");
+    setErrorMessage("");
 
     let hasError = false;
 
@@ -36,7 +36,7 @@ const Login = ({ onLoginSuccess }) => {
       const response = await fetch("http://localhost:8000/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, pwd: password })
+        body: JSON.stringify({ username, pwd: password }),
       });
 
       const data = await response.json();
