@@ -8,7 +8,7 @@ const Task = require("../models/taskSchema.js");
 
 router.use("/", (req, res, next) => {
   console.log(`Request made to ${req.method} ${req.originalUrl}`);
-  next(); // pass control to the next handler
+  next();
 });
 
 router.get("/", async (req, res) => {
@@ -19,7 +19,6 @@ router.get("/", async (req, res) => {
     let query = { userId };
 
     if (date) {
-      // Existing date-specific logic
       const [year, month, day] = date.split("-");
       const startOfDay = new Date(year, month - 1, day);
       const endOfDay = new Date(year, month - 1, day);
@@ -41,7 +40,6 @@ router.get("/", async (req, res) => {
         ],
       };
     } else if (startDate && endDate) {
-      // New month-range logic
       query = {
         userId,
         endDate: {

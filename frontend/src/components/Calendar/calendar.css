@@ -19,8 +19,8 @@
 }
 
 .calendar-container > div:first-child {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .side-panel {
@@ -43,9 +43,16 @@
   background-color: #f1f1f1;
   display: flex;
   justify-content: center;
-  padding-left: 20px;
+  padding-left: 10px;
   padding-top: 30px;
   margin-top: 0;
+}
+
+.priority-filter-button {
+  padding: 4px 6px;
+  font-size: 0.75rem;
+  min-width: auto;
+  margin: 2px 2px 2px 0;
 }
 
 .calendar-nav {
@@ -78,9 +85,9 @@
 .calendar-nav button,
 .calendar-view button,
 .google-calendar-button {
-  background-color: transparent !important;
-  border: 1px solid #888 !important;
-  color: #333 !important;
+  background-color: transparent;
+  border: 1px solid #888;
+  color: #333;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -88,9 +95,9 @@
 .calendar-nav button:hover,
 .calendar-view button:hover,
 .google-calendar-button:hover {
-  background-color: #888 !important;
-  color: #fff !important;
-  border-color: #888 !important;
+  background-color: #888;
+  color: #fff;
+  border-color: #888;
 }
 
 .calendar-nav button,
@@ -218,7 +225,7 @@
   overflow-y: auto;
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 10px;
 }
 
 .task-item {
@@ -236,7 +243,7 @@
 }
 
 .task-title {
-  font-weight: normal;
+  font-size: 14px;
 }
 
 .no-tasks {
@@ -267,7 +274,7 @@
 .task-item {
   background: white;
   border-radius: 8px;
-  padding: 12px;
+  padding: 8px;
   margin-bottom: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   list-style: none;
@@ -276,14 +283,14 @@
 .task-content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .task-meta {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: #666;
 }
 
@@ -294,10 +301,12 @@
   text-transform: capitalize;
 }
 
+.task-label,
 .task-priority {
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 500;
+  font-size: 0.65rem;
+  padding: 2px 4px;
+  border-radius: 3px;
+  line-height: 1;
 }
 
 .task-priority.high {
@@ -316,14 +325,14 @@
 }
 
 .task-title {
-  font-weight: 500;
-  margin: 4px 0;
+  margin: 2px 0;
+  color: #555;
 }
 
 .task-description {
   color: #555;
-  font-size: 0.9rem;
-  margin-top: 4px;
+  font-size: 0.7rem;
+  margin-top: -1px;
 }
 
 .task-item.event {
@@ -360,9 +369,9 @@ body, html {
 }
 
 .google-calendar-button {
-  background-color: transparent !important;
-  border: 1px solid #888 !important;
-  color: #333 !important;
+  background-color: transparent;
+  border: 1px solid #888;
+  color: #333;
   padding: 6px 10px;
   cursor: pointer;
   font-size: 12px;
@@ -373,7 +382,7 @@ body, html {
 }
 
 .google-calendar-button:hover {
-  background-color: #888 !important;
-  color: white !important;
-  border-color: #888 !important;
+  background-color: #888;
+  color: white;
+  border-color: #888;
 }

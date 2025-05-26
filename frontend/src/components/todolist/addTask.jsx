@@ -131,21 +131,20 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
       />
 
       <div className={style.optionContainer}>
-        <span className={style.optionLabel}>Priority:</span>
-        <div className={style.optionGroup}>
+        <span className={style.optionLabel} htmlFor="priority">Priority:</span>
+        <select
+          id="priority"
+          name="priority"
+          className={style.select} // You can style this in your CSS
+          value={formData.priority}
+          onChange={handleChange}
+        >
           {["Low", "Medium", "High"].map((level) => (
-            <button
-              key={level}
-              type="button"
-              className={`${style.optionButton} ${formData.priority === level ? style.active : ""}`}
-              onClick={() =>
-                setFormData((prev) => ({ ...prev, priority: level }))
-              }
-            >
+            <option key={level} value={level}>
               {level}
-            </button>
+            </option>
           ))}
-        </div>
+        </select>
       </div>
 
       <textarea

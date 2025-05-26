@@ -116,3 +116,11 @@ export const getGoogleCalendarEvents = async () => {
     return [];
   }
 };
+
+export const getGoogleTasks = async () => {
+  const res = await fetch("http://localhost:8000/api/google-calendar/tasks", {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error("Failed to fetch Google Tasks");
+  return res.json();
+}

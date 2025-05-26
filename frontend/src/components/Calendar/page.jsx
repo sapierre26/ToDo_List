@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Datepicker from "react-datepicker";
 import AddTask from "../todolist/addTask";
-import { getTasksAndEventsByEndDate, getTasksForMonth, getGoogleCalendarEvents } from "../../api/tasks";
+import { getTasksAndEventsByEndDate, getTasksForMonth, getGoogleCalendarEvents, getGoogleTasks} from "../../api/tasks";
 import "./calendar.css";
 import PriorityFilterSidebar from "../PriorityFilterSidebar/page.jsx";
 import PropTypes from "prop-types";
@@ -207,6 +207,11 @@ const CalendarComponent = () => {
           googleEvents = await getGoogleCalendarEvents();
         }
 
+        let googleTasks = [];
+        if (statusData.connected) {
+          googleTasks = await getGoogleTasks();
+        }
+
         const taskList = [];
         const eventList = [];
 
@@ -232,25 +237,56 @@ const CalendarComponent = () => {
           start: new Date(gEvent.start),
           end: new Date(gEvent.end),
           resource: {
-            label: "Google Event",
+            label: "Event",
             description: gEvent.description || "",
             priority: null,
           },
         }));
 
+        const googleTasksFormatted = googleTasks.map((gTask) => {
+          const start = gTask.due ? new Date(gTask.due) : null;
+          if (!start) return null;
+
+          const end = new Date(start.getTime());
+          return {
+            id: gTask.id,
+            title: gTask.title,
+            start,
+            end,
+            resource: {
+              label: "Task",
+              description: gTask.notes || "",
+              priority: null,
+            },
+          };
+        }).filter(Boolean);
+
         setTasks(taskList);
-        setCalendarEvents([...eventList, ...googleFormatted]);
+        setCalendarEvents([...eventList, ...googleFormatted, ...googleTasksFormatted]);
 
         const dailyItems = await getTasksAndEventsByEndDate(currentDate, token);
-        setDailyTasks(
-          dailyItems.map((item) => ({
-            id: item._id,
-            title: item.title,
-            start: new Date(item.startDate),
-            end: new Date(item.endDate),
-            resource: item,
-          }))
+        const dailyGoogleTasks = googleTasksFormatted.filter((task) =>
+          isSameDay(task.start, currentDate)
         );
+        const dailyGoogleEvents = googleFormatted.filter((event) =>
+          isSameDay(event.start, currentDate)
+        );
+
+        const mapToCalendarEvent = (item) => ({
+          id: item._id,
+          title: item.title,
+          start: new Date(item.startDate),
+          end: new Date(item.endDate),
+          resource: item,
+        });
+
+        const mapItemsToCalendarEvents = (items) => items.map(mapToCalendarEvent);
+
+        setDailyTasks([
+          ...mapItemsToCalendarEvents(dailyItems),
+          ...dailyGoogleTasks,
+          ...dailyGoogleEvents,
+        ]);
       } catch (error) {
         console.error("Error fetching tasks/events:", error);
       } finally {
@@ -370,7 +406,7 @@ const CalendarComponent = () => {
           </div>
         ) : (
           <div className="tasks-container">
-            <h2>Tasks for {format(currentDate, "MMMM dd, yyyy")}</h2>
+            <h3>Tasks for {format(currentDate, "MMMM dd, yyyy")}</h3>
             {isLoading ? (
               <p>Loading tasks...</p>
             ) : dailyTasks.length > 0 ? (
@@ -402,7 +438,7 @@ const CalendarComponent = () => {
                               : `${format(event.end, "h:mm a")}`}
                           </span>
                         </div>
-                        <h3 className="task-title">{event.title}</h3>
+                        <p className="task-title">{event.title}</p>
                         {taskData.description && (
                           <p className="task-description">
                             {taskData.description}
