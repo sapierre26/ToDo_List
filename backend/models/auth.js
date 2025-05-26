@@ -6,12 +6,6 @@ import userModel from "./userSchema.js";
 
 dotenv.config();
 
-const User = require("../models/userSchema");
-const user = await User.findOne({ username: email });
-if (!user) {
-  return res.status(401).json({ error: "invalid credentials" });
-}
-
 const isMatch = await bcrypt.compare(password, user.password);
 
 const generateAccessToken = (username, userId) => {
