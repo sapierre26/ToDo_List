@@ -19,7 +19,9 @@ describe("makeNewConnection", () => {
       close: jest.fn(),
     };
     mongoose.createConnection.mockReturnValue(mockConnection);
-
+    mongoose.connection = {
+      on: jest.fn(),
+    };
     // Mock console methods - Sanaia added
     jest.spyOn(console, "log").mockImplementation(() => {});
     jest.spyOn(console, "error").mockImplementation(() => {});
