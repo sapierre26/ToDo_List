@@ -9,7 +9,7 @@ export const getTasks = async (token) => {
     const res = await fetch(tasksURL, {
       headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
     });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return await res.json();
@@ -25,8 +25,8 @@ export const getTasksAndEventsByEndDate = async (date, token) => {
     const res = await fetch(`${tasksURL}?date=${dateStr}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-      }
-      });
+      },
+    });
 
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return await res.json();
@@ -41,11 +41,12 @@ export const getTasksForMonth = async (startDate, endDate, token) => {
     const startStr = formatDate(startDate);
     const endStr = formatDate(endDate);
     const res = await fetch(
-      `${tasksURL}?startDate=${startStr}&endDate=${endStr}`, {
+      `${tasksURL}?startDate=${startStr}&endDate=${endStr}`,
+      {
         headers: {
           Authorization: `Bearer ${token}`,
-        }
-      }
+        },
+      },
     );
 
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -60,9 +61,9 @@ export const addTask = async (task, token) => {
   try {
     const res = await fetch(tasksURL, {
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(task),
     });
@@ -106,13 +107,16 @@ export const updateTask = async (taskId, updates) => {
 
 export const getGoogleCalendarEvents = async () => {
   try {
-    const res = await fetch('http://localhost:8000/api/google-calendar/events', {
-      credentials: 'include',
-    });
+    const res = await fetch(
+      "http://localhost:8000/api/google-calendar/events",
+      {
+        credentials: "include",
+      },
+    );
     if (!res.ok) throw new Error("Failed to fetch Google Calendar events");
     return await res.json();
-  } catch(error) {
-    console.error('Error fetching Google Calendar events:', error);
+  } catch (error) {
+    console.error("Error fetching Google Calendar events:", error);
     return [];
   }
 };

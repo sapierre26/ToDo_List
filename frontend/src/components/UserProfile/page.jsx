@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const UserProfile = () => {
   const [userPic, setUserPic] = useState(null);
@@ -7,7 +7,8 @@ const UserProfile = () => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
 
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
 
   // Fetch user info on mount
   useEffect(() => {
@@ -55,10 +56,10 @@ const UserProfile = () => {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-  
+
     const formData = new FormData();
     formData.append("image", file);
-  
+
     try {
       const res = await fetch("http://localhost:8000/api/auth/profile/image", {
         method: "PUT",
@@ -67,7 +68,7 @@ const UserProfile = () => {
         },
         body: formData,
       });
-  
+
       const data = await res.json();
       if (res.ok) {
         setUserPic(`http://localhost:8000${data.image}`); // updated image path
@@ -81,7 +82,6 @@ const UserProfile = () => {
     }
   };
 
-  
   return (
     <div className="UserProfile">
       <h2>User Profile</h2>
@@ -94,7 +94,13 @@ const UserProfile = () => {
               style={{ height: "200px", width: "200px", objectFit: "cover" }}
             />
           ) : (
-            <div style={{ height: "200px", width: "200px", backgroundColor: "#eee" }} />
+            <div
+              style={{
+                height: "200px",
+                width: "200px",
+                backgroundColor: "#eee",
+              }}
+            />
           )}
           <input type="file" onChange={handleImageUpload} />
         </div>
@@ -103,7 +109,10 @@ const UserProfile = () => {
           <input value={name} onChange={(e) => setName(e.target.value)} />
           <br />
           <label>Username:</label>
-          <input value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
           <br />
           <label>Email:</label>
           <input value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -114,13 +123,17 @@ const UserProfile = () => {
       </div>
       <div style={{ marginTop: "2rem" }}>
         <button style={{ color: "red" }}>Delete My Account</button>
-        <button onClick={() => window.location.href = "mailto:support@example.com"}>
+        <button
+          onClick={() => (window.location.href = "mailto:support@example.com")}
+        >
           Contact Support
         </button>
-        <button onClick={() => {
-          localStorage.removeItem("token");
-          window.location.href = "/login";
-        }}>
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            window.location.href = "/login";
+          }}
+        >
           Log Out
         </button>
       </div>

@@ -93,7 +93,8 @@ const MyCustomToolbar = ({
         paddingBottom: "1rem",
         gap: "10px",
         flexWrap: "wrap", // optional, to wrap on small screens
-      }}>
+      }}
+    >
       <div className="calendar-nav" style={{ display: "flex", gap: "8px" }}>
         <button onClick={() => handleNavigate("PREV")}>←</button>
         <button onClick={handleTodayClick}>Today</button>
@@ -118,7 +119,8 @@ const MyCustomToolbar = ({
         <div style={{ margin: "0.5rem 0" }}>
           <button
             onClick={() => {
-              window.location.href = "http://localhost:8000/api/google-calendar/auth";
+              window.location.href =
+                "http://localhost:8000/api/google-calendar/auth";
             }}
             className="google-calendar-button"
           >
@@ -183,21 +185,35 @@ const CalendarComponent = () => {
   const mergedEvents = [...tasks, ...calendarEvents];
 
   const filteredEvents = selectedPriority
-    ? mergedEvents.filter((event) => event.resource?.priority === selectedPriority)
+    ? mergedEvents.filter(
+        (event) => event.resource?.priority === selectedPriority,
+      )
     : mergedEvents;
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
       setIsLoading(true);
       try {
-        const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+        const startOfMonth = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          1,
+        );
+        const endOfMonth = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + 1,
+          0,
+        );
         const items = await getTasksForMonth(startOfMonth, endOfMonth, token);
 
-        const statusRes = await fetch("http://localhost:8000/api/google-calendar/status", {
-          credentials: "include",
-        });
+        const statusRes = await fetch(
+          "http://localhost:8000/api/google-calendar/status",
+          {
+            credentials: "include",
+          },
+        );
 
         const statusData = await statusRes.json();
         setIsGoogleConnected(statusData.connected);
@@ -376,7 +392,7 @@ const CalendarComponent = () => {
           views={["month", "week", "day"]}
           selectable
           onSelectSlot={handleSelectSlot}
-          onSelectEvent={(event) => {
+          onSelectEvent={() => {
             if (view !== "day") setView("day");
           }}
           onNavigate={(date) => {

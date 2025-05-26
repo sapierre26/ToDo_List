@@ -44,7 +44,8 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
     const endDateTime = `${date}T${endTime}:00`;
 
     try {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
 
       const newTask = {
         title,

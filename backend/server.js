@@ -10,8 +10,8 @@ const googleCalendarRoutes = require("./routes/googleCalendar");
 const session = require("express-session");
 const corsOptions = {
   origin: "http://localhost:5173",
-  credentials:true,
-}
+  credentials: true,
+};
 
 require("dotenv").config();
 
@@ -20,10 +20,16 @@ connectDB();
 
 app.use(cors());
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173",
-credentials: true, }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true, cookie: { secure: false },}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  }),
+);
 app.use("/api/google-calendar", googleCalendarRoutes);
 
 app.use((req, res, next) => {
@@ -59,9 +65,9 @@ app.use("/api/tasks", tasksEndpoints);
 
 //testing middleware
 function loggerMiddleware(request, response, next) {
-   console.log(`${request.method} ${request.path}`);
-   next();
- }
+  console.log(`${request.method} ${request.path}`);
+  next();
+}
 
 //logs testing middleware to console
 app.use(loggerMiddleware);

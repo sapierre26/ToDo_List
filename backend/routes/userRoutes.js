@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
     const users = await User.find({});
     res.send(users);
   } catch (error) {
-    res.status(400).json({message: error.message});
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -38,20 +38,20 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { username: user.username, id: user._id },
       process.env.TOKEN_SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
 
     res.status(200).json({
       token,
       username: user.username,
-      userId: user._id
+      userId: user._id,
     });
   } catch (err) {
     console.error("login error:", err);
     res.status(500).send("server error during login");
   }
 });
-    
+
 //get user by username
 router.get("/:username", async (req, res) => {
   try {

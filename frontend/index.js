@@ -1,8 +1,11 @@
-import { AuthProvider } from './context/AuthContext';
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import { AuthProvider } from "./context/AuthContext";
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root"));
+
+root.render(
   <AuthProvider>
     <App />
   </AuthProvider>,
-  document.getElementById('root')
 );

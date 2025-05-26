@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getTasks, deleteTask } from "../../api/tasks";
 import AddTask from "./addTask";
 import styles from "./page.module.css";
@@ -14,7 +14,8 @@ const TodoList = () => {
 
   const fetchTasks = async () => {
     try {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
       const fetchedTasks = await getTasks(token);
       if (fetchedTasks) setTasks(fetchedTasks);
     } catch (error) {

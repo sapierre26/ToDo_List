@@ -7,7 +7,10 @@ require("dotenv").config();
 
 // Mock Task model methods
 jest.mock("../models/taskSchema");
-
+jest.mock("../middleware/auth.js", () => (req, res, next) => {
+  req.user = { id: "mockUserId" }; // simulate a logged-in user
+  next();
+});
 const app = express();
 app.use(express.json());
 app.use("/api/tasks", taskRouter);
