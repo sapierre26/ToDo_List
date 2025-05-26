@@ -6,6 +6,13 @@ const connectDB = require("./db.js");
 const authRoutes = require("./routes/authRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
 const tasksRoutes = require("./routes/tasksRoutes.js");
+const googleCalendarRoutes = require("./routes/googleCalendar");
+const session = require("express-session");
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials:true,
+}
+
 require("dotenv").config();
 
 const app = express();
@@ -13,6 +20,11 @@ connectDB();
 
 app.use(cors());
 app.use(express.json());
+app.use(cors({ origin: "http://localhost:5173",
+credentials: true, }));
+
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true, cookie: { secure: false },}));
+app.use("/api/google-calendar", googleCalendarRoutes);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -34,6 +46,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", tasksRoutes);
+app.use("/api/google-calendar", googleCalendarRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const PORT = process.env.PORT || 8000;

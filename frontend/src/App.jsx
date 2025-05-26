@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
 import "./App.css";
 
@@ -9,10 +9,51 @@ import CreateAccount from "./components/CreateAccount/page";
 import SplitScreen from "./components/SplitScreen/page";
 import UserProfile from "./components/UserProfile/page";
 
+// Manual JWT decode helper (no external lib)
+function decodeJWT(token) {
+  try {
+    const payload = token.split('.')[1]; // get payload part
+    const decodedPayload = atob(payload); // base64 decode
+    return JSON.parse(decodedPayload); // parse JSON
+  } catch (e) {
+    return null;
+  }
+}
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
-  // Callback to update login status
+  useEffect(() => {
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    if (token) {
+      const decoded = decodeJWT(token);
+      if (decoded) {
+        const isExpired = Date.now() > decoded.exp * 1000;
+        if (!isExpired) {
+          setIsAuthenticated(true);
+        } else {
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
+          setIsAuthenticated(false);
+        }
+      } else {
+        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
+        setIsAuthenticated(false);
+      }
+    } else {
+      setIsAuthenticated(false);
+    }
+
+    setIsCheckingAuth(false);
+  }, []);
+
+  if (isCheckingAuth) {
+    return <div>Loading...</div>;
+  }
+
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
   };

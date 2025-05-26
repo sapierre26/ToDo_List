@@ -7,7 +7,7 @@ const UserProfile = () => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
 
-  const token = localStorage.getItem("token"); // or from AuthContext
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   // Fetch user info on mount
   useEffect(() => {

@@ -1,38 +1,41 @@
-/* Main container */
 .calendar-page-container {
   display: flex;
   width: 100%;
   font-family: monospace;
   color: #888;
   background-color: #f1f1f1;
-  padding: 20px;
-  gap: 20px;
+  padding: 0px;
+  padding-right: 15px;
   align-items: flex-start;
+  margin-top: 0;  
+  padding-top: 0;
 }
 
-/* Calendar container - maintains original size */
 .calendar-container {
   width: 150%;
   background-color: #f1f1f1;
+  height: calc(100vh - 40px);
+  padding-top: 20px;
 }
 
-/* Side panel matching calendar height */
+.calendar-container > div:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
 .side-panel {
   width: 450px;
   background-color: #fff;
   border: 1px solid #888;
   border-radius: 8px;
   padding: 20px;
-  height: 650px; /* Matches calendar height */
+  height: 650px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-top: 35px;
+  margin-top: 30px;
 }
-
-/* Original navigation buttons */
-/*Styling for priority filter sidebar */
 
 .priority-container {
   font-family: monospace;
@@ -40,84 +43,139 @@
   background-color: #f1f1f1;
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding-left: 20px;
+  padding-top: 30px;
+  margin-top: 0;
 }
 
-/*Styling for priority filter sidebar */
-
-.priority-container {
-  font-family: monospace;
-  color: #888;
-  background-color: #f1f1f1;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-/* Original navigation buttons */
 .calendar-nav {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 10px;
-}
-
-.calendar-nav button {
-  background-color: transparent;
-  border: 1px solid #888;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  color: #333;
-}
-
-.calendar-nav button:hover {
-  background-color: #888;
-  color: #fff;
-}
-
-/* View buttons */
-.calendar-view {
-  display: flex;
-  gap: 10px;
-}
-
-.calendar-view button {
-  background-color: transparent;
-  border: 1px solid #888;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  color: #333;
-}
-
-.calendar-view button:hover {
-  background-color: #888;
-  color: #fff;
-}
-
-/* Calendar styling */
-.rbc-calendar {
-  border: 1px solid #888;
-  border-radius: 8px;
-  background-color: #fff;
-  font-family: monospace;
-  height: 700px;
-  width: 100%;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .rbc-toolbar {
   display: flex;
   padding-bottom: 1rem;
+  margin-top: 0 ;
+  padding-top: 0;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
 }
 
 .rbc-toolbar-label {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
+  margin: 15px 10px;
+  font-weight: 600;
 }
 
-/* Close button styling */
+.calendar-nav button,
+.calendar-view button,
+.google-calendar-button {
+  background-color: transparent !important;
+  border: 1px solid #888 !important;
+  color: #333 !important;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.calendar-nav button:hover,
+.calendar-view button:hover,
+.google-calendar-button:hover {
+  background-color: #888 !important;
+  color: #fff !important;
+  border-color: #888 !important;
+}
+
+.calendar-nav button,
+.calendar-view button {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 3px;
+  width: 75px;
+}
+
+.calendar-nav button,
+.calendar-view button {
+  margin: 0 4px 4px 0;
+}
+
+.calendar-nav button:first-child,
+.calendar-nav button:last-child {
+  padding: 2px 6px;
+  font-size: 12px;
+  height: 20px;
+  width: 25px;
+}
+
+.calendar-view {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.custom-datepicker {
+  font-family: monospace;
+  font-size: 0.85rem;
+  border: 1px solid #888;
+  border-radius: 4px;
+  height: 25px;
+  width: 160px;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.rbc-calendar {
+  border: 1px solid #888;
+  border-radius: 8px;
+  background-color: hsl(0, 0%, 100%);
+  font-family: monospace;
+  height: 100%;
+  width: 100%;
+  padding-top: 0;
+}
+
+.rbc-month-event {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.rbc-month-event-content {
+  padding: 0px -20px;
+  font-size: 0.85em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.rbc-event {
+  max-height: 20px;
+  overflow: hidden;
+  max-width: 100px;
+}
+
+.rbc-event-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9em;
+  padding: 2px 0px;
+  text-align: left;
+}
+
 .close-button {
   position: absolute;
   top: 10px;
@@ -142,7 +200,6 @@
   background-color: #f1f1f1;
 }
 
-/* Add Task container */
 .add-task-container {
   height: 100%;
   width: 200px;
@@ -150,14 +207,12 @@
   flex-direction: column;
 }
 
-/* Task list container */
 .tasks-container {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* Task list styling */
 .task-list {
   flex-grow: 1;
   overflow-y: auto;
@@ -209,7 +264,6 @@
   }
 }
 
-/* Task List Styles */
 .task-item {
   background: white;
   border-radius: 8px;
@@ -272,7 +326,6 @@
   margin-top: 4px;
 }
 
-/* Label-specific colors */
 .task-item.event {
   border-left: 3px solid #3f51b5;
 }
@@ -283,4 +336,44 @@
 
 .task-item.reminder {
   border-left: 3px solid #ff9800;
+}
+
+body, html {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.rbc-day-view .rbc-event,
+.rbc-time-view .rbc-event {
+  max-width: none;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  margin: 0px 5px;
+}
+
+.rbc-day-view .rbc-event-content,
+.rbc-time-view .rbc-event-content {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+.google-calendar-button {
+  background-color: transparent !important;
+  border: 1px solid #888 !important;
+  color: #333 !important;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  width: 75px;
+  height: 25px;
+  margin-top: 18px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.google-calendar-button:hover {
+  background-color: #888 !important;
+  color: white !important;
+  border-color: #888 !important;
 }
