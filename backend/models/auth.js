@@ -8,7 +8,9 @@ dotenv.config();
 
 const User = require("../models/userSchema");
 const user = await User.findOne({ username: email });
-if (!user) return res.status(401).json({ error: "invalid credentials" });
+if (!user) {
+  return res.status(401).json({ error: "invalid credentials" });
+}
 
 const isMatch = await bcrypt.compare(password, user.password);
 
@@ -17,14 +19,14 @@ const generateAccessToken = (username, userId) => {
     jwt.sign(
       { username, id: userId },
       process.env.TOKEN_SECRET_KEY,
-      { expiresIn: '1d' },
+      { expiresIn: "1d" },
       (err, token) => {
         if (err) {
           reject(err);
         } else {
           resolve(token);
         }
-      }
+      },
     );
   });
 };
@@ -48,12 +50,15 @@ export const registerUser = async (req, res) => {
     const newUser = new userModel({ username, password: hashedPassword });
     const savedUser = await newUser.save();
 
-    const token = await generateAccessToken(retrieveUser.username, retrievedUser._id);
+    const token = await generateAccessToken(
+      retrieveUser.username,
+      retrievedUser._id,
+    );
     console.log("Registration successful. Token:", token);
-    res.status(201).json({ 
-      token, 
+    res.status(201).json({
+      token,
       username: savedUser.username,
-      userID: savedUser._id
+      userID: savedUser._id,
     });
   } catch (err) {
     console.error("Error during user registration:", err);
@@ -65,7 +70,9 @@ export const loginUser = async (req, res) => {
   const { username, pwd } = req.body;
 
   if (!username || !pwd) {
-    return res.status(400).send("Bad request: Both username and password are required.");
+    return res
+      .status(400)
+      .send("Bad request: Both username and password are required.");
   }
 
   try {
@@ -79,13 +86,13 @@ export const loginUser = async (req, res) => {
       const token = jwt.sign(
         { username: retrievedUser.username, id: retrievedUser._id },
         process.env.TOKEN_SECRET_KEY,
-        { expiresIn: '1h' }
+        { expiresIn: "1h" },
       );
 
-      res.status(200).json({ 
-        token, 
+      res.status(200).json({
+        token,
         username: retrievedUser.username,
-        userID: retrievedUser._id 
+        userID: retrievedUser._id,
       });
     } else {
       res.status(401).send("Unauthorized: Password does not match.");

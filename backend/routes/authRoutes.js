@@ -1,6 +1,11 @@
 // routes/authRoutes.js
 const express = require("express");
-const { register, login, getProfile, updateProfileImage } = require("../controllers/authController.js");
+const {
+  register,
+  login,
+  getProfile,
+  updateProfileImage,
+} = require("../controllers/authController.js");
 const auth = require("../middleware/auth.js");
 const multer = require("multer");
 const path = require("path");

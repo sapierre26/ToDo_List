@@ -5,11 +5,9 @@ const User = require("../models/userSchema.js");
 require("dotenv").config();
 
 const generateAccessToken = (username, userId) => {
-  return jwt.sign(
-    { username, id: userId },
-    process.env.TOKEN_SECRET_KEY,
-    { expiresIn: '1h' }
-  );
+  return jwt.sign({ username, id: userId }, process.env.TOKEN_SECRET_KEY, {
+    expiresIn: "1h",
+  });
 };
 
 const register = async (req, res) => {
@@ -26,11 +24,18 @@ const register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(pwd, 10);
-    const newUser = new User({ name, username, password: hashedPassword, email });
+    const newUser = new User({
+      name,
+      username,
+      password: hashedPassword,
+      email,
+    });
     const savedUser = await newUser.save();
     const token = generateAccessToken(savedUser.username, savedUser._id);
 
-    res.status(201).json({ token, username: savedUser.username, userID: savedUser._id });
+    res
+      .status(201)
+      .json({ token, username: savedUser.username, userID: savedUser._id });
   } catch (err) {
     console.error("Registration error:", err);
     res.status(500).send("Server error during registration.");
@@ -83,7 +88,7 @@ const updateProfileImage = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { image: imagePath },
-      { new: true }
+      { new: true },
     ).select("username email name image");
 
     res.json(user);

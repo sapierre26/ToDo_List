@@ -5,7 +5,7 @@ const router = express.Router();
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URI
+  process.env.GOOGLE_REDIRECT_URI,
 );
 
 // Path to your service account key file
@@ -98,7 +98,7 @@ router.get("/events", async (req, res) => {
       nextPageToken = response.data.nextPageToken;
     } while (nextPageToken);
 
-    const formattedEvents = allEvents.map(event => ({
+    const formattedEvents = allEvents.map((event) => ({
       id: event.id,
       title: event.summary || "(No title)",
       description: event.description || "",
@@ -107,7 +107,6 @@ router.get("/events", async (req, res) => {
     }));
 
     res.json(formattedEvents);
-
   } catch (error) {
     console.error(error);
     res.status(500).send("Failed to fetch events");

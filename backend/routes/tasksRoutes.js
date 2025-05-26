@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   try {
     if (!req.user) return res.status(401).json({ message: "Unauthorized" });
     const userId = req.user.id;
-    const { date, startDate, endDate} = req.query;
+    const { date, startDate, endDate } = req.query;
     let query = { userId };
 
     if (date) {
@@ -79,7 +79,9 @@ router.post("/", async (req, res) => {
     });
 
     await newTask.save();
-    res.send({ msg: `${newTask?.title || newTask?.id || "Task"} added to the taskDB` });
+    res.send({
+      msg: `${newTask?.title || newTask?.id || "Task"} added to the taskDB`,
+    });
   } catch (error) {
     let errorMessage;
     if (error instanceof Error) {

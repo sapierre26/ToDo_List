@@ -13,9 +13,10 @@ function makeNewConnection(url) {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  const DBname = url.includes("net/") && url.includes("?")
-    ? url.substring(url.lastIndexOf("net/") + 4, url.lastIndexOf("?"))
-    : url;
+  const DBname = url.substring(
+    url.lastIndexOf("net/") + 4,
+    url.lastIndexOf("?"),
+  );
 
   connection.on("connected", () => {
     console.log(`MongoDB :: connected :: ${DBname}`);
@@ -42,4 +43,4 @@ if (process.env.userDB && process.env.tasksDB) {
   tasksConnection = makeNewConnection(process.env.tasksDB);
 }
 
-module.exports = {makeNewConnection, userConnection, tasksConnection };
+module.exports = { makeNewConnection, userConnection, tasksConnection };
