@@ -103,3 +103,16 @@ export const updateTask = async (taskId, updates) => {
     return null;
   }
 };
+
+export const getGoogleCalendarEvents = async () => {
+  try {
+    const res = await fetch('http://localhost:8000/api/google-calendar/events', {
+      credentials: 'include',
+    });
+    if (!res.ok) throw new Error("Failed to fetch Google Calendar events");
+    return await res.json();
+  } catch(error) {
+    console.error('Error fetching Google Calendar events:', error);
+    return [];
+  }
+};

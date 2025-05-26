@@ -3,98 +3,99 @@ import style from './login.module.css';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onLoginSuccess }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        setEmailError('');
-        setPasswordError('');
-        setErrorMessage('');
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setEmailError('');
+    setPasswordError('');
+    setErrorMessage('');
 
-        let hasError = false;
+    let hasError = false;
 
-        if (!username) {
-            setEmailError("Please enter your username");
-            hasError = true;
-        }
+    if (!username) {
+      setEmailError("Please enter your username");
+      hasError = true;
+    }
 
-        if (!password) {
-            setPasswordError("Please enter a password");
-            hasError = true;
-        }
+    if (!password) {
+      setPasswordError("Please enter a password");
+      hasError = true;
+    }
 
-        if (hasError) return;
+    if (hasError) return;
 
-        try {
-            const response = await fetch("http://localhost:8000/api/users/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, pwd: password })
-            });
+    try {
+      const response = await fetch("http://localhost:8000/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, pwd: password })
+      });
 
-            const data = await response.json();
+      const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.message || "Login failed");
-            }
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
 
-            console.log("Login successful:", data);
+      console.log("Login successful, token received:", data.token);
 
-            // Optional: save token if needed
-            localStorage.setItem("token", data.token);
+      if (rememberMe) {
+        localStorage.setItem("token", data.token);
+      } else {
+        sessionStorage.setItem("token", data.token);
+      }
 
-            // ✅ Notify parent component that login was successful
-            if (onLoginSuccess) onLoginSuccess();
+      if (onLoginSuccess) onLoginSuccess();
 
-            // ✅ Redirect to Calendar
-            navigate("/Calendar");
-        } catch (err) {
-            console.error("Error during login:", err.message);
-            setErrorMessage(err.message || "An error occurred");
-        }
-    };
+      navigate("/Calendar");
+    } catch (err) {
+      console.error("Error during login:", err.message);
+      setErrorMessage(err.message || "An error occurred");
+    }
+  };
 
-    return (
-        <div className={style.loginContainer}>
-            <h3>Login</h3>
-            <form onSubmit={onSubmit}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                {emailError && <p className={style.error}>{emailError}</p>}
+  return (
+    <div className={style.loginContainer}>
+      <h3>Login</h3>
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        {emailError && <p className={style.error}>{emailError}</p>}
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                {passwordError && <p className={style.error}>{passwordError}</p>}
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {passwordError && <p className={style.error}>{passwordError}</p>}
 
-                <div className={style.checkboxContainer}>
-                    <input
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                    />
-                    <label>Remember Me</label>
-                </div>
-
-                {errorMessage && <p className={style.error}>{errorMessage}</p>}
-
-                <button type="submit">Login</button>
-            </form>
+        <div className={style.checkboxContainer}>
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+          />
+          <label>Remember Me</label>
         </div>
-    );
+
+        {errorMessage && <p className={style.error}>{errorMessage}</p>}
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
 };
 
 export default Login;

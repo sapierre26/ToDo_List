@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Datepicker from "react-datepicker";
 import AddTask from "../todolist/addTask";
-import { getTasksAndEventsByEndDate, getTasksForMonth } from "../../api/tasks";
+import { getTasksAndEventsByEndDate, getTasksForMonth, getGoogleCalendarEvents } from "../../api/tasks";
 import "./calendar.css";
 import PriorityFilterSidebar from "../PriorityFilterSidebar/page.jsx";
 import PropTypes from "prop-types";
@@ -33,15 +33,30 @@ MonthEvent.propTypes = {
   }).isRequired,
 };
 
-const MyCustomToolbar = ({ label, onNavigate, onView, currentDate, setCurrentDate, setTaskDate }) => {
-
+const MyCustomToolbar = ({
+  label,
+  onNavigate,
+  onView,
+  currentDate,
+  setCurrentDate,
+  setTaskDate,
+  isGoogleConnected,
+}) => {
   useEffect(() => {
     const parsedMonthYear = parse(label, "MMMM yyyy", new Date());
 
     if (!isNaN(parsedMonthYear.getTime())) {
       const currentDay = currentDate.getDate();
-      const targetDate = new Date(parsedMonthYear.getFullYear(), parsedMonthYear.getMonth(), currentDay);
-      const lastDayOfMonth = new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0).getDate();
+      const targetDate = new Date(
+        parsedMonthYear.getFullYear(),
+        parsedMonthYear.getMonth(),
+        currentDay,
+      );
+      const lastDayOfMonth = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth() + 1,
+        0,
+      ).getDate();
 
       if (currentDay > lastDayOfMonth) {
         targetDate.setDate(lastDayOfMonth);
@@ -71,14 +86,21 @@ const MyCustomToolbar = ({ label, onNavigate, onView, currentDate, setCurrentDat
   };
 
   return (
-    <div style={{ display: "flex", paddingBottom: "1rem" }}>
-      <div className="calendar-nav">
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        paddingBottom: "1rem",
+        gap: "10px",
+        flexWrap: "wrap", // optional, to wrap on small screens
+      }}>
+      <div className="calendar-nav" style={{ display: "flex", gap: "8px" }}>
         <button onClick={() => handleNavigate("PREV")}>←</button>
         <button onClick={handleTodayClick}>Today</button>
         <button onClick={() => handleNavigate("NEXT")}>→</button>
       </div>
 
-      <div className="rbc-toolbar-label">
+      <div className="rbc-toolbar-label" style={{ flexShrink: 0 }}>
         <Datepicker
           selected={currentDate}
           onChange={handleDateChange}
@@ -92,24 +114,42 @@ const MyCustomToolbar = ({ label, onNavigate, onView, currentDate, setCurrentDat
           className="custom-datepicker"
         />
       </div>
+      {!isGoogleConnected && (
+        <div style={{ margin: "0.5rem 0" }}>
+          <button
+            onClick={() => {
+              window.location.href = "http://localhost:8000/api/google-calendar/auth";
+            }}
+            className="google-calendar-button"
+          >
+            Import
+          </button>
+        </div>
+      )}
 
       <div className="calendar-view">
-        <button onClick={() => {
-          onView("month");
-          onNavigate("DATE", currentDate);
-        }}>
+        <button
+          onClick={() => {
+            onView("month");
+            onNavigate("DATE", currentDate);
+          }}
+        >
           Month
         </button>
-        <button onClick={() => {
-          onView("week");
-          onNavigate("DATE", currentDate);
-        }}>
+        <button
+          onClick={() => {
+            onView("week");
+            onNavigate("DATE", currentDate);
+          }}
+        >
           Week
         </button>
-        <button onClick={() => {
-          onView("day");
-          onNavigate("DATE", currentDate);
-        }}>
+        <button
+          onClick={() => {
+            onView("day");
+            onNavigate("DATE", currentDate);
+          }}
+        >
           Day
         </button>
       </div>
@@ -124,6 +164,7 @@ MyCustomToolbar.propTypes = {
   currentDate: PropTypes.instanceOf(Date).isRequired,
   setCurrentDate: PropTypes.func.isRequired,
   setTaskDate: PropTypes.func.isRequired,
+  isGoogleConnected: PropTypes.bool.isRequired,
 };
 
 const CalendarComponent = () => {
@@ -137,31 +178,34 @@ const CalendarComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [clickTimeout, setClickTimeout] = useState(null);
   const [selectedPriority, setSelectedPriority] = useState(null);
+  const [isGoogleConnected, setIsGoogleConnected] = useState(false);
 
   const mergedEvents = [...tasks, ...calendarEvents];
 
   const filteredEvents = selectedPriority
-    ? mergedEvents.filter(
-        (event) => event.resource?.priority === selectedPriority,
-      )
+    ? mergedEvents.filter((event) => event.resource?.priority === selectedPriority)
     : mergedEvents;
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       setIsLoading(true);
       try {
-        const startOfMonth = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          1,
-        );
-        const endOfMonth = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth() + 1,
-          0,
-        );
+        const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+        const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
         const items = await getTasksForMonth(startOfMonth, endOfMonth, token);
+
+        const statusRes = await fetch("http://localhost:8000/api/google-calendar/status", {
+          credentials: "include",
+        });
+
+        const statusData = await statusRes.json();
+        setIsGoogleConnected(statusData.connected);
+
+        let googleEvents = [];
+        if (statusData.connected) {
+          googleEvents = await getGoogleCalendarEvents();
+        }
 
         const taskList = [];
         const eventList = [];
@@ -182,8 +226,20 @@ const CalendarComponent = () => {
           }
         });
 
+        const googleFormatted = googleEvents.map((gEvent) => ({
+          id: gEvent.id,
+          title: gEvent.title,
+          start: new Date(gEvent.start),
+          end: new Date(gEvent.end),
+          resource: {
+            label: "Google Event",
+            description: gEvent.description || "",
+            priority: null,
+          },
+        }));
+
         setTasks(taskList);
-        setCalendarEvents(eventList);
+        setCalendarEvents([...eventList, ...googleFormatted]);
 
         const dailyItems = await getTasksAndEventsByEndDate(currentDate, token);
         setDailyTasks(
@@ -193,7 +249,7 @@ const CalendarComponent = () => {
             start: new Date(item.startDate),
             end: new Date(item.endDate),
             resource: item,
-          })),
+          }))
         );
       } catch (error) {
         console.error("Error fetching tasks/events:", error);
@@ -228,7 +284,7 @@ const CalendarComponent = () => {
 
   const handleViewChange = (view) => {
     setView(view);
-  };  
+  };
 
   const handleTaskAdded = (newTask) => {
     const newEvent = {
@@ -260,6 +316,7 @@ const CalendarComponent = () => {
           onSelectPriority={setSelectedPriority}
         />
       </div>
+
       <div className="calendar-container">
         <Calendar
           components={{
@@ -270,6 +327,7 @@ const CalendarComponent = () => {
                 setCurrentDate={setCurrentDate}
                 setTaskDate={setTaskDate}
                 onView={handleViewChange}
+                isGoogleConnected={isGoogleConnected}
               />
             ),
             month: { event: MonthEvent },
