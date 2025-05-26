@@ -340,7 +340,7 @@ const CalendarComponent = () => {
           views={["month", "week", "day"]}
           selectable
           onSelectSlot={handleSelectSlot}
-          onSelectEvent={(event) => {
+          onSelectEvent={() => {
             if (view !== "day") setView("day");
           }}
           onNavigate={(date) => {

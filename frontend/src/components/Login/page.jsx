@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import style from './login.module.css';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
@@ -96,6 +97,10 @@ const Login = ({ onLoginSuccess }) => {
       </form>
     </div>
   );
+};
+
+Login.propTypes = {
+  onLoginSuccess: PropTypes.func,
 };
 
 export default Login;
