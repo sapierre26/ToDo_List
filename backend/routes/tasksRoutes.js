@@ -128,7 +128,9 @@ router.put("/", async (req, res) => {
       userId: req.user.id,
     });
     await newTask.save();
-    res.send({ msg: `${newTask?.title || newTask?._id || "Task"} added to the taskDB` });
+    res.send({
+      msg: `${newTask?.title || newTask?._id || "Task"} added to the taskDB`,
+    });
   } catch (error) {
     let errorMessage;
     if (error instanceof Error) {

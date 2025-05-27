@@ -127,4 +127,4 @@ export const getGoogleTasks = async () => {
   });
   if (!res.ok) throw new Error("Failed to fetch Google Tasks");
   return res.json();
-}
+};

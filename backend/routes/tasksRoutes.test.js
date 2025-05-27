@@ -76,7 +76,9 @@ describe("Task Routes", () => {
     const response = await request(app).post("/api/tasks").send(newTask);
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ msg: `${newTask.title} added to the taskDB` });
+    expect(response.body).toEqual({
+      msg: `${newTask.title} added to the taskDB`,
+    });
   });
 
   // Test for PUT update a task (In your code, this is actually creating a new task, so it's tested as POST)
@@ -192,7 +194,7 @@ describe("Task Routes", () => {
     const response = await request(app).get("/api/tasks");
 
     expect(response.status).toBe(500);
-    expect(response.body).toEqual({message: "Database error" });
+    expect(response.body).toEqual({ message: "Database error" });
   });
 
   // Test for POST error when creating a task

@@ -132,7 +132,9 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
       />
 
       <div className={style.optionContainer}>
-        <span className={style.optionLabel} htmlFor="priority">Priority:</span>
+        <span className={style.optionLabel} htmlFor="priority">
+          Priority:
+        </span>
         <select
           id="priority"
           name="priority"

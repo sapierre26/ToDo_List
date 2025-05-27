@@ -14,16 +14,14 @@ function makeNewConnection(url) {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  
+
   let DBname;
   if (url.startsWith("mongodb://")) {
     DBname = url.split("/").pop().split("?")[0];
-  }
-  else {
+  } else {
     DBname = url.substring(url.lastIndexOf("net/") + 4, url.lastIndexOf("?"));
   }
 
-  
   if (process.env.NODE_ENV !== "test") {
     connection.on("connected", () => {
       console.log(`MongoDB :: connected :: ${DBname}`);

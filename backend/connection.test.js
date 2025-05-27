@@ -6,7 +6,6 @@ jest.mock("mongoose"); // Mock mongoose module
 dotenv.config();
 
 describe("makeNewConnection", () => {
-  
   let mockConnection;
   let originalExit;
   let originalEnv;
@@ -22,7 +21,7 @@ describe("makeNewConnection", () => {
     mongoose.createConnection.mockReturnValue(mockConnection);
     mongoose.connection = {
       on: jest.fn(),
-      emit: jest.fn(), 
+      emit: jest.fn(),
     };
     // Mock console methods - Sanaia added
     jest.spyOn(console, "log").mockImplementation(() => {});
@@ -40,8 +39,6 @@ describe("makeNewConnection", () => {
     process.env = originalEnv;
   });
 
-
-
   it("should create a new connection with the correct URL", () => {
     const dbUrl = "mongodb://localhost:27017/testDB";
 
@@ -55,8 +52,6 @@ describe("makeNewConnection", () => {
     });
     expect(connection).toBe(mockConnection); // Check if the returned connection is the mock connection
   });
-
-
 
   it("should log an error and terminate if MONGO_URI is not set", () => {
     const originalExit = process.exit; // Preserve original process.exit
@@ -73,8 +68,6 @@ describe("makeNewConnection", () => {
     process.exit = originalExit; // Restore process.exit after the test
   });
 
-
-
   it("should log the connection success message", () => {
     process.env.NODE_ENV = "development";
 
@@ -89,8 +82,6 @@ describe("makeNewConnection", () => {
     expect(console.log).toHaveBeenCalledWith("MongoDB :: connected :: testDB");
   });
 
-
-
   it("should log the disconnection message", () => {
     process.env.NODE_ENV = "development";
     const dbUrl = "mongodb://localhost:27017/testDB";
@@ -103,8 +94,6 @@ describe("makeNewConnection", () => {
 
     expect(console.log).toHaveBeenCalledWith("MongoDB :: disconnected");
   });
-
-
 
   it("should handle mongoose errors", () => {
     process.env.NODE_ENV = "development";

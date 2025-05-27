@@ -1,7 +1,7 @@
 // import mongoose, { Schema } from "mongoose";
 const mongoose = require("mongoose");
 const { makeNewConnection } = require("../connection");
-const tasksConnection = makeNewConnection(process.env.tasksDB)
+const tasksConnection = makeNewConnection(process.env.tasksDB);
 const taskSchema = new mongoose.Schema(
   {
     title: String,
