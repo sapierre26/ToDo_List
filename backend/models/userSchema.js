@@ -1,6 +1,6 @@
 // import mongoose, { Schema } from "mongoose";
 const mongoose = require("mongoose");
-const { userConnection } = require("../connection");
+const { makeNewConnection} = require("../connection");
 
 // Define and export User schema
 // export type User = {
@@ -10,6 +10,7 @@ const { userConnection } = require("../connection");
 // };
 
 // Can add more fields later if needed
+const userConnection = makeNewConnection(process.env.userDB)
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -20,7 +21,6 @@ const userSchema = new mongoose.Schema(
   },
   { collection: "Users" },
 );
-
 const User = userConnection.model("Users", userSchema);
 
 module.exports = User;

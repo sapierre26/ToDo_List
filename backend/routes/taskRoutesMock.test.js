@@ -2,7 +2,13 @@ const request = require("supertest");
 const express = require("express");
 const mockingoose = require("mockingoose");
 const Task = require("../models/taskSchema");
-const taskRoutes = require("./taskRoutes");
+
+jest.mock("../middleware/auth.js", () => (req, res, next) => {
+  req.user = { id: "mockUserId" }; // Simulate a logged in user
+  next();
+});
+
+const taskRoutes = require("./tasksRoutes");
 
 const app = express();
 app.use(express.json());

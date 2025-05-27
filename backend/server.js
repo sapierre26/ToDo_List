@@ -14,9 +14,9 @@ const corsOptions = {
 };
 
 require("dotenv").config();
-
-const app = express();
 connectDB();
+const app = express();
+
 
 app.use(cors());
 app.use(express.json());
@@ -24,7 +24,7 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.TOKEN_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },

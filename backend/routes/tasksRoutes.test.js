@@ -1,11 +1,21 @@
 const request = require("supertest");
 const express = require("express");
-const taskRouter = require("../routes/tasksRoutes"); // Adjust the path to your router
+const taskRouter = require("./tasksRoutes.js"); // Adjust the path to your router
 const mongoose = require("mongoose");
 const Task = require("../models/taskSchema");
 require("dotenv").config();
 
 // Mock Task model methods
+beforeAll(() => {
+  jest.spyOn(console, "log").mockImplementation(() => {});
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
+afterAll(() => {
+  console.log.mockRestore();
+  console.error.mockRestore();
+});
+
 jest.mock("../models/taskSchema");
 jest.mock("../middleware/auth.js", () => (req, res, next) => {
   req.user = { id: "mockUserId" }; // simulate a logged-in user
@@ -58,12 +68,15 @@ describe("Task Routes", () => {
       description: "Test task description",
     };
 
-    Task.prototype.save.mockResolvedValueOnce(newTask);
+    Task.mockImplementation(() => ({
+      title: "Task 3",
+      save: jest.fn().mockResolvedValueOnce(),
+    }));
 
     const response = await request(app).post("/api/tasks").send(newTask);
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ msg: `${newTask} added to the taskDB` });
+    expect(response.body).toEqual({ msg: `${newTask.title} added to the taskDB` });
   });
 
   // Test for PUT update a task (In your code, this is actually creating a new task, so it's tested as POST)
@@ -77,13 +90,16 @@ describe("Task Routes", () => {
       description: "Updated description",
     };
 
-    Task.prototype.save.mockResolvedValueOnce(updatedTask);
+    Task.mockImplementation(() => ({
+      title: "Updated Task",
+      save: jest.fn().mockResolvedValueOnce(),
+    }));
 
     const response = await request(app).put("/api/tasks").send(updatedTask);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
-      msg: `${updatedTask} added to the taskDB`,
+      msg: `${updatedTask.title} added to the taskDB`,
     });
   });
 
@@ -170,18 +186,20 @@ describe("Task Routes", () => {
   });
 
   // Test for API error when Task.find fails
-  it("should return 400 if there is an error with task retrieval", async () => {
+  it("should return 500 if there is an error with task retrieval", async () => {
     Task.find.mockRejectedValueOnce(new Error("Database error"));
 
     const response = await request(app).get("/api/tasks");
 
-    expect(response.status).toBe(400);
-    expect(response.body).toEqual({ error: "Database error" });
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({message: "Database error" });
   });
 
   // Test for POST error when creating a task
   it("should return 400 if there is an error creating a task", async () => {
-    Task.prototype.save.mockRejectedValueOnce(new Error("Database error"));
+    Task.mockImplementation(() => ({
+      save: jest.fn().mockRejectedValueOnce(new Error("Database error")),
+    }));
 
     const response = await request(app).post("/api/tasks").send({
       _id: "3",
