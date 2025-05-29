@@ -1,6 +1,4 @@
-// import LeftSide from './LeftSide';
 import TodoList from "../todolist/page";
-// import RightSide from './RightSide';
 import CalendarComponent from "../Calendar/page";
 
 const SplitScreen = () => {
