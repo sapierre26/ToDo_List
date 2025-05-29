@@ -76,10 +76,13 @@ export const addTask = async (task, token) => {
   }
 };
 
-export const deleteTask = async (taskId) => {
+export const deleteTask = async (taskId, token) => {
   try {
-    const res = await fetch(`${tasksURL}/${taskId}`, {
+    const res = await fetch(`http://localhost:8000/api/tasks/${taskId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
     });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return true;
@@ -89,7 +92,7 @@ export const deleteTask = async (taskId) => {
   }
 };
 
-export const updateTask = async (taskId, updates) => {
+export const updateTask = async (taskId, updates, token) => {
   try {
     const res = await fetch(`${tasksURL}/${taskId}`, {
       method: "PUT",

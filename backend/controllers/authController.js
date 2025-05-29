@@ -70,7 +70,7 @@ const login = async (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("username email name image");
+    const user = await User.findById(req.user.id).select("username email name image theme font");
     if (!user) return res.status(404).json({ msg: "User not found" });
 
     let base64Image = null;
@@ -83,12 +83,15 @@ const getProfile = async (req, res) => {
       name: user.name,
       email: user.email,
       image: base64Image,
+      theme: user.theme || "light",
+      font: user.font || "Arial",
     });
   } catch (err) {
     console.error("Profile fetch error:", err);
     res.status(500).json({ msg: "Server error" });
   }
 };
+
 
 const updateProfileImage = async (req, res) => {
   if (!req.file) return res.status(400).json({ msg: "No file uploaded" });
@@ -117,8 +120,6 @@ const updateProfileImage = async (req, res) => {
     res.status(500).json({ msg: "Failed to save image" });
   }
 };
-
-
 
 const updateProfile = async (req, res) => {
   const { username, name, email, theme, font } = req.body;

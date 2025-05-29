@@ -43,4 +43,42 @@ router.delete("/delete", auth, async (req, res) => {
   }
 });
 
+router.put("/settings", auth, async (req, res) => {
+  const { theme, font } = req.body;
+  if (!theme || !font) {
+    return res.status(400).json({ msg: "Theme and font are required." });
+  }
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { theme, font },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    res.status(200).json({
+      msg: "Settings updated successfully",
+      theme: updatedUser.theme,
+      font: updatedUser.font,
+    });
+  } catch (err) {
+    console.error("Error updating settings:", err);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
+router.get("/settings", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.json({
+      theme: user.theme || "light",
+      font: user.font || "Arial",
+    });
+  } catch (err) {
+    console.error("Error fetching settings:", err);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
 module.exports = router;

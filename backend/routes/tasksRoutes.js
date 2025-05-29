@@ -143,22 +143,32 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.delete("/:_id", async (req, res) => {
+const mongoose = require("mongoose");
+
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
+  const userId = req.user.id;
 
+  // Validate ID format
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid task ID format" });
+  }
   try {
-    const task = await Task.findByIdAndDelete(id);
-
+    const task = await Task.findById(id);
     if (!task) {
-      return res.status(404).json({ message: "Task not found" });
+      return res.status(404).json({ message: "Task not found. It may have already been deleted." });
     }
-
-    return res.status(200).json({ message: "Task deleted successfully" });
+    if (task.userId.toString() !== userId) {
+      return res.status(403).json({ message: "You are not authorized to delete this task." });
+    }
+    await task.deleteOne();
+    return res.status(200).json({ message: "Task deleted successfully." });
   } catch (error) {
     console.error("Error deleting task:", error);
-    return res.status(500).json({ message: "Error deleting task" });
+    return res.status(500).json({ message: "Server error while attempting to delete task." });
   }
 });
+
 
 // router.get("/date/:date", async (req, res) => {
 //   try {

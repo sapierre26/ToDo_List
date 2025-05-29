@@ -6,6 +6,7 @@ const Settings = () => {
   const [font, setFont] = useState("Arial");
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const themeColors = {
     "gold-blue": ["#D2B48C", "#50708F", "#B8B8C4", "#CEA98A", "#AEA98B"],
@@ -45,7 +46,7 @@ const Settings = () => {
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:8000/api/auth/profile", {
+      const res = await fetch("http://localhost:8000/api/auth/settings", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -92,43 +93,53 @@ const Settings = () => {
         }
       } catch (err) {
         console.error("Failed to load user settings", err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchSettings();
   }, []);
+  if (isLoading) return null; // You can replace this with a spinner if you'd like
 
   return (
-    <div className={style.settingsContainer}>
-      <div className={style.preferencesSection}>
-        <div className={style.selectGroup}>
-          <label htmlFor="theme">Theme</label>
-          <select id="theme" value={theme} onChange={handleThemeChange}>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="gold-blue">Gold-Blue</option>
-            <option value="vintage">Vintage</option>
-            <option value="pastel-purple">Pastel Purple</option>
-            <option value="forest-green">Forest Green</option>
-          </select>
-        </div>
-
-        <div className={style.selectGroup}>
-          <label htmlFor="font">Font</label>
-          <select id="font" value={font} onChange={handleFontChange}>
-            <option value="Arial">Arial</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Georgia">Georgia</option>
-            <option value="monospace">Monospace</option>
-          </select>
-        </div>
+  <div className={style.settingsContainer}>
+    <div className={style.preferencesSection}>
+      <div className={style.selectGroup}>
+        <label htmlFor="theme">Theme</label>
+        <select id="theme" value={theme} onChange={handleThemeChange}>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="gold-blue">Gold-Blue</option>
+          <option value="vintage">Vintage</option>
+          <option value="pastel-purple">Pastel Purple</option>
+          <option value="forest-green">Forest Green</option>
+        </select>
       </div>
 
-      <div className={style.settingsActions}>
-        <button onClick={handleSaveSettings}>Save Settings</button>
+      <div className={style.selectGroup}>
+        <label htmlFor="font">Font</label>
+        <select id="font" value={font} onChange={handleFontChange}>
+          <option value="Arial">Arial</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Georgia">Georgia</option>
+          <option value="monospace">Monospace</option>
+        </select>
       </div>
     </div>
-  );
-};
+
+    <div className={style.settingsActions}>
+      <button onClick={handleSaveSettings}>Save Settings</button>
+      
+      {message && (
+        <div className={success ? style.successMessage : style.errorMessage}>
+          {message}
+        </div>
+      )}
+    </div>
+  </div>
+);
+}
+
 
 export default Settings;
