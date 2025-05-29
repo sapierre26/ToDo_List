@@ -93,3 +93,22 @@ select {
   padding: 0.5rem;
   border-radius: 4px;
 }
+
+.successMessage {
+  color: green;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+.errorMessage {
+  color: red;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+.settingsActions {
+  display: flex;
+  flex-direction: column; /* This stacks children vertically */
+  align-items: flex-start; /* Optional: aligns left, change to center if needed */
+  gap: 10px; /* Optional: adds spacing between button and message */
+}
