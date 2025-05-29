@@ -1,4 +1,178 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { format, parse, startOfWeek, getDay, isSameDay } from "date-fns";
+import enUS from "date-fns/locale/en-US";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import Datepicker from "react-datepicker";
+import AddTask from "../todolist/addTask";
+import {
+  getTasksAndEventsByEndDate,
+  getTasksForMonth,
+  getGoogleCalendarEvents,
+  getGoogleTasks,
+} from "../../api/tasks";
+import "./calendar.css";
+import PriorityFilterSidebar from "../PriorityFilterSidebar/page.jsx";
+import PropTypes from "prop-types";
+
+const locales = { "en-US": enUS };
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 0 }),
+  getDay,
+  locales,
+});
+
+const MonthEvent = ({ event }) => (
+  <div className="rbc-month-event-content">
+    <div className="event-title">{event.title}</div>
+  </div>
+);
+
+MonthEvent.propTypes = {
+  event: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+const MyCustomToolbar = ({
+  label,
+  onNavigate,
+  onView,
+  currentDate,
+  setCurrentDate,
+  setTaskDate,
+  isGoogleConnected,
+}) => {
+  useEffect(() => {
+    const parsedMonthYear = parse(label, "MMMM yyyy", new Date());
+
+    if (!isNaN(parsedMonthYear.getTime())) {
+      const currentDay = currentDate.getDate();
+      const targetDate = new Date(
+        parsedMonthYear.getFullYear(),
+        parsedMonthYear.getMonth(),
+        currentDay,
+      );
+      const lastDayOfMonth = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth() + 1,
+        0,
+      ).getDate();
+
+      if (currentDay > lastDayOfMonth) {
+        targetDate.setDate(lastDayOfMonth);
+      }
+
+      if (targetDate.toDateString() !== currentDate.toDateString()) {
+        setCurrentDate(targetDate);
+      }
+    }
+  }, [label, currentDate, setCurrentDate]);
+
+  const handleDateChange = (date) => {
+    setCurrentDate(date);
+    setTaskDate(date);
+    onNavigate("DATE", date);
+  };
+
+  const handleTodayClick = () => {
+    const today = new Date();
+    setCurrentDate(today);
+    setTaskDate(today);
+    onNavigate("TODAY", today);
+  };
+
+  const handleNavigate = (action) => {
+    onNavigate(action);
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        paddingBottom: "1rem",
+        gap: "10px",
+        flexWrap: "wrap", // optional, to wrap on small screens
+      }}
+    >
+      <div className="calendar-nav" style={{ display: "flex", gap: "8px" }}>
+        <button onClick={() => handleNavigate("PREV")}>←</button>
+        <button onClick={handleTodayClick}>Today</button>
+        <button onClick={() => handleNavigate("NEXT")}>→</button>
+      </div>
+
+      <div className="rbc-toolbar-label" style={{ flexShrink: 0 }}>
+        <Datepicker
+          selected={currentDate}
+          onChange={handleDateChange}
+          dateFormat="MMMM dd, yyyy"
+          tabIndex={1}
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+          onKeyDown={(e) => e.preventDefault()}
+          onFocus={(e) => e.target.blur()}
+          className="custom-datepicker"
+        />
+      </div>
+      {!isGoogleConnected && (
+        <div style={{ margin: "0.5rem 0" }}>
+          <button
+            onClick={() => {
+              window.location.href =
+                "http://localhost:8000/api/google-calendar/auth";
+            }}
+            className="google-calendar-button"
+          >
+            Import
+          </button>
+        </div>
+      )}
+
+      <div className="calendar-view">
+        <button
+          onClick={() => {
+            onView("month");
+            onNavigate("DATE", currentDate);
+          }}
+        >
+          Month
+        </button>
+        <button
+          onClick={() => {
+            onView("week");
+            onNavigate("DATE", currentDate);
+          }}
+        >
+          Week
+        </button>
+        <button
+          onClick={() => {
+            onView("day");
+            onNavigate("DATE", currentDate);
+          }}
+        >
+          Day
+        </button>
+      </div>
+    </div>
+  );
+};
+
+MyCustomToolbar.propTypes = {
+  label: PropTypes.string.isRequired,
+  onNavigate: PropTypes.func.isRequired,
+  onView: PropTypes.func.isRequired,
+  currentDate: PropTypes.instanceOf(Date).isRequired,
+  setCurrentDate: PropTypes.func.isRequired,
+  setTaskDate: PropTypes.func.isRequired,
+  isGoogleConnected: PropTypes.bool.isRequired,
+};
 
 const RightSide = () => {
   const [tasks, setTasks] = useState([]);
