@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 const RightSide = () => {
   const [tasks, setTasks] = useState([]);
