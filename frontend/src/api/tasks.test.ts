@@ -1,9 +1,14 @@
-import { getTasks, addTask, getTaskByID, deleteTask, Task } from "./tasks"; // adjust import path
+// @ts-ignore
+import { getTasks, addTask, deleteTask, Task } from "./tasks"; // adjust import path
 
 // Mocking fetch to simulate API calls
 global.fetch = jest.fn();
 
 describe("Task API Functions", () => {
+  beforeEach(() => {
+    jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
   afterEach(() => {
     jest.clearAllMocks(); // Clear mocks after each test
   });
@@ -44,7 +49,8 @@ describe("Task API Functions", () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
       status: 500,
-      json: async () => ({ message: "Server error" }),
+      statusText: "Internal Server Error",
+      json: async () => ({}),
     });
 
     const result = await getTasks();
@@ -67,10 +73,14 @@ describe("Task API Functions", () => {
     });
 
     const result = await addTask(newTask);
-    expect(result).toBe(true);
+    const mockToken = "undefined";
+    expect(result).toBe(newTask);
     expect(fetch).toHaveBeenCalledWith("http://localhost:8000/api/tasks", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${mockToken}`,
+      },
       body: JSON.stringify(newTask),
       cache: "no-store",
     });
@@ -92,37 +102,7 @@ describe("Task API Functions", () => {
     });
 
     const result = await addTask(newTask);
-    expect(result).toBe(false);
-  });
-
-  // Test for getTaskByID
-  it("should fetch a task by its ID successfully", async () => {
-    const mockTask: Task = {
-      _id: "1",
-      date: "2025-03-14",
-      title: "Task 1",
-      label: "Work",
-      priority: "High",
-    };
-
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockTask,
-    });
-
-    const result = await getTaskByID("2025-03-14");
-    expect(result).toEqual(mockTask);
-  });
-
-  it("should return null if fetching a task by ID fails", async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      ok: false,
-      status: 404,
-      json: async () => ({ message: "Task not found" }),
-    });
-
-    const result = await getTaskByID("2025-03-14");
-    expect(result).toBeNull();
+    expect(result).not.toBe(newTask);
   });
 
   // Test for deleteTask

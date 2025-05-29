@@ -9,6 +9,10 @@ require("dotenv").config();
 beforeAll(() => {
   jest.spyOn(console, "log").mockImplementation(() => {});
   jest.spyOn(console, "error").mockImplementation(() => {});
+  jest.mock("../connection", () => ({
+    userConnection: { model: jest.fn(() => ({})) },
+    tasksConnection: { model: jest.fn(() => ({})) },
+  }));
 });
 
 afterAll(() => {

@@ -4,7 +4,7 @@ const formatDate = (date) => {
   return date.toISOString().split("T")[0];
 };
 
-export const getTasks = async (token) => {
+const getTasks = async (token) => {
   try {
     const res = await fetch(tasksURL, {
       headers: {
@@ -19,7 +19,7 @@ export const getTasks = async (token) => {
   }
 };
 
-export const getTasksAndEventsByEndDate = async (date, token) => {
+const getTasksAndEventsByEndDate = async (date, token) => {
   try {
     const dateStr = formatDate(date);
     const res = await fetch(`${tasksURL}?date=${dateStr}`, {
@@ -36,7 +36,7 @@ export const getTasksAndEventsByEndDate = async (date, token) => {
   }
 };
 
-export const getTasksForMonth = async (startDate, endDate, token) => {
+const getTasksForMonth = async (startDate, endDate, token) => {
   try {
     const startStr = formatDate(startDate);
     const endStr = formatDate(endDate);
@@ -57,7 +57,7 @@ export const getTasksForMonth = async (startDate, endDate, token) => {
   }
 };
 
-export const addTask = async (task, token) => {
+const addTask = async (task, token) => {
   try {
     const res = await fetch(tasksURL, {
       method: "POST",
@@ -65,6 +65,7 @@ export const addTask = async (task, token) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      cache: "no-store",
       body: JSON.stringify(task),
     });
 
@@ -76,10 +77,12 @@ export const addTask = async (task, token) => {
   }
 };
 
-export const deleteTask = async (taskId) => {
+const deleteTask = async (taskId) => {
   try {
     const res = await fetch(`${tasksURL}/${taskId}`, {
       method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
     });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return true;
@@ -89,7 +92,7 @@ export const deleteTask = async (taskId) => {
   }
 };
 
-export const updateTask = async (taskId, updates) => {
+const updateTask = async (taskId, updates) => {
   try {
     const res = await fetch(`${tasksURL}/${taskId}`, {
       method: "PUT",
@@ -105,7 +108,7 @@ export const updateTask = async (taskId, updates) => {
   }
 };
 
-export const getGoogleCalendarEvents = async () => {
+const getGoogleCalendarEvents = async () => {
   try {
     const res = await fetch(
       "http://localhost:8000/api/google-calendar/events",
@@ -121,10 +124,21 @@ export const getGoogleCalendarEvents = async () => {
   }
 };
 
-export const getGoogleTasks = async () => {
+const getGoogleTasks = async () => {
   const res = await fetch("http://localhost:8000/api/google-calendar/tasks", {
     credentials: "include",
   });
   if (!res.ok) throw new Error("Failed to fetch Google Tasks");
   return res.json();
+};
+
+export {
+  getTasks,
+  getTasksAndEventsByEndDate,
+  getTasksForMonth,
+  addTask,
+  deleteTask,
+  updateTask,
+  getGoogleCalendarEvents,
+  getGoogleTasks,
 };

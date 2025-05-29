@@ -1,3 +1,4 @@
+import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Table from "./page";
 import "@testing-library/jest-dom";
@@ -34,7 +35,7 @@ describe("Table Component", () => {
     );
 
     // Check if the table headers are rendered correctly
-    expect(screen.getByText(/Task/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Task/i)[0]).toBeInTheDocument();
     expect(screen.getByText(/Priority/i)).toBeInTheDocument();
     expect(screen.getByText(/Due Date/i)).toBeInTheDocument();
     expect(screen.getByText(/Status/i)).toBeInTheDocument();
@@ -72,7 +73,7 @@ describe("Table Component", () => {
     );
 
     // Click on the "Complete" button for Task 1
-    fireEvent.click(screen.getByText(/Complete/i));
+    fireEvent.click(screen.getAllByText(/Complete/i)[0]);
 
     // Check if toggleStatus is called with the correct task ID
     expect(mockToggleStatus).toHaveBeenCalledWith(1);
@@ -94,13 +95,13 @@ describe("Table Component", () => {
     );
 
     // Click on the "Delete" button for Task 1
-    fireEvent.click(screen.getByText(/Delete/i));
+    fireEvent.click(screen.getAllByText(/Delete/i)[0]);
 
     // Check if deleteTask is called with the correct task ID
     expect(mockDeleteTask).toHaveBeenCalledWith(1);
 
     // Click on the "Delete" button for Task 2
-    fireEvent.click(screen.getByText(/Delete/i));
+    fireEvent.click(screen.getAllByText(/Delete/i)[1]);
 
     // Check if deleteTask is called with the correct task ID
     expect(mockDeleteTask).toHaveBeenCalledWith(2);

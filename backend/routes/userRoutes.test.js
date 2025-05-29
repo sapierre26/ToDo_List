@@ -12,6 +12,13 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 
 describe("User Routes", () => {
+  beforeAll(() => {
+    jest.mock("../connection", () => ({
+      userConnection: { model: jest.fn(() => ({})) },
+      tasksConnection: { model: jest.fn(() => ({})) },
+    }));
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

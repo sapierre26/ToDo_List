@@ -1,13 +1,15 @@
+// frontend/jest.config.js
 export default {
   transform: {
-    "^.+\\.jsx?$": "babel-jest",
+    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
   },
-  extensionsToTreatAsEsm: [".jsx", ".tsx"],
   testEnvironment: "jsdom",
+  setupFiles: ["<rootDir>/jest.setup.js"],
+  setupFilesAfterEnv: ["@testing-library/jest-dom"],
+  moduleFileExtensions: ["js", "jsx", "ts", "tsx", "json", "node"],
   moduleNameMapper: {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
-  preset: "ts-jest",
-  setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
-  moduleFileExtensions: ["js", "jsx", "ts", "tsx", "json", "node"],
+  extensionsToTreatAsEsm: [".jsx", ".tsx"], // optional, keep if using ESM
 };
+

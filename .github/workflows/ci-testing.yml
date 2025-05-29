@@ -16,4 +16,3 @@ jobs:
       - run: npm run -w backend lint
       - run: npm run -w frontend lint
       - run: npm run -w frontend build
-      

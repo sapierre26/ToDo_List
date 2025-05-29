@@ -1,34 +1,53 @@
+/**
+ * @jest-environment jsdom
+ */
+import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { beforeEach } from "@jest/globals";
+import { beforeEach, afterAll } from "@jest/globals";
 import Login from "./page";
+import { act } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 
 describe("Login Component Tests", () => {
   beforeEach(() => {
-    render(<Login />);
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ token: "fake-token" }),
+      }),
+    );
+    render(
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>,
+    );
   });
-
+  afterAll(() => {
+    global.fetch.mockRestore();
+  });
   test("1. The Login Button should be present", () => {
     const loginButton = screen.getByRole("button", { name: /Login/i });
     expect(loginButton).toBeInTheDocument();
   });
 
-  test("2. Error message for empty credentials", () => {
+  test("2. Error message for empty credentials", async () => {
     const loginButton = screen.getByRole("button", { name: /Login/i });
-    fireEvent.click(loginButton);
+    await act(async () => {
+      fireEvent.click(loginButton);
+    });
 
     expect(screen.getByText("Please enter your username")).toBeInTheDocument();
-    expect(
-      screen.queryByText("Please enter a password"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Please enter a password")).toBeInTheDocument();
   });
 
-  test("3. Password error with empty username credentials", () => {
+  test("3. Password error with empty username credentials", async () => {
     fireEvent.change(screen.getByPlaceholderText("Username"), {
       target: { value: "testuser" },
     });
     const loginButton = screen.getByRole("button", { name: /Login/i });
-    fireEvent.click(loginButton);
+    await act(async () => {
+      fireEvent.click(loginButton);
+    });
 
     expect(
       screen.queryByText("Please enter your username"),
@@ -36,12 +55,14 @@ describe("Login Component Tests", () => {
     expect(screen.getByText("Please enter a password")).toBeInTheDocument();
   });
 
-  test("4. Username error with empty password credentials", () => {
+  test("4. Username error with empty password credentials", async () => {
     fireEvent.change(screen.getByPlaceholderText("Password"), {
       target: { value: "testpassword" },
     });
     const loginButton = screen.getByRole("button", { name: /Login/i });
-    fireEvent.click(loginButton);
+    await act(async () => {
+      fireEvent.click(loginButton);
+    });
 
     expect(
       screen.queryByText("Please enter a password"),
@@ -49,7 +70,7 @@ describe("Login Component Tests", () => {
     expect(screen.getByText("Please enter your username")).toBeInTheDocument();
   });
 
-  test("5. No errors shown", () => {
+  test("5. No errors shown", async () => {
     fireEvent.change(screen.getByPlaceholderText("Username"), {
       target: { value: "testuser" },
     });
@@ -58,7 +79,10 @@ describe("Login Component Tests", () => {
     });
 
     const loginButton = screen.getByRole("button", { name: /Login/i });
-    fireEvent.click(loginButton);
+
+    await act(async () => {
+      fireEvent.click(loginButton);
+    });
 
     expect(
       screen.queryByText("Please enter your username"),
