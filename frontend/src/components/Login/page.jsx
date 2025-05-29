@@ -55,7 +55,7 @@ const Login = ({ onLoginSuccess }) => {
       }
 
       if (onLoginSuccess) onLoginSuccess();
-      navigate("/todolist");
+      navigate("/SplitScreen");
     } catch (err) {
       setErrorMessage(err.message);
       console.error("Error during login:", err.message);
