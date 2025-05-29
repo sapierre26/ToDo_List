@@ -179,22 +179,10 @@ const RightSide = () => {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState("month");
-  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
-  const [taskDate, setTaskDate] = useState(new Date());
-  const [dailyTasks, setDailyTasks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [clickTimeout, setClickTimeout] = useState(null);
-  const [selectedPriority, setSelectedPriority] = useState(null);
   const [isGoogleConnected, setIsGoogleConnected] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
 
   const mergedEvents = [...tasks, ...calendarEvents];
-
-  const filteredEvents = selectedPriority
-    ? mergedEvents.filter(
-        (event) => event.resource?.priority === selectedPriority,
-      )
-    : mergedEvents;
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -326,62 +314,15 @@ const RightSide = () => {
     fetchTasks();
   }, [currentDate, view]);
 
-  const handleDateClick = (date) => {
-    setCurrentDate(date);
-    setIsAddTaskModalOpen(false);
-  };
-
-  const handleSelectSlot = ({ start }) => {
-    if (clickTimeout) {
-      clearTimeout(clickTimeout);
-      setClickTimeout(null);
-      setTaskDate(start);
-      setIsAddTaskModalOpen(true);
-      setCurrentDate(start);
-    } else {
-      const timeout = setTimeout(() => {
-        handleDateClick(start);
-        setClickTimeout(null);
-      }, 200);
-      setClickTimeout(timeout);
-    }
-  };
 
   const handleViewChange = (view) => {
     setView(view);
   };
 
-  const handleTaskAdded = (newTask) => {
-    const newEvent = {
-      id: newTask._id,
-      title: newTask.title,
-      start: new Date(newTask.startDate),
-      end: new Date(newTask.endDate),
-      resource: newTask,
-    };
-
-    if (newTask.label === "Event") {
-      setCalendarEvents((prev) => [...prev, newEvent]);
-    } else {
-      setTasks((prev) => [...prev, newEvent]);
-    }
-
-    if (isSameDay(new Date(newTask.startDate), currentDate)) {
-      setDailyTasks((prev) => [...prev, newEvent]);
-    }
-
-    setIsAddTaskModalOpen(false);
-  };
 
   return (
     <div className="calendar-page-container">
-      <div className="priority-container">
-        <PriorityFilterSidebar
-          selectedPriority={selectedPriority}
-          onSelectPriority={setSelectedPriority}
-        />
-      </div>
-
+      
       <div className="calendar-container">
         <Calendar
           components={{
@@ -422,67 +363,6 @@ const RightSide = () => {
             };
           }}
         />
-      </div>
-
-      <div className="side-panel">
-        {isAddTaskModalOpen ? (
-          <div className="add-task-container">
-            <AddTask
-              taskDate={taskDate}
-              onTaskAdded={handleTaskAdded}
-              onClose={() => setIsAddTaskModalOpen(false)}
-            />
-          </div>
-        ) : (
-          <div className="tasks-container">
-            <h3>Tasks for {format(currentDate, "MMMM dd, yyyy")}</h3>
-            {isLoading ? (
-              <p>Loading tasks...</p>
-            ) : dailyTasks.length > 0 ? (
-              <ul className="task-list">
-                {dailyTasks.map((event) => {
-                  const taskData = event.resource || {};
-                  const isEvent = taskData.label === "Event";
-
-                  return (
-                    <li
-                      key={event.id}
-                      className={`task-item ${taskData.label?.toLowerCase() || "task"}`}
-                    >
-                      <div className="task-content">
-                        <div className="task-meta">
-                          <span className="task-label">
-                            {taskData.label || (isEvent ? "Event" : "Task")}
-                          </span>
-                          {!isEvent && (
-                            <span
-                              className={`task-priority ${taskData.priority?.toLowerCase() || "medium"}`}
-                            >
-                              {taskData.priority || "Medium"}
-                            </span>
-                          )}
-                          <span className="task-time">
-                            {isEvent
-                              ? `${format(event.start, "h:mm a")} - ${format(event.end, "h:mm a")}`
-                              : `${format(event.end, "h:mm a")}`}
-                          </span>
-                        </div>
-                        <p className="task-title">{event.title}</p>
-                        {taskData.description && (
-                          <p className="task-description">
-                            {taskData.description}
-                          </p>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            ) : (
-              <p className="no-tasks">No tasks for this date</p>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );
