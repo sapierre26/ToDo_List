@@ -1,0 +1,95 @@
+.settingsContainer {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.preferencesSection {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.selectGroup label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.selectGroup select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  min-width: 180px;
+}
+
+.settingsActions {
+  display: flex;
+  justify-content: center;
+}
+
+.settingsActions button {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.settingsActions button:hover {
+  background-color: #45a049;
+}
+
+:root {
+  /* Light theme base (your current UI) */
+  --color-1: #ffffff;   /* background */
+  --color-2: #f0f0f0;   /* surface / card */
+  --color-3: #cccccc;   /* borders / secondary elements */
+  --color-4: #999999;   /* muted text */
+  --color-5: #333333;   /* primary text */
+  --font: Arial;
+}
+
+/* Global styles using variables */
+body {
+  background-color: var(--color-1);
+  color: var(--color-5);
+  font-family: var(--font);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button {
+  background-color: var(--color-2);
+  color: var(--color-5);
+  border: 1px solid var(--color-3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+input,
+select {
+  background-color: var(--color-2);
+  color: var(--color-5);
+  border: 1px solid var(--color-3);
+  padding: 0.5rem;
+  border-radius: 4px;
+}

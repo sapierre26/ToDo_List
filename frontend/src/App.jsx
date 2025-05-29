@@ -70,7 +70,7 @@ function App() {
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
     setIsAuthenticated(false);
-    Navigate("/login");
+    navigate("/login");
   };
 
   return (
