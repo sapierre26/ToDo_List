@@ -22,7 +22,7 @@ const SplitScreen = () => {
         <TodoList />
       </div>
       <div style={{ flex: 1, overflowY: "auto", backgroundColor: "#ffffff" }}>
-        <RightSide />
+        <CalendarComponent />
       </div>
     </div>
   );
