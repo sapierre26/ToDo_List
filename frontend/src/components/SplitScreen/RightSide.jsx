@@ -91,48 +91,77 @@ const MyCustomToolbar = ({
   };
 
   return (
-  <div className="calendar-container" style={{ height: "100vh" }}>
-    <Calendar
-      components={{
-        toolbar: (props) => (
-          <MyCustomToolbar
-            {...props}
-            currentDate={currentDate}
-            setCurrentDate={setCurrentDate}
-            setTaskDate={setTaskDate}
-            onView={handleViewChange}
-            isGoogleConnected={isGoogleConnected}
-          />
-        ),
-        month: { event: MonthEvent },
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        paddingBottom: "1rem",
+        gap: "10px",
+        flexWrap: "wrap", // optional, to wrap on small screens
       }}
-      localizer={localizer}
-      events={filteredEvents}
-      startAccessor="start"
-      endAccessor="end"
-      view={view}
-      views={["month", "week", "day"]}
-      selectable
-      onSelectSlot={handleSelectSlot}
-      onSelectEvent={() => {
-        if (view !== "day") setView("day");
-      }}
-      onNavigate={(date) => {
-        setCurrentDate(date);
-      }}
-      onView={handleViewChange}
-      style={{ height: "calc(100vh - 100px)", margin: "10px" }}
-      eventPropGetter={(event) => {
-        const isEvent = event.resource?.label === "Event";
-        return {
-          className: isEvent
-            ? "rbc-event-event"
-            : `rbc-event-${event.resource?.priority?.toLowerCase() || "medium"}`,
-        };
-      }}
-    />
-  </div>
-);
+    >
+      <div className="calendar-nav" style={{ display: "flex", gap: "8px" }}>
+        <button onClick={() => handleNavigate("PREV")}>←</button>
+        <button onClick={handleTodayClick}>Today</button>
+        <button onClick={() => handleNavigate("NEXT")}>→</button>
+      </div>
+
+      <div className="rbc-toolbar-label" style={{ flexShrink: 0 }}>
+        <Datepicker
+          selected={currentDate}
+          onChange={handleDateChange}
+          dateFormat="MMMM dd, yyyy"
+          tabIndex={1}
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+          onKeyDown={(e) => e.preventDefault()}
+          onFocus={(e) => e.target.blur()}
+          className="custom-datepicker"
+        />
+      </div>
+      {!isGoogleConnected && (
+        <div style={{ margin: "0.5rem 0" }}>
+          <button
+            onClick={() => {
+              window.location.href =
+                "http://localhost:8000/api/google-calendar/auth";
+            }}
+            className="google-calendar-button"
+          >
+            Import
+          </button>
+        </div>
+      )}
+
+      <div className="calendar-view">
+        <button
+          onClick={() => {
+            onView("month");
+            onNavigate("DATE", currentDate);
+          }}
+        >
+          Month
+        </button>
+        <button
+          onClick={() => {
+            onView("week");
+            onNavigate("DATE", currentDate);
+          }}
+        >
+          Week
+        </button>
+        <button
+          onClick={() => {
+            onView("day");
+            onNavigate("DATE", currentDate);
+          }}
+        >
+          Day
+        </button>
+      </div>
+    </div>
+  );
 };
 
 MyCustomToolbar.propTypes = {

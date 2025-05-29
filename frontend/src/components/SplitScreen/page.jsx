@@ -18,10 +18,12 @@ const SplitScreen = () => {
         boxSizing: "border-box",
       }}
     >
-      <div style={{ flex: 1, overflowY: "auto", backgroundColor: "#f0f0f0" }}>
+      <div style={{ flex: 1, overflowY: "auto", 
+        backgroundColor: "#f0f0f0", padding: "20px", boxSizing: "border-box" }}>
         <TodoList />
       </div>
-      <div style={{ flex: 1, overflowY: "auto", backgroundColor: "#ffffff" }}>
+      <div style={{ flex: 1, overflowY: "auto", 
+        backgroundColor: "#ffffff", padding: "15px", boxSizing: "border-box" }}>
         <RightSide />
       </div>
     </div>
