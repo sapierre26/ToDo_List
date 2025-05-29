@@ -62,3 +62,20 @@
   transition: background-color 0.3s ease; /* Smooth color transition */
   font-family: monospace;
 }
+
+:root {
+  --button-font-color: white;
+}
+
+button {
+  color: var(--button-font-color);
+}
+
+img {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.Settings > * {
+  margin-bottom: 0.5rem;
+}

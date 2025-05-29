@@ -1,32 +1,46 @@
-.UserProfile {
+.settingsContainer {
   padding: 2rem;
-  font-family: "Segoe UI", sans-serif;
-  background-color: #f8f9fa;
-  border-radius: 16px;
-  max-width: 700px;
-  margin: auto;
+  font-family: Arial, sans-serif;
 }
 
-.UserSettings {
+.settingsTop {
   display: flex;
   gap: 2rem;
   margin-bottom: 2rem;
 }
 
-.UserPic img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+.profileLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.UserChangeInfo input {
-  display: block;
-  width: 100%;
-  padding: 0.6rem;
+.profileImage {
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
+  object-fit: cover;
+  border: 2px solid #ccc;
   margin-bottom: 1rem;
-  border: 1px solid #bbb;
-  border-radius: 8px;
+}
+
+.profileRight label {
+  display: block;
+  margin-top: 1rem;
+}
+
+.profileRight input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.settingsActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.deleteButton {
+  color: red;
 }
