@@ -70,7 +70,9 @@ const login = async (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("username email name image theme font");
+    const user = await User.findById(req.user.id).select(
+      "username email name image theme font",
+    );
     if (!user) return res.status(404).json({ msg: "User not found" });
 
     let base64Image = null;
@@ -92,7 +94,6 @@ const getProfile = async (req, res) => {
   }
 };
 
-
 const updateProfileImage = async (req, res) => {
   if (!req.file) return res.status(400).json({ msg: "No file uploaded" });
 
@@ -105,7 +106,7 @@ const updateProfileImage = async (req, res) => {
           contentType: req.file.mimetype,
         },
       },
-      { new: true }
+      { new: true },
     );
 
     const base64 = updatedUser.image.data.toString("base64");
@@ -135,10 +136,10 @@ const updateProfile = async (req, res) => {
         username,
         name,
         email,
-        ...(theme && { theme }),  // only update if provided
-        ...(font && { font }),    // only update if provided
+        ...(theme && { theme }), // only update if provided
+        ...(font && { font }), // only update if provided
       },
-      { new: true }
+      { new: true },
     ).select("username name email theme font");
 
     if (!updatedUser) {
@@ -152,5 +153,10 @@ const updateProfile = async (req, res) => {
   }
 };
 
-
-module.exports = { register, login, getProfile, updateProfileImage, updateProfile, };
+module.exports = {
+  register,
+  login,
+  getProfile,
+  updateProfileImage,
+  updateProfile,
+};

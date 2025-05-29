@@ -35,8 +35,6 @@ router.post("/login", async (req, res) => {
       return res.status(401).send("incorrect password");
     }
 
-
-
     const token = jwt.sign(
       { username: user.username, id: user._id },
       process.env.TOKEN_SECRET_KEY,
