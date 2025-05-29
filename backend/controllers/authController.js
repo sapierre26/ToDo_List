@@ -70,9 +70,20 @@ const login = async (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("username email name");
+    const user = await User.findById(req.user.id).select("username email name image");
     if (!user) return res.status(404).json({ msg: "User not found" });
-    res.json(user);
+
+    let base64Image = null;
+    if (user.image && user.image.data) {
+      base64Image = `data:${user.image.contentType};base64,${user.image.data.toString("base64")}`;
+    }
+
+    res.json({
+      username: user.username,
+      name: user.name,
+      email: user.email,
+      image: base64Image,
+    });
   } catch (err) {
     console.error("Profile fetch error:", err);
     res.status(500).json({ msg: "Server error" });
@@ -80,22 +91,65 @@ const getProfile = async (req, res) => {
 };
 
 const updateProfileImage = async (req, res) => {
-  if (!req.file) return res.status(400).json({ msg: "no file uploaded" });
+  if (!req.file) return res.status(400).json({ msg: "No file uploaded" });
 
   try {
-    const imagePath = `/uploads/${req.file.filename}`;
-
-    const user = await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       req.user.id,
-      { image: imagePath },
-      { new: true },
-    ).select("username email name image");
+      {
+        image: {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+        },
+      },
+      { new: true }
+    );
 
-    res.json(user);
+    const base64 = updatedUser.image.data.toString("base64");
+    const mimeType = updatedUser.image.contentType;
+
+    res.json({
+      msg: "Image saved",
+      image: `data:${mimeType};base64,${base64}`,
+    });
   } catch (err) {
-    console.error("Image upload error:", err);
-    res.status(500).json({ msg: "failed to upload image" });
+    console.error("Image save error:", err);
+    res.status(500).json({ msg: "Failed to save image" });
   }
 };
 
-module.exports = { register, login, getProfile, updateProfileImage };
+
+
+const updateProfile = async (req, res) => {
+  const { username, name, email, theme, font } = req.body;
+
+  if (!username || !name || !email) {
+    return res.status(400).json({ msg: "All fields are required." });
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        username,
+        name,
+        email,
+        ...(theme && { theme }),  // only update if provided
+        ...(font && { font }),    // only update if provided
+      },
+      { new: true }
+    ).select("username name email theme font");
+
+    if (!updatedUser) {
+      return res.status(404).json({ msg: "User not found." });
+    }
+
+    res.json(updatedUser);
+  } catch (err) {
+    console.error("Profile update error:", err);
+    res.status(500).json({ msg: "Failed to update profile." });
+  }
+};
+
+
+module.exports = { register, login, getProfile, updateProfileImage, updateProfile, };

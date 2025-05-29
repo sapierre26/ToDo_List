@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import style from "./userProfile.module.css";
 
-const UserProfile = () => {
+const UserProfile = ({ onLogout }) => {
+  const navigate = useNavigate();
   const [userPic, setUserPic] = useState(null);
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  // Fetch user info on mount
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -22,36 +24,16 @@ const UserProfile = () => {
         if (!res.ok) throw new Error("Failed to fetch profile");
         const data = await res.json();
         setUsername(data.username);
-        setEmail(data.email);
         setName(data.name);
+        setEmail(data.email);
+        setUserPic(data.image);
       } catch (err) {
         console.error(err);
+        setMessage("Failed to load profile.");
       }
     };
-
     fetchProfile();
   }, [token]);
-
-  // Submit profile changes (optional: implement in backend)
-  const handleSave = async () => {
-    try {
-      const res = await fetch("http://localhost:8000/api/auth/profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ username, email, name }),
-      });
-
-      const result = await res.json();
-      if (res.ok) setMessage("Profile updated successfully!");
-      else setMessage(result.message || "Failed to update profile");
-    } catch (err) {
-      console.error(err);
-      setMessage("Something went wrong.");
-    }
-  };
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -71,71 +53,111 @@ const UserProfile = () => {
 
       const data = await res.json();
       if (res.ok) {
-        setUserPic(`http://localhost:8000${data.image}`); // updated image path
+        setUserPic(data.image);
         setMessage("Profile picture updated!");
       } else {
-        setMessage("Image upload failed.");
+        setMessage(data?.msg || "Image upload failed.");
       }
     } catch (err) {
-      console.error("Image upload error", err);
-      setMessage("Server error during upload.");
+      console.error("Upload error:", err);
+      setMessage("Upload failed.");
     }
   };
 
+  const handleSave = async () => {
+    const payload = { username, name, email };
+    try {
+      const res = await fetch("http://localhost:8000/api/auth/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        setMessage("Profile updated successfully!");
+      } else {
+        setMessage(result?.message || "Failed to update profile");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong.");
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete your account?");
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch("http://localhost:8000/api/auth/delete", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        alert("Account deleted.");
+        onLogout();
+        navigate("/login");
+      } else {
+        const result = await res.json();
+        setMessage(result?.msg || "Failed to delete account.");
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+      setMessage("Error deleting account.");
+    }
+  };
+
+  const handleLogout = () => {
+    onLogout();
+    navigate("/login");
+  };
+
   return (
-    <div className="UserProfile">
-      <h2>User Profile</h2>
-      <div style={{ display: "flex", gap: "2rem" }}>
-        <div>
+    <div className={style.settingsContainer}>
+      <h2>Settings</h2>
+
+      <div className={style.settingsTop}>
+        {/* Profile Picture */}
+        <div className={style.profileLeft}>
           {userPic ? (
-            <img
-              src={userPic}
-              alt="Profile"
-              style={{ height: "200px", width: "200px", objectFit: "cover" }}
-            />
+            <img src={userPic} alt="Profile" className={style.profileImage} />
           ) : (
-            <div
-              style={{
-                height: "200px",
-                width: "200px",
-                backgroundColor: "#eee",
-              }}
-            />
+            <div className={style.profilePlaceholder} />
           )}
-          <input type="file" onChange={handleImageUpload} />
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
         </div>
-        <div>
-          <label>Name:</label>
+
+        {/* User Info */}
+        <div className={style.profileRight}>
+          <label>Name</label>
           <input value={name} onChange={(e) => setName(e.target.value)} />
-          <br />
-          <label>Username:</label>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <br />
-          <label>Email:</label>
+
+          <label>Username</label>
+          <input value={username} onChange={(e) => setUsername(e.target.value)} />
+
+          <label>Email</label>
           <input value={email} onChange={(e) => setEmail(e.target.value)} />
-          <br />
-          <button onClick={handleSave}>Save Changes</button>
-          {message && <p>{message}</p>}
         </div>
       </div>
-      <div style={{ marginTop: "2rem" }}>
-        <button style={{ color: "red" }}>Delete My Account</button>
-        <button
-          onClick={() => (window.location.href = "mailto:support@example.com")}
-        >
+
+      {/* Action buttons */}
+      <div className={style.settingsActions}>
+        <button onClick={handleSave}>Save Settings</button>
+        <button className={style.deleteButton} onClick={handleDeleteAccount}>
+          Delete My Account
+        </button>
+        <button onClick={handleLogout}>Log Out</button>
+        <button onClick={() => window.location.href = "mailto:support@example.com"}>
           Contact Support
         </button>
-        <button
-          onClick={() => {
-            localStorage.removeItem("token");
-            window.location.href = "/login";
-          }}
-        >
-          Log Out
-        </button>
+        {message && <p style={{ marginTop: "1rem" }}>{message}</p>}
       </div>
     </div>
   );
