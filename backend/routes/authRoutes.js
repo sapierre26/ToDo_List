@@ -26,12 +26,7 @@ router.get("/profile", auth, getProfile);
 router.put("/profile", auth, updateProfile);
 
 // Use memory storage instead of writing to 'uploads/'
-router.put(
-  "/profile/image",
-  auth,
-  upload.single("image"),
-  updateProfileImage
-);
+router.put("/profile/image", auth, upload.single("image"), updateProfileImage);
 
 router.delete("/delete", auth, async (req, res) => {
   try {
@@ -52,7 +47,7 @@ router.put("/settings", auth, async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.user.id,
       { theme, font },
-      { new: true }
+      { new: true },
     );
     if (!updatedUser) {
       return res.status(404).json({ msg: "User not found" });

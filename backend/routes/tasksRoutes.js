@@ -37,7 +37,9 @@ router.post("/", async (req, res) => {
   try {
     const newTask = new Task({ ...req.body, userId: req.user.id });
     await newTask.save();
-    res.status(200).json({ msg: `${newTask.title} added to the taskDB`, task: newTask });
+    res
+      .status(200)
+      .json({ msg: `${newTask.title} added to the taskDB`, task: newTask });
   } catch (error) {
     console.error("Error creating task:", error);
     res.status(400).json({ error: error.message });
@@ -50,7 +52,9 @@ router.put("/:id", async (req, res) => {
     const taskId = req.params.id;
     const updates = req.body;
 
-    const updatedTask = await Task.findByIdAndUpdate(taskId, updates, { new: true });
+    const updatedTask = await Task.findByIdAndUpdate(taskId, updates, {
+      new: true,
+    });
 
     if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
