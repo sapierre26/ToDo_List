@@ -1,70 +1,166 @@
-import React, {useState, useEffect} from "react"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import style from "./userProfile.module.css";
 
-const UserProfile = () => {
-    //handle image upload
-    const [userPic, setUserPic] = useState(null);
-    const handleImageUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setUserPic(URL.createObjectURL(file));
-        }
+const UserProfile = ({ onLogout }) => {
+  const navigate = useNavigate();
+  const [userPic, setUserPic] = useState(null);
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/auth/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!res.ok) throw new Error("Failed to fetch profile");
+        const data = await res.json();
+        setUsername(data.username);
+        setName(data.name);
+        setEmail(data.email);
+        setUserPic(data.image);
+      } catch (err) {
+        console.error(err);
+        setMessage("Failed to load profile.");
+      }
+    };
+    fetchProfile();
+  }, [token]);
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const res = await fetch("http://localhost:8000/api/auth/profile/image", {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setUserPic(data.image);
+        setMessage("Profile picture updated!");
+      } else {
+        setMessage(data?.msg || "Image upload failed.");
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      setMessage("Upload failed.");
     }
+  };
 
-    //fetch username and password (let"s see how we can do this)
-    const [username, setUsername] = useState("");
-    
-    return (
-        <div className="UserProfile">
-            <h2>User Profile</h2>
-            <div className="UserSettings" style={{display: "flex"}}>
-                <div className="UserInfo">
-                    <div className="UserPic">
-                    {userPic ? 
-                    (<img 
-                        src={userPic} 
-                        alt="profilePicture"
-                        style={{
-                            height: "300px",
-                            width: "350px"
-                        }}
-                    />) : 
-                        (<span></span>)}
-                        <input 
-                            type="file"
-                            onChange={(handleImageUpload)}
-                            style={{
-                                width: "45%"
-                            }}
-                        />
-                    </div>
-                    <h2>
-                        <span className="Username">Name</span>
-                    </h2>
-                </div>
-                <div className="UserChangeInfo">
-                    
-                    <input
-                        type="text"
-                        placeholder="Username"
-                    />
-                    <input 
-                        type="password"
-                        placeholder="Password"
-                    />
-                    <input 
-                        type="email"
-                        placeholder="Email"
-                    />
-                </div>
-            </div>
-            <div className="support">
-                <button>Delete my account</button>
-                <button>Contact support via email</button>
-                <button>Log out</button>
-            </div>
-        </div> 
+  const handleSave = async () => {
+    const payload = { username, name, email };
+    try {
+      const res = await fetch("http://localhost:8000/api/auth/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
 
-    );
-}
+      const result = await res.json();
+      if (res.ok) {
+        setMessage("Profile updated successfully!");
+      } else {
+        setMessage(result?.message || "Failed to update profile");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong.");
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete your account?");
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch("http://localhost:8000/api/auth/delete", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        alert("Account deleted.");
+        onLogout();
+        navigate("/login");
+      } else {
+        const result = await res.json();
+        setMessage(result?.msg || "Failed to delete account.");
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+      setMessage("Error deleting account.");
+    }
+  };
+
+  const handleLogout = () => {
+    onLogout();
+    navigate("/login");
+  };
+
+  return (
+    <div className={style.settingsContainer}>
+      <h2>Settings</h2>
+
+      <div className={style.settingsTop}>
+        {/* Profile Picture */}
+        <div className={style.profileLeft}>
+          {userPic ? (
+            <img src={userPic} alt="Profile" className={style.profileImage} />
+          ) : (
+            <div className={style.profilePlaceholder} />
+          )}
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
+        </div>
+
+        {/* User Info */}
+        <div className={style.profileRight}>
+          <label>Name</label>
+          <input value={name} onChange={(e) => setName(e.target.value)} />
+
+          <label>Username</label>
+          <input value={username} onChange={(e) => setUsername(e.target.value)} />
+
+          <label>Email</label>
+          <input value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+      </div>
+
+      {/* Action buttons */}
+      <div className={style.settingsActions}>
+        <button onClick={handleSave}>Save Settings</button>
+        <button className={style.deleteButton} onClick={handleDeleteAccount}>
+          Delete My Account
+        </button>
+        <button onClick={handleLogout}>Log Out</button>
+        <button onClick={() => window.location.href = "mailto:support@example.com"}>
+          Contact Support
+        </button>
+        {message && <p style={{ marginTop: "1rem" }}>{message}</p>}
+      </div>
+    </div>
+  );
+};
 
 export default UserProfile;

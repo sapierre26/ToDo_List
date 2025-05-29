@@ -34,22 +34,25 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  color: black;
   background-color: #fafafa;
   font-family: monospace;
 }
 
 input:focus {
-  border-color: #4CAF50; /* Green border when focused */
+  border-color: #4caf50; /* Green border when focused */
   outline: none;
 }
 
-/* Checkbox Section */
-.checkbox-container {
-  display: flex;
+.checkboxContainer {
+  display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
-  margin-top: 10px;
+  gap: 0.5rem;
+  white-space: nowrap; 
+  font-size: 0.95rem;
+  margin-top: 1rem;
 }
+
 label {
   font-size: 14px;
   margin-left: 8px;
@@ -68,7 +71,7 @@ p {
 button {
   width: 100%;
   padding: 12px;
-  background-color: #4CAF50; /* Green background */
+  background-color: #4caf50; /* Green background */
   color: white;
   border: none;
   border-radius: 4px;

@@ -1,19 +1,34 @@
 const request = require("supertest");
 const express = require("express");
-const taskRouter = require("./path/to/your/router"); // Adjust the path to your router
+const taskRouter = require("./tasksRoutes.js"); // Adjust the path to your router
 const mongoose = require("mongoose");
 const Task = require("../models/taskSchema");
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
-// Mock Task model methods
-jest.mock("../models/taskSchema");
+require("dotenv").config();
 
+
+// Mock Task model methods
+beforeAll(() => {
+  jest.spyOn(console, "log").mockImplementation(() => {});
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
+afterAll(() => {
+  console.log.mockRestore();
+  console.error.mockRestore();
+});
+
+jest.mock("../models/taskSchema");
+jest.mock("../middleware/auth.js", () => (req, res, next) => {
+  req.user = { id: "mockUserId" }; // simulate a logged-in user
+  next();
+});
 const app = express();
 app.use(express.json());
 app.use("/api/tasks", taskRouter);
 
 describe("Task Routes", () => {
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -21,14 +36,26 @@ describe("Task Routes", () => {
   // Test for GET all tasks
   it("should get all tasks", async () => {
     const mockTasks = [
-      { _id: "1", title: "Task 1", date: "2025-03-14", label: "Work", priority: "High" },
-      { _id: "2", title: "Task 2", date: "2025-03-15", label: "Personal", priority: "Low" },
+      {
+        _id: "1",
+        title: "Task 1",
+        date: "2025-03-14",
+        label: "Work",
+        priority: "High",
+      },
+      {
+        _id: "2",
+        title: "Task 2",
+        date: "2025-03-15",
+        label: "Personal",
+        priority: "Low",
+      },
     ];
 
     Task.find.mockResolvedValueOnce(mockTasks);
 
     const response = await request(app).get("/api/tasks");
-    
+
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockTasks);
   });
@@ -44,14 +71,17 @@ describe("Task Routes", () => {
       description: "Test task description",
     };
 
-    Task.prototype.save.mockResolvedValueOnce(newTask);
+    Task.mockImplementation(() => ({
+      title: "Task 3",
+      save: jest.fn().mockResolvedValueOnce(),
+    }));
 
-    const response = await request(app)
-      .post("/api/tasks")
-      .send(newTask);
-    
+    const response = await request(app).post("/api/tasks").send(newTask);
+
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ msg: `${newTask} added to the taskDB` });
+    expect(response.body).toEqual({
+      msg: `${newTask.title} added to the taskDB`,
+    });
   });
 
   // Test for PUT update a task (In your code, this is actually creating a new task, so it's tested as POST)
@@ -65,24 +95,33 @@ describe("Task Routes", () => {
       description: "Updated description",
     };
 
-    Task.prototype.save.mockResolvedValueOnce(updatedTask);
+    Task.mockImplementation(() => ({
+      title: "Updated Task",
+      save: jest.fn().mockResolvedValueOnce(),
+    }));
 
-    const response = await request(app)
-      .put("/api/tasks")
-      .send(updatedTask);
-    
+    const response = await request(app).put("/api/tasks").send(updatedTask);
+
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ msg: `${updatedTask} added to the taskDB` });
+    expect(response.body).toEqual({
+      msg: `${updatedTask.title} added to the taskDB`,
+    });
   });
 
   // Test for DELETE a task
   it("should delete a task by ID", async () => {
-    const mockTask = { _id: "1", title: "Task 1", date: "2025-03-14", label: "Work", priority: "High" };
+    const mockTask = {
+      _id: "1",
+      title: "Task 1",
+      date: "2025-03-14",
+      label: "Work",
+      priority: "High",
+    };
 
     Task.findByIdAndDelete.mockResolvedValueOnce(mockTask);
 
     const response = await request(app).delete("/api/tasks/1");
-    
+
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ message: "Task deleted successfully" });
   });
@@ -92,7 +131,7 @@ describe("Task Routes", () => {
     Task.findByIdAndDelete.mockResolvedValueOnce(null);
 
     const response = await request(app).delete("/api/tasks/1");
-    
+
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ message: "Task not found" });
   });
@@ -100,8 +139,20 @@ describe("Task Routes", () => {
   // Test for GET tasks with date query parameter
   it("should get tasks filtered by date", async () => {
     const mockTasks = [
-      { _id: "1", title: "Task 1", date: "2025-03-14", label: "Work", priority: "High" },
-      { _id: "2", title: "Task 2", date: "2025-03-14", label: "Personal", priority: "Low" },
+      {
+        _id: "1",
+        title: "Task 1",
+        date: "2025-03-14",
+        label: "Work",
+        priority: "High",
+      },
+      {
+        _id: "2",
+        title: "Task 2",
+        date: "2025-03-14",
+        label: "Personal",
+        priority: "Low",
+      },
     ];
 
     Task.find.mockResolvedValueOnce(mockTasks);
@@ -115,8 +166,20 @@ describe("Task Routes", () => {
   // Test for GET tasks without date query parameter
   it("should get all tasks when no date is provided", async () => {
     const mockTasks = [
-      { _id: "1", title: "Task 1", date: "2025-03-14", label: "Work", priority: "High" },
-      { _id: "2", title: "Task 2", date: "2025-03-15", label: "Personal", priority: "Low" },
+      {
+        _id: "1",
+        title: "Task 1",
+        date: "2025-03-14",
+        label: "Work",
+        priority: "High",
+      },
+      {
+        _id: "2",
+        title: "Task 2",
+        date: "2025-03-15",
+        label: "Personal",
+        priority: "Low",
+      },
     ];
 
     Task.find.mockResolvedValueOnce(mockTasks);
@@ -128,31 +191,30 @@ describe("Task Routes", () => {
   });
 
   // Test for API error when Task.find fails
-  it("should return 400 if there is an error with task retrieval", async () => {
+  it("should return 500 if there is an error with task retrieval", async () => {
     Task.find.mockRejectedValueOnce(new Error("Database error"));
 
     const response = await request(app).get("/api/tasks");
 
-    expect(response.status).toBe(400);
-    expect(response.body).toEqual({ error: "Database error" });
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ message: "Database error" });
   });
 
   // Test for POST error when creating a task
   it("should return 400 if there is an error creating a task", async () => {
-    Task.prototype.save.mockRejectedValueOnce(new Error("Database error"));
+    Task.mockImplementation(() => ({
+      save: jest.fn().mockRejectedValueOnce(new Error("Database error")),
+    }));
 
-    const response = await request(app)
-      .post("/api/tasks")
-      .send({
-        _id: "3",
-        title: "Task 3",
-        date: "2025-03-16",
-        label: "Work",
-        priority: "Medium",
-      });
+    const response = await request(app).post("/api/tasks").send({
+      _id: "3",
+      title: "Task 3",
+      date: "2025-03-16",
+      label: "Work",
+      priority: "Medium",
+    });
 
     expect(response.status).toBe(400);
     expect(response.body).toEqual({ error: "Database error" });
   });
-
 });

@@ -1,125 +1,140 @@
-/* Form Container */
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 h3 {
-    font-family: monospace;
-    color: #888;
-    font-size: 18px;
-    margin-top: 15px;
+  font-family: monospace;
+  color: #888;
+  font-size: 18px;
+  margin-top: 15px;
 }
 
-/* Input Fields */
-.field, .description {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: #f1f1f1;
-    font-family: monospace;
-    color: black;
-    margin-top: 10px;
+.field,
+.description {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #f1f1f1;
+  font-family: monospace;
+  color: black;
+  margin-top: 10px;
 }
 
-.field:focus, .description:focus {
-    border-color: #ccc;
-    outline: none;
+.field:focus,
+.description:focus {
+  border-color: #ccc;
+  outline: none;
 }
 
 .description {
-    width: 100%;
-    height: 50px;
-    resize: none;
+  width: 100%;
+  height: 50px;
+  resize: none;
 }
 
-/* Placeholder Styling */
-.field::placeholder, .description::placeholder {
-    color: #888;
+.field::placeholder,
+.description::placeholder {
+  color: #888;
 }
 
-/* Submit Button */
 .submitButton {
-    background-color: #f1f1f1;
-    color: #6a6969;
-    font-family: monospace;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 110px;
-    height: 35px;
-    font-size: 11px;
-    cursor: pointer;
+  background-color: #f1f1f1;
+  color: #6a6969;
+  font-family: monospace;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 110px;
+  height: 35px;
+  font-size: 11px;
+  cursor: pointer;
 }
 
 .button:hover {
-    background-color: #ccc;
+  background-color: #ccc;
 }
 
-/* Option Selectors */
 .optionContainer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .optionLabel {
-    font-size: 16px;
-    font-family: monospace;
-    color: #888;
-    width: 60px;
-    margin-right: 10px;
+  font-size: 16px;
+  font-family: monospace;
+  color: #888;
+  width: 60px;
+  margin-right: 10px;
 }
-  
+
 .optionGroup {
-    display: flex;
-    gap: 8px;
-    margin-left: 15px;
-    margin-top: -5px;
+  display: flex;
+  margin-top: -5px;
 }
 
 .optionButton {
-    padding: 6px 12px;
-    border: 1px solid #888;
-    background-color: transparent;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: #333;
-    font-size: 12px;
-    height: 25px;
-    font-family: monospace;
+  padding: 6px 12px;
+  border: 1px solid #888;
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #333;
+  font-size: 12px;
+  height: 25px;
+  font-family: monospace;
 }
 
 .optionButton:hover {
-    background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
 
 .optionButton.active {
-    background-color: #888;
-    color: white;
-    border-color: #888;
+  background-color: #888;
+  color: white;
+  border-color: #888;
 }
 
 .closeButton {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    font-size: 18px;
-    color: #333;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
-    width: 18px;
-    margin-bottom: 100px;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #333;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  width: 18px;
+  margin-bottom: 100px;
 }
-  
+
 .header {
-    position: relative;
-    padding-top: 10px;
-  }
-  
+  position: relative;
+  padding-top: 10px;
+}
+
+.select {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #333;
+  width: 100px;
+  transition: border-color 0.3s ease;
+  height: 30px;
+  margin-left: 15px;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #888;
+  box-shadow: 0 0 5px rgba(51, 51, 51, 0.5);
+}

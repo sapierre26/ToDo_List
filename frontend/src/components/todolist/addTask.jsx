@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
 import style from "./addTask.module.css";
 import { addTask } from "../../api/tasks";
 
@@ -29,20 +30,23 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { title, date, startTime, endTime, priority, label, description } = formData;
+    const { title, date, startTime, endTime, priority, label, description } =
+      formData;
 
     if (!title || !date || !endTime || !description) {
       alert("Please fill all required fields");
       return;
     }
 
-    const startDateTime = label === "Event"
-      ? `${date}T${startTime}:00`
-      : `${date}T${endTime}:00`;
+    const startDateTime =
+      label === "Event" ? `${date}T${startTime}:00` : `${date}T${endTime}:00`;
 
     const endDateTime = `${date}T${endTime}:00`;
 
     try {
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+
       const newTask = {
         title,
         label,
@@ -52,7 +56,7 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
         endDate: endDateTime,
       };
 
-      const success = await addTask(newTask);
+      const success = await addTask(newTask, token);
       if (success) {
         onTaskAdded({ ...newTask, _id: Date.now().toString() });
         onClose();
@@ -65,7 +69,9 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
   return (
     <form className={style.form} onSubmit={handleSubmit}>
       <div className={style.header}>
-        <button type="button" className={style.closeButton} onClick={onClose}>×</button>
+        <button type="button" className={style.closeButton} onClick={onClose}>
+          ×
+        </button>
         <h3>Add {formData.label}</h3>
       </div>
 
@@ -126,19 +132,22 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
       />
 
       <div className={style.optionContainer}>
-        <span className={style.optionLabel}>Priority:</span>
-        <div className={style.optionGroup}>
+        <span className={style.optionLabel} htmlFor="priority">
+          Priority:
+        </span>
+        <select
+          id="priority"
+          name="priority"
+          className={style.select} // You can style this in your CSS
+          value={formData.priority}
+          onChange={handleChange}
+        >
           {["Low", "Medium", "High"].map((level) => (
-            <button
-              key={level}
-              type="button"
-              className={`${style.optionButton} ${formData.priority === level ? style.active : ""}`}
-              onClick={() => setFormData((prev) => ({ ...prev, priority: level }))}
-            >
+            <option key={level} value={level}>
               {level}
-            </button>
+            </option>
           ))}
-        </div>
+        </select>
       </div>
 
       <textarea
@@ -155,6 +164,12 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
       </button>
     </form>
   );
+};
+
+AddTask.propTypes = {
+  taskDate: PropTypes.instanceOf(Date),
+  onTaskAdded: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default AddTask;

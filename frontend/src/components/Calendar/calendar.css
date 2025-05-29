@@ -1,124 +1,190 @@
-/* Main container */
 .calendar-page-container {
   display: flex;
   width: 100%;
   font-family: monospace;
   color: #888;
   background-color: #f1f1f1;
-  padding: 20px;
-  gap: 20px;
+  padding: 0px;
+  padding-right: 15px;
   align-items: flex-start;
+  margin-top: 0;
+  padding-top: 0;
 }
 
-/* Calendar container - maintains original size */
 .calendar-container {
   width: 150%;
   background-color: #f1f1f1;
+  height: calc(100vh - 40px);
+  padding-top: 20px;
 }
 
-/* Side panel matching calendar height */
+.calendar-container > div:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
 .side-panel {
   width: 450px;
   background-color: #fff;
   border: 1px solid #888;
   border-radius: 8px;
   padding: 20px;
-  height: 650px; /* Matches calendar height */
+  height: 650px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-top: 35px;
+  margin-top: 30px;
 }
-
-/* Original navigation buttons */
-/*Styling for priority filter sidebar */
 
 .priority-container {
-    font-family: monospace;
-    color: #888;
-    background-color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+  font-family: monospace;
+  color: #888;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  padding-left: 10px;
+  padding-top: 30px;
+  margin-top: 0;
 }
 
-/*Styling for priority filter sidebar */
-
-.priority-container {
-    font-family: monospace;
-    color: #888;
-    background-color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+.priority-filter-button {
+  padding: 4px 6px;
+  font-size: 0.75rem;
+  min-width: auto;
+  margin: 2px 2px 2px 0;
 }
 
-
-/* Original navigation buttons */
 .calendar-nav {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 10px;
-}
-
-.calendar-nav button {
-  background-color: transparent;
-  border: 1px solid #888;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  color: #333;
-}
-
-.calendar-nav button:hover {
-  background-color: #888;
-  color: #fff;
-}
-
-/* View buttons */
-.calendar-view {
-  display: flex;
-  gap: 10px;
-}
-
-.calendar-view button {
-  background-color: transparent;
-  border: 1px solid #888;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  color: #333;
-}
-
-.calendar-view button:hover {
-  background-color: #888;
-  color: #fff;
-}
-
-/* Calendar styling */
-.rbc-calendar {
-  border: 1px solid #888;
-  border-radius: 8px;
-  background-color: #fff;
-  font-family: monospace;
-  height: 700px;
-  width: 100%;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .rbc-toolbar {
   display: flex;
   padding-bottom: 1rem;
+  margin-top: 0;
+  padding-top: 0;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
 }
 
 .rbc-toolbar-label {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
+  margin: 15px 10px;
+  font-weight: 600;
 }
 
-/* Close button styling */
+.calendar-nav button,
+.calendar-view button,
+.google-calendar-button {
+  background-color: transparent;
+  border: 1px solid #888;
+  color: #333;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.calendar-nav button:hover,
+.calendar-view button:hover,
+.google-calendar-button:hover {
+  background-color: #888;
+  color: #fff;
+  border-color: #888;
+}
+
+.calendar-nav button,
+.calendar-view button {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 3px;
+  width: 75px;
+}
+
+.calendar-nav button,
+.calendar-view button {
+  margin: 0 4px 4px 0;
+}
+
+.calendar-nav button:first-child,
+.calendar-nav button:last-child {
+  padding: 2px 6px;
+  font-size: 12px;
+  height: 20px;
+  width: 25px;
+}
+
+.calendar-view {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.custom-datepicker {
+  font-family: monospace;
+  font-size: 0.85rem;
+  border: 1px solid #888;
+  border-radius: 4px;
+  height: 25px;
+  width: 160px;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.rbc-calendar {
+  border: 1px solid #888;
+  border-radius: 8px;
+  background-color: hsl(0, 0%, 100%);
+  font-family: monospace;
+  height: 100%;
+  width: 100%;
+  padding-top: 0;
+}
+
+.rbc-month-event {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.rbc-month-event-content {
+  padding: 0px -20px;
+  font-size: 0.85em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.rbc-event {
+  max-height: 20px;
+  overflow: hidden;
+  max-width: 100px;
+}
+
+.rbc-event-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9em;
+  padding: 2px 0px;
+  text-align: left;
+}
+
 .close-button {
   position: absolute;
   top: 10px;
@@ -143,27 +209,25 @@
   background-color: #f1f1f1;
 }
 
-/* Add Task container */
 .add-task-container {
   height: 100%;
+  width: 200px;
   display: flex;
   flex-direction: column;
 }
 
-/* Task list container */
 .tasks-container {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* Task list styling */
 .task-list {
   flex-grow: 1;
   overflow-y: auto;
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 10px;
 }
 
 .task-item {
@@ -181,7 +245,7 @@
 }
 
 .task-title {
-  font-weight: normal;
+  font-size: 14px;
 }
 
 .no-tasks {
@@ -196,12 +260,12 @@
   .calendar-page-container {
     flex-direction: column;
   }
-  
+
   .calendar-container,
   .side-panel {
     width: 100%;
   }
-  
+
   .side-panel {
     height: auto;
     min-height: 300px;
@@ -209,27 +273,26 @@
   }
 }
 
-/* Task List Styles */
 .task-item {
   background: white;
   border-radius: 8px;
-  padding: 12px;
+  padding: 8px;
   margin-bottom: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   list-style: none;
 }
 
 .task-content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .task-meta {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: #666;
 }
 
@@ -240,10 +303,12 @@
   text-transform: capitalize;
 }
 
+.task-label,
 .task-priority {
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 500;
+  font-size: 0.65rem;
+  padding: 2px 4px;
+  border-radius: 3px;
+  line-height: 1;
 }
 
 .task-priority.high {
@@ -262,17 +327,16 @@
 }
 
 .task-title {
-  font-weight: 500;
-  margin: 4px 0;
+  margin: 2px 0;
+  color: #555;
 }
 
 .task-description {
   color: #555;
-  font-size: 0.9rem;
-  margin-top: 4px;
+  font-size: 0.7rem;
+  margin-top: -1px;
 }
 
-/* Label-specific colors */
 .task-item.event {
   border-left: 3px solid #3f51b5;
 }
@@ -283,4 +347,47 @@
 
 .task-item.reminder {
   border-left: 3px solid #ff9800;
+}
+
+body,
+html {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.rbc-day-view .rbc-event,
+.rbc-time-view .rbc-event {
+  max-width: none;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  margin: 0px 5px;
+}
+
+.rbc-day-view .rbc-event-content,
+.rbc-time-view .rbc-event-content {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+.google-calendar-button {
+  background-color: transparent;
+  border: 1px solid #888;
+  color: #333;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  width: 75px;
+  height: 25px;
+  margin-top: 18px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.google-calendar-button:hover {
+  background-color: #888;
+  color: white;
+  border-color: #888;
 }

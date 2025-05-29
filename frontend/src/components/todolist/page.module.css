@@ -41,7 +41,6 @@ button {
   text-align: center; /* Centers inline content inside the container */
 }
 
-
 .app-container {
   display: flex;
   flex-direction: column;
@@ -59,7 +58,8 @@ button {
   margin-top: 20px;
 }
 
-.tasks-table th, .tasks-table td {
+.tasks-table th,
+.tasks-table td {
   padding: 10px;
   border: 1px solid #ddd;
   text-align: left;

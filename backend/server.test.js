@@ -1,6 +1,12 @@
 const request = require("supertest");
+
 const app = require("./app");
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
+
+const app = require("./server");
+
+require("dotenv").config();
+
 
 describe("Express App", () => {
   it("should return a 200 status for the root endpoint", async () => {
@@ -12,7 +18,9 @@ describe("Express App", () => {
   it("should respond to CORS headers correctly", async () => {
     const response = await request(app).get("/api/Users");
     expect(response.header["access-control-allow-origin"]).toBe("*");
-    expect(response.header["access-control-allow-methods"]).toBe("GET,POST,OPTIONS,DELETE,PUT");
+    expect(response.header["access-control-allow-methods"]).toBe(
+      "GET,POST,OPTIONS,DELETE,PUT",
+    );
     expect(response.status).toBe(200);
   });
 

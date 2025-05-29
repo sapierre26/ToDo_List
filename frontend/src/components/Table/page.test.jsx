@@ -1,20 +1,37 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import Table from './page';
-import '@testing-library/jest-dom';
+import { render, screen, fireEvent } from "@testing-library/react";
+import Table from "./page";
+import "@testing-library/jest-dom";
 
 // Sample tasks to test with
 const mockTasks = [
-  { id: 1, description: 'Task 1', priority: 'High', dueDate: '2025-03-20', status: 'Pending' },
-  { id: 2, description: 'Task 2', priority: 'Medium', dueDate: '2025-03-21', status: 'Completed' },
+  {
+    id: 1,
+    description: "Task 1",
+    priority: "High",
+    dueDate: "2025-03-20",
+    status: "Pending",
+  },
+  {
+    id: 2,
+    description: "Task 2",
+    priority: "Medium",
+    dueDate: "2025-03-21",
+    status: "Completed",
+  },
 ];
 
 const mockToggleStatus = jest.fn();
 const mockDeleteTask = jest.fn();
 
-describe('Table Component', () => {
-  test('renders table with correct headers', () => {
-    render(<Table tasks={mockTasks} toggleStatus={mockToggleStatus} deleteTask={mockDeleteTask} />);
+describe("Table Component", () => {
+  test("renders table with correct headers", () => {
+    render(
+      <Table
+        tasks={mockTasks}
+        toggleStatus={mockToggleStatus}
+        deleteTask={mockDeleteTask}
+      />,
+    );
 
     // Check if the table headers are rendered correctly
     expect(screen.getByText(/Task/i)).toBeInTheDocument();
@@ -24,8 +41,14 @@ describe('Table Component', () => {
     expect(screen.getByText(/Actions/i)).toBeInTheDocument();
   });
 
-  test('renders table rows with correct task data', () => {
-    render(<Table tasks={mockTasks} toggleStatus={mockToggleStatus} deleteTask={mockDeleteTask} />);
+  test("renders table rows with correct task data", () => {
+    render(
+      <Table
+        tasks={mockTasks}
+        toggleStatus={mockToggleStatus}
+        deleteTask={mockDeleteTask}
+      />,
+    );
 
     // Check if the task data is rendered in the table rows
     expect(screen.getByText(/Task 1/i)).toBeInTheDocument();
@@ -39,8 +62,14 @@ describe('Table Component', () => {
     expect(screen.getByText(/Completed/i)).toBeInTheDocument();
   });
 
-  test('calls toggleStatus function when Complete/Undo button is clicked', () => {
-    render(<Table tasks={mockTasks} toggleStatus={mockToggleStatus} deleteTask={mockDeleteTask} />);
+  test("calls toggleStatus function when Complete/Undo button is clicked", () => {
+    render(
+      <Table
+        tasks={mockTasks}
+        toggleStatus={mockToggleStatus}
+        deleteTask={mockDeleteTask}
+      />,
+    );
 
     // Click on the "Complete" button for Task 1
     fireEvent.click(screen.getByText(/Complete/i));
@@ -55,8 +84,14 @@ describe('Table Component', () => {
     expect(mockToggleStatus).toHaveBeenCalledWith(2);
   });
 
-  test('calls deleteTask function when Delete button is clicked', () => {
-    render(<Table tasks={mockTasks} toggleStatus={mockToggleStatus} deleteTask={mockDeleteTask} />);
+  test("calls deleteTask function when Delete button is clicked", () => {
+    render(
+      <Table
+        tasks={mockTasks}
+        toggleStatus={mockToggleStatus}
+        deleteTask={mockDeleteTask}
+      />,
+    );
 
     // Click on the "Delete" button for Task 1
     fireEvent.click(screen.getByText(/Delete/i));

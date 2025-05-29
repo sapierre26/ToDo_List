@@ -28,14 +28,14 @@
 }
 
 .calendar-container {
-    overflow-anchor: auto;
-    height: auto;
-    width: auto;
-    margin: auto;
-    padding: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  overflow-anchor: auto;
+  height: auto;
+  width: auto;
+  margin: auto;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -52,7 +52,6 @@
   color: #888;
 }
 
-
 .button-link {
   text-decoration: none; /* Remove underline */
   padding: 10px 20px; /* Button padding */
@@ -62,4 +61,21 @@
   font-size: 16px;
   transition: background-color 0.3s ease; /* Smooth color transition */
   font-family: monospace;
+}
+
+:root {
+  --button-font-color: white;
+}
+
+button {
+  color: var(--button-font-color);
+}
+
+img {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.Settings > * {
+  margin-bottom: 0.5rem;
 }
