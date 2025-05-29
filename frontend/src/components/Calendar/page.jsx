@@ -186,6 +186,7 @@ const CalendarComponent = () => {
   const [clickTimeout, setClickTimeout] = useState(null);
   const [selectedPriority, setSelectedPriority] = useState(null);
   const [isGoogleConnected, setIsGoogleConnected] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   const mergedEvents = [...tasks, ...calendarEvents];
 

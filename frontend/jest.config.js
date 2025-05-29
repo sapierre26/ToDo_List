@@ -12,4 +12,3 @@ export default {
   },
   extensionsToTreatAsEsm: [".jsx", ".tsx"], // optional, keep if using ESM
 };
-

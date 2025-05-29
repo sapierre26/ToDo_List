@@ -14,6 +14,7 @@ import Login from "./components/Login/page";
 import CreateAccount from "./components/CreateAccount/page";
 import SplitScreen from "./components/SplitScreen/page";
 import UserProfile from "./components/UserProfile/page";
+import Settings from "./components/Settings/page";
 
 // Manual JWT decode helper (no external lib)
 function decodeJWT(token) {
@@ -65,6 +66,13 @@ function App() {
     setIsAuthenticated(true);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    setIsAuthenticated(false);
+    navigate("/login");
+  };
+
   return (
     <Router>
       <div style={{ height: "95vh", width: "100%", padding: "20px" }}>
@@ -90,6 +98,9 @@ function App() {
               <Link to="/UserProfile" className="button-link">
                 User Profile
               </Link>
+              <Link to="/Settings" className="button-link">
+                Settings
+              </Link>
             </>
           )}
         </nav>
@@ -114,8 +125,16 @@ function App() {
           <Route
             path="/UserProfile"
             element={
-              isAuthenticated ? <UserProfile /> : <Navigate to="/Login" />
+              isAuthenticated ? (
+                <UserProfile onLogout={handleLogout} />
+              ) : (
+                <Navigate to="/Login" />
+              )
             }
+          />
+          <Route
+            path="/Settings"
+            element={isAuthenticated ? <Settings /> : <Navigate to="/login" />}
           />
           <Route path="/SplitScreen" element={<SplitScreen />} />
           <Route path="*" element={<div>Page not found.</div>} />

@@ -1,21 +1,17 @@
+//taskRoutes.js
 const express = require("express");
 const router = express.Router();
-// app.use(express.json());
-const auth = require("../middleware/auth.js");
+const Task = require("../models/taskSchema");
+const auth = require("../middleware/auth");
+
+// Apply auth middleware to all routes
 router.use(auth);
 
-const Task = require("../models/taskSchema.js");
-
-router.use("/", (req, res, next) => {
-  console.log(`Request made to ${req.method} ${req.originalUrl}`);
-  next();
-});
-
+// GET /api/tasks - get all tasks for a user
 router.get("/", async (req, res) => {
   try {
-    if (!req.user) return res.status(401).json({ message: "Unauthorized" });
     const userId = req.user.id;
-    const { date, startDate, endDate } = req.query;
+    const { date } = req.query;
     let query = { userId };
 
     if (date) {
@@ -24,151 +20,65 @@ router.get("/", async (req, res) => {
       const endOfDay = new Date(year, month - 1, day);
       endOfDay.setHours(23, 59, 59, 999);
 
-      query = {
-        userId,
-        $or: [
-          {
-            startDate: { $lte: endOfDay },
-            endDate: { $gte: startOfDay },
-          },
-          {
-            endDate: {
-              $gte: startOfDay,
-              $lte: endOfDay,
-            },
-          },
-        ],
-      };
-    } else if (startDate && endDate) {
-      query = {
-        userId,
-        endDate: {
-          $gte: new Date(startDate),
-          $lte: new Date(endDate),
-        },
-      };
+      query.startDate = { $lte: endOfDay };
+      query.endDate = { $gte: startOfDay };
     }
 
     const tasks = await Task.find(query);
-    res.json(tasks);
+    res.status(200).json(tasks);
   } catch (error) {
     console.error("Error fetching tasks:", error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Database error" });
   }
 });
 
+// POST /api/tasks - create a new task
 router.post("/", async (req, res) => {
   try {
-    const { _id, title, startDate, endDate, priority, label, description } =
-      req.body;
-
-    const startTaskDate = new Date(startDate);
-    const endTaskDate = new Date(endDate);
-
-    const newTask = new Task({
-      _id,
-      title,
-      startDate: startTaskDate,
-      endDate: endTaskDate,
-      priority,
-      label,
-      description,
-      userId: req.user.id,
-    });
-
+    const newTask = new Task({ ...req.body, userId: req.user.id });
     await newTask.save();
-    res.send({
-      msg: `${newTask?.title || newTask?.id || "Task"} added to the taskDB`,
-    });
+    res
+      .status(200)
+      .json({ msg: `${newTask.title} added to the taskDB`, task: newTask });
   } catch (error) {
-    let errorMessage;
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    } else {
-      errorMessage = String(errorMessage);
-    }
-    res.status(400).send({ error: errorMessage });
-    console.log(`Error: ${errorMessage}`);
+    console.error("Error creating task:", error);
+    res.status(400).json({ error: error.message });
   }
 });
 
-// router.get("/", async (req, res) => {
-//   try {
-//     const { startDate, endDate } = req.query; // Extract 'startDate' and 'endDate' from the query parameters
-
-//     let tasks;
-//     if (startDate && endDate) {
-//       // If 'startDate' and 'endDate' are provided, filter tasks by date range
-//       tasks = await Task.find({
-//         startDate: { $gte: new Date(startDate) },
-//         endDate: { $lte: new Date(endDate) }
-//       });
-//     } else {
-//       // If no date parameters are provided, return all tasks
-//       tasks = await Task.find({});
-//     }
-
-//     console.log("Got tasks:", tasks);
-//     res.send(tasks);
-//   } catch (error) {
-//     res.status(400).send(error);
-//   }
-// });
-
-router.put("/", async (req, res) => {
+// PUT /api/tasks/:id - update a task
+router.put("/:id", async (req, res) => {
   try {
-    const { _id, title, date, priority, label, description } = req.body;
-    const newTask = new Task({
-      _id,
-      title,
-      date,
-      priority,
-      label,
-      description,
-      userId: req.user.id,
+    const taskId = req.params.id;
+    const updates = req.body;
+
+    const updatedTask = await Task.findByIdAndUpdate(taskId, updates, {
+      new: true,
     });
-    await newTask.save();
-    res.send({
-      msg: `${newTask?.title || newTask?._id || "Task"} added to the taskDB`,
-    });
-  } catch (error) {
-    let errorMessage;
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    } else {
-      errorMessage = String(errorMessage);
-    }
-    res.status(400).send({ error: errorMessage });
-    console.log(`Error: ${errorMessage}`);
-  }
-});
 
-router.delete("/:_id", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const task = await Task.findByIdAndDelete(id);
-
-    if (!task) {
+    if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    return res.status(200).json({ message: "Task deleted successfully" });
+    res.json(updatedTask);
   } catch (error) {
-    console.error("Error deleting task:", error);
-    return res.status(500).json({ message: "Error deleting task" });
+    console.error("Error updating task:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
-// router.get("/date/:date", async (req, res) => {
-//   try {
-//     const task = await Task.findOne({ date: req.params.date })
-//     console.log("reached here")
-//     res.send(task)
-//     console.log('got task with id %s', req.params.date)
-//   } catch (error) {
-//     res.status(400).send(error);
-//   }
-// })
+// DELETE /api/tasks/:id - delete a task
+router.delete("/:id", async (req, res) => {
+  try {
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+    res.status(200).json({ message: "Task deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 module.exports = router;

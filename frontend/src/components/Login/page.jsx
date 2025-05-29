@@ -20,12 +20,10 @@ const Login = ({ onLoginSuccess }) => {
     setErrorMessage("");
 
     let hasError = false;
-
     if (!username) {
       setEmailError("Please enter your username");
       hasError = true;
     }
-
     if (!password) {
       setPasswordError("Please enter a password");
       hasError = true;
@@ -36,30 +34,32 @@ const Login = ({ onLoginSuccess }) => {
     try {
       const response = await fetch("http://localhost:8000/api/users/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ username, pwd: password }),
       });
 
-      const data = await response.json();
+      const msg = await response.text();
 
       if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+        console.error("backend response:", msg);
+        throw new Error(msg);
       }
-
+      const data = JSON.parse(msg);
       console.log("Login successful, token received:", data.token);
 
       if (rememberMe) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.token); // persists across browser restarts
       } else {
-        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("token", data.token); // cleared when browser closes
       }
 
       if (onLoginSuccess) onLoginSuccess();
-
       navigate("/Calendar");
     } catch (err) {
+      setErrorMessage(err.message);
       console.error("Error during login:", err.message);
-      setErrorMessage(err.message || "An error occurred");
     }
   };
 
@@ -89,7 +89,7 @@ const Login = ({ onLoginSuccess }) => {
             checked={rememberMe}
             onChange={(e) => setRememberMe(e.target.checked)}
           />
-          <label>Remember Me</label>
+          <span>Remember Me</span>
         </div>
 
         {errorMessage && <p className={style.error}>{errorMessage}</p>}

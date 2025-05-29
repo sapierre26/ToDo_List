@@ -3,6 +3,8 @@ const express = require("express");
 const taskRouter = require("./tasksRoutes.js"); // Adjust the path to your router
 const mongoose = require("mongoose");
 const Task = require("../models/taskSchema");
+process.env.MONGO_URI = "mongodb://localhost:27017/test";
+
 require("dotenv").config();
 
 // Mock Task model methods

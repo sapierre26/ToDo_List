@@ -30,6 +30,7 @@ export default [
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
       jest: jestPlugin,
+      version: "detect",
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -55,6 +56,9 @@ export default [
         ecmaVersion: "latest",
         sourceType: "module",
         project: "./tsconfig.json",
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
     plugins: {
