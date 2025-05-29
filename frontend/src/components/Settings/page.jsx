@@ -131,7 +131,6 @@ const Settings = () => {
     <div className={style.settingsActions}>
       <button onClick={handleSaveSettings}>Save Settings</button>
       
-      {/* Message appears below the button */}
       {message && (
         <div className={success ? style.successMessage : style.errorMessage}>
           {message}

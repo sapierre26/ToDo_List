@@ -28,9 +28,10 @@ const TodoList = () => {
     setShowAddTask(false);
   };
 
-  const handleDelete = async (taskId) => {
+  const handleDelete = async (taskId, token) => {
     try {
-      await deleteTask(taskId);
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      await deleteTask(taskId, token);
       setTasks((prev) => prev.filter((task) => task._id !== taskId));
     } catch (error) {
       console.error("Error deleting task:", error);
