@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { getTasks, deleteTask } from "../../api/tasks";
 import AddTask from "./addTask";
+import EditTask from "./editTask";
 import styles from "./page.module.css";
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
   const [showAddTask, setShowAddTask] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [taskToEdit, setTaskToEdit] = useState(null);
 
   useEffect(() => {
     fetchTasks();
@@ -14,8 +16,7 @@ const TodoList = () => {
 
   const fetchTasks = async () => {
     try {
-      const token =
-        localStorage.getItem("token") || sessionStorage.getItem("token");
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       const fetchedTasks = await getTasks(token);
       if (fetchedTasks) setTasks(fetchedTasks);
     } catch (error) {
@@ -23,12 +24,21 @@ const TodoList = () => {
     }
   };
 
-  const handleTaskAdded = (newTask) => {
-    setTasks((prev) => [...prev, newTask]);
+  const handleTaskAdded = (task) => {
+    setTasks((prev) => {
+      const i = prev.findIndex((t) => t._id === task._id);
+      if (i !== -1) {
+        const updated = [...prev];
+        updated[i] = task;
+        return updated;
+      }
+      return [...prev, task];
+    });
     setShowAddTask(false);
+    setTaskToEdit(null);
   };
 
-  const handleDelete = async (taskId, token) => {
+  const handleDelete = async (taskId) => {
     try {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       await deleteTask(taskId, token);
@@ -38,18 +48,22 @@ const TodoList = () => {
     }
   };
 
-  const formatTime = (dateString) => {
-    const date = new Date(dateString);
-    return isNaN(date.getTime())
-      ? "Invalid Date"
-      : date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const handleEditTask = (taskId) => {
+    const task = tasks.find((t) => t._id === taskId);
+    if (task) {
+      setTaskToEdit(task);
+      setShowAddTask(true);
+    }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return isNaN(date.getTime())
-      ? "Invalid Date"
-      : date.toLocaleDateString([], { month: "short", day: "numeric" });
+  const formatTime = (str) => {
+    const date = new Date(str);
+    return isNaN(date) ? "Invalid" : date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
+  const formatDate = (str) => {
+    const date = new Date(str);
+    return isNaN(date) ? "Invalid" : date.toLocaleDateString([], { month: "short", day: "numeric" });
   };
 
   return (
@@ -57,6 +71,7 @@ const TodoList = () => {
       <div className={styles.header}>
         <h2>To-Do List</h2>
       </div>
+
       <div className={styles.taskList}>
         {tasks.length === 0 ? (
           <p className={styles.emptyState}>No tasks!</p>
@@ -76,12 +91,8 @@ const TodoList = () => {
               {tasks.map((task) => (
                 <tr key={task._id}>
                   <td>{task.title}</td>
-                  <td className={styles[task.label.toLowerCase()]}>
-                    {task.label}
-                  </td>
-                  <td className={styles[task.priority.toLowerCase()]}>
-                    {task.priority}
-                  </td>
+                  <td className={styles[task.label?.toLowerCase() || "default"]}>{task.label || "Unknown"}</td>
+                  <td className={styles[task.priority?.toLowerCase() || "default"]}>{task.priority || "Unknown"}</td>
                   <td>
                     {formatDate(task.startDate)}
                     <br />
@@ -91,12 +102,8 @@ const TodoList = () => {
                   </td>
                   <td>{task.description}</td>
                   <td>
-                    <button
-                      className={styles.deleteButton}
-                      onClick={() => task._id && handleDelete(task._id)}
-                    >
-                      Delete
-                    </button>
+                    <button className={styles.deleteButton} onClick={() => handleDelete(task._id)}>Delete</button>
+                    <button className={styles.modifyButton} onClick={() => handleEditTask(task._id)}>Edit</button>
                   </td>
                 </tr>
               ))}
@@ -104,17 +111,30 @@ const TodoList = () => {
           </table>
         )}
       </div>
+
       {showAddTask && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
-            <AddTask
-              taskDate={selectedDate || undefined}
-              onTaskAdded={handleTaskAdded}
-              onClose={() => setShowAddTask(false)}
-            />
+            {taskToEdit ? (
+              <EditTask
+                taskToEdit={taskToEdit}
+                onTaskUpdated={handleTaskAdded}
+                onClose={() => {
+                  setShowAddTask(false);
+                  setTaskToEdit(null);
+                }}
+              />
+            ) : (
+              <AddTask
+                taskDate={selectedDate}
+                onTaskAdded={handleTaskAdded}
+                onClose={() => setShowAddTask(false)}
+              />
+            )}
           </div>
         </div>
       )}
+
       {!showAddTask && (
         <button
           className={styles.addButton}

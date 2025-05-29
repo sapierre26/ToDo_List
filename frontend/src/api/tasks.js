@@ -99,17 +99,22 @@ export const updateTask = async (taskId, updates, token) => {
       headers: { 
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
-       },
+      },
       body: JSON.stringify(updates),
     });
 
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    return await res.json();
+    if (!res.ok) {
+      const errorMessage = await res.text(); // capture backend error message
+      throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+    }
+
+    return await res.json(); // return updated task
   } catch (error) {
-    console.error(`Error updating task ${taskId}:`, error);
+    console.error(`Error updating task ${taskId}:`, error.message);
     return null;
   }
 };
+
 
 export const getGoogleCalendarEvents = async () => {
   try {

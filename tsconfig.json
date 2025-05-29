@@ -4,7 +4,7 @@
       "module": "commonjs",
       "allowJs": true, // if you're mixing JS and TS
       "outDir": "./dist", // Ensure this is not the same as your source directory
-      "rootDir": "./src", // Your source directory
+      "rootDir": "./backend", // Your source directory
       "esModuleInterop": true,
       "moduleResolution": "node"
     },

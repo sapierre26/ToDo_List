@@ -19,12 +19,10 @@ const Login = ({ onLoginSuccess }) => {
     setErrorMessage("");
 
     let hasError = false;
-
     if (!username) {
       setEmailError("Please enter your username");
       hasError = true;
     }
-
     if (!password) {
       setPasswordError("Please enter a password");
       hasError = true;
@@ -41,12 +39,13 @@ const Login = ({ onLoginSuccess }) => {
         body: JSON.stringify({ username, pwd: password }),
       });
 
-      const data = await response.json();
+      const msg = await response.text();
 
       if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+        console.error("backend response:", msg);
+        throw new Error(msg);
       }
-
+      const data = JSON.parse(msg);
       console.log("Login successful, token received:", data.token);
 
       if (rememberMe) {
@@ -56,11 +55,10 @@ const Login = ({ onLoginSuccess }) => {
       }
 
       if (onLoginSuccess) onLoginSuccess();
-
       navigate("/Calendar");
     } catch (err) {
+      setErrorMessage(err.message);
       console.error("Error during login:", err.message);
-      setErrorMessage(err.message || "An error occurred");
     }
   };
 
