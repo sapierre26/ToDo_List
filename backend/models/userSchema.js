@@ -17,10 +17,10 @@ const userSchema = new mongoose.Schema(
     username: { type: String, required: true },
     password: { type: String, required: true },
     email: { type: String },
-    image: { 
+    image: {
       data: Buffer,
       contentType: String,
-     },
+    },
     theme: { type: String, default: "light" },
     font: { type: String, default: "Arial" },
   },

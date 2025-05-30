@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import js from "@eslint/js";
 import globals from "globals";
 import react from "eslint-plugin-react";
@@ -54,6 +55,9 @@ export default [
         ecmaVersion: "latest",
         sourceType: "module",
         project: "./tsconfig.json",
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
     plugins: {

@@ -7,7 +7,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./App.css";
-
 import CalendarComponent from "./components/Calendar/page";
 import MyApp from "./components/todolist/page";
 import Login from "./components/Login/page";
@@ -70,7 +69,7 @@ function App() {
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
     setIsAuthenticated(false);
-    navigate("/login");
+    Navigate("/login");
   };
 
   return (
@@ -115,11 +114,7 @@ function App() {
           <Route
             path="/Calendar"
             element={
-              isAuthenticated ? (
-                <CalendarComponent />
-              ) : (
-                <Navigate to="/Login" />
-              )
+              isAuthenticated ? <CalendarComponent /> : <Navigate to="/Login" />
             }
           />
           <Route
@@ -138,13 +133,7 @@ function App() {
           />
           <Route
             path="/Settings"
-            element={
-              isAuthenticated ? (
-                <Settings />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
+            element={isAuthenticated ? <Settings /> : <Navigate to="/login" />}
           />
           <Route path="/SplitScreen" element={<SplitScreen />} />
           <Route path="*" element={<div>Page not found.</div>} />

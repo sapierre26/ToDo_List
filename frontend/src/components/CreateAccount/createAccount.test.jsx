@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import CreateAccount from "./page";
-import "@testing-library/jest-dom";
+import { act } from "@testing-library/react";
 import { describe, test, beforeEach, expect } from "@jest/globals";
 
 describe("createAccount Component Test", () => {
@@ -24,7 +24,7 @@ describe("createAccount Component Test", () => {
     expect(screen.getByText("All fields are required.")).toBeInTheDocument();
   });
 
-  test("3. No error message when credentials are filled", () => {
+  test("3. No error message when credentials are filled", async () => {
     fireEvent.change(screen.getByPlaceholderText("First name"), {
       target: { value: "testfirstName" },
     });
@@ -45,7 +45,9 @@ describe("createAccount Component Test", () => {
       name: /Create an account/i,
     });
 
-    fireEvent.click(createAnAccountButton);
+    await act(async () => {
+      fireEvent.click(createAnAccountButton);
+    });
 
     expect(
       screen.queryByText("All fields are required."),
@@ -58,7 +60,7 @@ describe("createAccount Component Test", () => {
     ).not.toBeInTheDocument();
   });
 
-  test("4. Error message for missing first name", () => {
+  test("4. Error message for missing first name", async () => {
     fireEvent.change(screen.getByPlaceholderText("Last name"), {
       target: { value: "testlastName" },
     });
@@ -67,7 +69,9 @@ describe("createAccount Component Test", () => {
       name: /Create an account/i,
     });
 
-    fireEvent.click(createAnAccountButton);
+    await act(async () => {
+      fireEvent.click(createAnAccountButton);
+    });
 
     expect(screen.queryByText("All fields are required.")).toBeInTheDocument();
   });

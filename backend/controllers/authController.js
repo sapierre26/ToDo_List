@@ -126,7 +126,9 @@ const login = async (req, res) => {
 };
 const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("username email name image");
+    const user = await User.findById(req.user.id).select(
+      "username email name image theme font",
+    );
     if (!user) return res.status(404).json({ msg: "User not found" });
 
     let base64Image = null;
@@ -139,6 +141,8 @@ const getProfile = async (req, res) => {
       name: user.name,
       email: user.email,
       image: base64Image,
+      theme: user.theme || "light",
+      font: user.font || "Arial",
     });
   } catch (err) {
     console.error("Profile fetch error:", err);
@@ -158,7 +162,7 @@ const updateProfileImage = async (req, res) => {
           contentType: req.file.mimetype,
         },
       },
-      { new: true }
+      { new: true },
     );
 
     const base64 = updatedUser.image.data.toString("base64");
@@ -174,8 +178,6 @@ const updateProfileImage = async (req, res) => {
   }
 };
 
-
-
 const updateProfile = async (req, res) => {
   const { username, name, email, theme, font } = req.body;
 
@@ -190,10 +192,10 @@ const updateProfile = async (req, res) => {
         username,
         name,
         email,
-        ...(theme && { theme }),  // only update if provided
-        ...(font && { font }),    // only update if provided
+        ...(theme && { theme }), // only update if provided
+        ...(font && { font }), // only update if provided
       },
-      { new: true }
+      { new: true },
     ).select("username name email theme font");
 
     if (!updatedUser) {
@@ -207,5 +209,10 @@ const updateProfile = async (req, res) => {
   }
 };
 
-
-module.exports = { register, login, getProfile, updateProfileImage, updateProfile, };
+module.exports = {
+  register,
+  login,
+  getProfile,
+  updateProfileImage,
+  updateProfile,
+};

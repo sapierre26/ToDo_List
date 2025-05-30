@@ -1,4 +1,5 @@
 # ToDo_List
+
 Team Working Assignment Document: https://docs.google.com/document/d/12NjnEgPSOmpVu56uZIuCb53jyZ99UWaMm9Lu1AdEbWU/edit?usp=sharing
 
 Sprint Board Document: https://docs.google.com/document/d/1EuGFNywdZJTTFh7VyRTGtWEyB5mIP70XYuMmySDh4VY/edit?usp=sharing
@@ -11,7 +12,7 @@ UML Class Diagram: https://miro.com/welcomeonboard/YXgzL01wR1JOUUcvdmZ4K3dSSjhmN
 
 UML Activity Diagram: https://miro.com/welcomeonboard/QzEyck55c1RIRWJWaHlOUU8vbkpjalVXRjJWS2FnWkE3N2pUaG9IUUVlb21tb1NNbldkbW8rWGlISVAwTkU5RkMwTysvWHk4M3pIZTF0ZTVSdk5LbGZheU5hcnlJWW8wZXVKYmdwcnZpNFQ1ZGt0cXZnZEl3b0NSblF0Nkg4NnB0R2lncW1vRmFBVnlLcVJzTmdFdlNRPT0hdjE=?share_link_id=679095093147
 
-Style Guide: We are using React/JavaScript. So we chose to install Prettier and added that to ESLint, to keep our code style consistent throughout our project. 
+Style Guide: We are using React/JavaScript. So we chose to install Prettier and added that to ESLint, to keep our code style consistent throughout our project.
 
 User Personas: https://www.canva.com/design/DAGgyBEa9AY/rUvEakiSPpsgSXwGkHJLnQ/edit?utm_content=DAGgyBEa9AY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 

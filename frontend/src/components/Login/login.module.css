@@ -48,7 +48,7 @@ input:focus {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  white-space: nowrap; 
+  white-space: nowrap;
   font-size: 0.95rem;
   margin-top: 1rem;
 }
