@@ -1,6 +1,6 @@
 const request = require("supertest");
 
-const app = require("./app");
+const app = require("../frontend/src/App");
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
 require("dotenv").config();
