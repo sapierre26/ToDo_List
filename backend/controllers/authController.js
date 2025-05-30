@@ -10,19 +10,48 @@ const generateAccessToken = (username, userId) => {
   });
 };
 
+// controllers/authController.js
 const register = async (req, res) => {
   const { username, pwd, name, email } = req.body;
 
-  if (!username || !pwd || !name) {
-    return res.status(400).send("Missing fields: name, username, or password.");
+  // Validate input more thoroughly
+  if (!username || !pwd || !name || !email) {
+    return res.status(400).json({ 
+      success: false,
+      message: "All fields are required: name, username, email, and password."
+    });
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      success: false,
+      message: "Please enter a valid email address."
+    });
+  }
+
+  // Validate password strength
+  if (pwd.length < 8) {
+    return res.status(400).json({
+      success: false,
+      message: "Password must be at least 8 characters long."
+    });
   }
 
   try {
-    const existingUser = await User.findOne({ username });
+    // Check for existing user
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      return res.status(409).send("Username already taken.");
+      return res.status(409).json({
+        success: false,
+        message: existingUser.username === username 
+          ? "Username already taken." 
+          : "Email already registered."
+      });
     }
 
+    // Create new user
     const hashedPassword = await bcrypt.hash(pwd, 10);
     const newUser = new User({
       name,
@@ -30,15 +59,24 @@ const register = async (req, res) => {
       password: hashedPassword,
       email,
     });
+    
     const savedUser = await newUser.save();
     const token = generateAccessToken(savedUser.username, savedUser._id);
 
-    res
-      .status(201)
-      .json({ token, username: savedUser.username, userID: savedUser._id });
+    res.status(201).json({
+      success: true,
+      token,
+      username: savedUser.username,
+      userID: savedUser._id,
+      message: "Account created successfully!"
+    });
   } catch (err) {
     console.error("Registration error:", err);
-    res.status(500).send("Server error during registration.");
+    res.status(500).json({
+      success: false,
+      message: "Server error during registration.",
+      error: err.message
+    });
   }
 };
 
@@ -46,28 +84,46 @@ const login = async (req, res) => {
   const { username, pwd } = req.body;
 
   if (!username || !pwd) {
-    return res.status(400).send("Missing username or password.");
+    return res.status(400).json({
+      success: false,
+      message: "Both username and password are required."
+    });
   }
 
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(401).send("User not found.");
+      return res.status(401).json({
+        success: false,
+        message: "Authentication failed. User not found."
+      });
     }
 
     const isMatch = await bcrypt.compare(pwd, user.password);
     if (!isMatch) {
-      return res.status(401).send("Incorrect password.");
+      return res.status(401).json({
+        success: false,
+        message: "Authentication failed. Incorrect password."
+      });
     }
 
     const token = generateAccessToken(user.username, user._id);
-    res.status(200).json({ token, username: user.username, userID: user._id });
+    res.status(200).json({
+      success: true,
+      token,
+      username: user.username,
+      userID: user._id,
+      message: "Login successful."
+    });
   } catch (err) {
     console.error("Login error:", err);
-    res.status(500).send("Server error during login.");
+    res.status(500).json({
+      success: false,
+      message: "Server error during login.",
+      error: err.message
+    });
   }
 };
-
 const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("username email name image");
