@@ -96,7 +96,6 @@ export const updateTask = async (taskId, updates) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(updates),
     });
@@ -143,7 +142,6 @@ export {
   getTasksForMonth,
   addTask,
   deleteTask,
-  updateTask,
   getGoogleCalendarEvents,
   getGoogleTasks,
 };

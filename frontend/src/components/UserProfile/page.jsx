@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./userProfile.module.css";
+import PropTypes from "prop-types";
 
 const UserProfile = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -170,4 +171,7 @@ const UserProfile = ({ onLogout }) => {
   );
 };
 
+UserProfile.propTypes = {
+  onLogout: PropTypes.func.isRequired,
+};
 export default UserProfile;

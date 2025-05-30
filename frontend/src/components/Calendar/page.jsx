@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay, isSameDay } from "date-fns";
 import enUS from "date-fns/locale/en-US";
@@ -186,7 +186,6 @@ const CalendarComponent = () => {
   const [clickTimeout, setClickTimeout] = useState(null);
   const [selectedPriority, setSelectedPriority] = useState(null);
   const [isGoogleConnected, setIsGoogleConnected] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
 
   const mergedEvents = [...tasks, ...calendarEvents];
 

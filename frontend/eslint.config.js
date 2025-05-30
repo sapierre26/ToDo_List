@@ -30,7 +30,6 @@ export default [
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
       jest: jestPlugin,
-      version: "detect",
     },
     rules: {
       ...js.configs.recommended.rules,

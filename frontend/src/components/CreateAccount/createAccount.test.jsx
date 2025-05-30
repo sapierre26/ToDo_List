@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CreateAccount from "./page";
 import { act } from "@testing-library/react";

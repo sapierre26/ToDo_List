@@ -1,6 +1,7 @@
 import App from "./App";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { act } from "@testing-library/react";
+import { beforeEach, afterEach } from "node:test";
 jest.mock("./api/tasks", () => ({
   getTasks: jest.fn(() => Promise.resolve([])), // ← ADD THIS LINE
   getTasksForMonth: jest.fn(() => Promise.resolve([])),
@@ -8,11 +9,6 @@ jest.mock("./api/tasks", () => ({
   getGoogleTasks: jest.fn(() => Promise.resolve([])),
   getTasksAndEventsByEndDate: jest.fn(() => Promise.resolve([])),
 }));
-
-jest.mock("./components/PriorityFilterSidebar/page", () => () => (
-  <div>Mocked PriorityFilterSidebar</div>
-));
-jest.mock("./components/Calendar/page", () => () => <div>Mocked Toolbar</div>);
 
 beforeEach(() => {
   const fakePayload = { exp: Math.floor(Date.now() / 1000) + 60 * 60 };

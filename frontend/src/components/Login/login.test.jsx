@@ -1,30 +1,21 @@
 /**
  * @jest-environment jsdom
  */
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { beforeEach, afterAll } from "@jest/globals";
+import { beforeEach } from "@jest/globals";
 import Login from "./page";
 import { act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
 describe("Login Component Tests", () => {
   beforeEach(() => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ token: "fake-token" }),
-      }),
-    );
     render(
       <MemoryRouter>
         <Login />
       </MemoryRouter>,
     );
   });
-  afterAll(() => {
-    global.fetch.mockRestore();
-  });
+
   test("1. The Login Button should be present", () => {
     const loginButton = screen.getByRole("button", { name: /Login/i });
     expect(loginButton).toBeInTheDocument();

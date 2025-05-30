@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error  @typescript-eslint/ban-ts-comment
 import { getTasks, addTask, deleteTask, Task } from "./tasks"; // adjust import path
 
 // Mocking fetch to simulate API calls

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { act } from "@testing-library/react";
+import { useState } from "react";
 import style from "./login.module.css";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";

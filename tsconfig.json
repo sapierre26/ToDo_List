@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "compilerOptions": {
     "target": "ES6",
     "module": "commonjs",
@@ -11,20 +10,3 @@
   },
   "include": ["src/**/*.ts", "backend/**/*.ts"]
 }
-=======
-    "compilerOptions": {
-      "target": "ES6",
-      "module": "commonjs",
-      "allowJs": true, // if you're mixing JS and TS
-      "outDir": "./dist", // Ensure this is not the same as your source directory
-      "rootDir": "./backend", // Your source directory
-      "esModuleInterop": true,
-      "moduleResolution": "node"
-    },
-    "include": [
-      "src/**/*.ts",
-      "backend/**/*.ts"
-    ]
-  }
-  
->>>>>>> 90f9d0001b75a06d09a36e5e013f0423962338df

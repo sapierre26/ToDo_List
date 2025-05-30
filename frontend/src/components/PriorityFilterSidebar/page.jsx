@@ -1,6 +1,5 @@
 import PropTypes from "prop-types"; // Import PropTypes for prop validation
 import styles from "./priorityFilter.module.css";
-import React from "react";
 const priorities = ["High", "Medium", "Low"];
 
 const PriorityFilterSidebar = ({ selectedPriority, onSelectPriority }) => {
