@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 // Table Header Component
 const TableHeader = () => (
   <thead>

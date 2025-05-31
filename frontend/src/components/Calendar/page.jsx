@@ -235,22 +235,23 @@ const CalendarComponent = () => {
 
         const taskList = [];
         const eventList = [];
+        if (Array.isArray(items)) {
+          items.forEach((item) => {
+            const calendarItem = {
+              id: item._id,
+              title: item.title,
+              start: new Date(item.startDate),
+              end: new Date(item.endDate),
+              resource: item,
+            };
 
-        items.forEach((item) => {
-          const calendarItem = {
-            id: item._id,
-            title: item.title,
-            start: new Date(item.startDate),
-            end: new Date(item.endDate),
-            resource: item,
-          };
-
-          if (item.label === "Event") {
-            eventList.push(calendarItem);
-          } else {
-            taskList.push(calendarItem);
-          }
-        });
+            if (item.label === "Event") {
+              eventList.push(calendarItem);
+            } else {
+              taskList.push(calendarItem);
+            }
+          });
+        }
 
         const googleFormatted = googleEvents.map((gEvent) => ({
           id: gEvent.id,
@@ -308,7 +309,7 @@ const CalendarComponent = () => {
         });
 
         const mapItemsToCalendarEvents = (items) =>
-          items.map(mapToCalendarEvent);
+          Array.isArray(items) ? items.map(mapToCalendarEvent) : [];
 
         setDailyTasks([
           ...mapItemsToCalendarEvents(dailyItems),
@@ -391,7 +392,7 @@ const CalendarComponent = () => {
                 setCurrentDate={setCurrentDate}
                 setTaskDate={setTaskDate}
                 onView={handleViewChange}
-                isGoogleConnected={isGoogleConnected}
+                isGoogleConnected={isGoogleConnected ?? false}
               />
             ),
             month: { event: MonthEvent },

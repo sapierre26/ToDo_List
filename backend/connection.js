@@ -6,7 +6,9 @@ dotenv.config();
 function makeNewConnection(url) {
   if (!url) {
     console.error("MONGO_URI is not set in the environment variables.");
-    process.exit(1); // Terminate the process if MONGO_URI is missing
+    if (process.env.NODE_ENV !== "test") {
+      process.exit(1);
+    } // Terminate the process if MONGO_URI is missing
     return;
   }
 

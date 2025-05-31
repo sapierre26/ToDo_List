@@ -1,13 +1,14 @@
-const { makeNewConnection } = require("./connection");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const { makeNewConnection } = require("../connection");
+process.env.MONGO_URI = "mongodb://localhost:27017/test";
+
 jest.mock("mongoose"); // Mock mongoose module
 
 dotenv.config();
 
 describe("makeNewConnection", () => {
   let mockConnection;
-  let originalExit;
   let originalEnv;
 
   beforeAll(() => {
@@ -18,38 +19,28 @@ describe("makeNewConnection", () => {
       close: jest.fn(),
       emit: jest.fn(),
     };
-    mongoose.createConnection.mockReturnValue(mockConnection);
-    mongoose.connection = {
-      on: jest.fn(),
-      emit: jest.fn(),
-    };
-    // Mock console methods - Sanaia added
+    mongoose.connection = { on: jest.fn(), emit: jest.fn() };
+
     jest.spyOn(console, "log").mockImplementation(() => {});
     jest.spyOn(console, "error").mockImplementation(() => {});
-    // Save originals - Sanaia added
-    originalExit = process.exit;
+
     process.exit = jest.fn();
-    // Save original env - Sanaia added
     originalEnv = process.env;
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-    process.exit = originalExit;
+    originalExit = process.exit;
     process.env = originalEnv;
   });
 
   it("should create a new connection with the correct URL", () => {
     const dbUrl = "mongodb://localhost:27017/testDB";
-
-    // Call the function with a fake URL9
-    const connection = makeNewConnection(dbUrl);
-
-    // Check if mongoose.createConnection was called with the correct URL
+    const connection = makeNewConnection(dbUrl); // Call the function with a fake URL9
     expect(mongoose.createConnection).toHaveBeenCalledWith(dbUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    });
+    }); // Check if mongoose.createConnection was called with the correct URL
     expect(connection).toBe(mockConnection); // Check if the returned connection is the mock connection
   });
 
