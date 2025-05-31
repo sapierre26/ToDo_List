@@ -21,13 +21,13 @@ const Login = ({ onLoginSuccess }) => {
     try {
       const response = await fetch("http://localhost:8000/api/users/login", {
         method: "POST",
-        headers: {
+        headers: { 
           "Content-Type": "application/json",
-        },
+         },
         body: JSON.stringify({ username, pwd: password }),
       });
 
-      const msg = await response.text();
+      const data = await response.json();
 
       if (!response.ok) {
         if (data.message === "Missing username.") {
@@ -46,10 +46,11 @@ const Login = ({ onLoginSuccess }) => {
       console.log("Login successful, token received:", data.token);
 
       if (onLoginSuccess) onLoginSuccess();
+
       navigate("/Calendar");
     } catch (err) {
-      setErrorMessage(err.message);
       console.error("Error during login:", err.message);
+      setErrorMessage(err.message || "An error occurred");
     }
   };
 

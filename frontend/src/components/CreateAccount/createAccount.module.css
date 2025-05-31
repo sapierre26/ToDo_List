@@ -93,6 +93,7 @@ form {
 .errorContainer {
   min-height: 18px;
   margin-bottom: 10px;
+  margin-top: 10px;
   width: 100%;
   background-color: #d3ded8;
   border-radius: 4px;
