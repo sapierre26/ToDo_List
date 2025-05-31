@@ -16,9 +16,9 @@ const register = async (req, res) => {
 
   // Validate input more thoroughly
   if (!username || !pwd || !name || !email) {
-    return res.status(400).json({ 
+    return res.status(400).json({
       success: false,
-      message: "All fields are required: name, username, email, and password."
+      message: "All fields are required: name, username, email, and password.",
     });
   }
 
@@ -27,7 +27,7 @@ const register = async (req, res) => {
   if (!emailRegex.test(email)) {
     return res.status(400).json({
       success: false,
-      message: "Please enter a valid email address."
+      message: "Please enter a valid email address.",
     });
   }
 
@@ -35,7 +35,7 @@ const register = async (req, res) => {
   if (pwd.length < 8) {
     return res.status(400).json({
       success: false,
-      message: "Password must be at least 8 characters long."
+      message: "Password must be at least 8 characters long.",
     });
   }
 
@@ -45,9 +45,10 @@ const register = async (req, res) => {
     if (existingUser) {
       return res.status(409).json({
         success: false,
-        message: existingUser.username === username 
-          ? "Username already taken." 
-          : "Email already registered."
+        message:
+          existingUser.username === username
+            ? "Username already taken."
+            : "Email already registered.",
       });
     }
 
@@ -59,7 +60,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       email,
     });
-    
+
     const savedUser = await newUser.save();
     const token = generateAccessToken(savedUser.username, savedUser._id);
 
@@ -68,14 +69,14 @@ const register = async (req, res) => {
       token,
       username: savedUser.username,
       userID: savedUser._id,
-      message: "Account created successfully!"
+      message: "Account created successfully!",
     });
   } catch (err) {
     console.error("Registration error:", err);
     res.status(500).json({
       success: false,
       message: "Server error during registration.",
-      error: err.message
+      error: err.message,
     });
   }
 };
@@ -86,7 +87,7 @@ const login = async (req, res) => {
   if (!username || !pwd) {
     return res.status(400).json({
       success: false,
-      message: "Both username and password are required."
+      message: "Both username and password are required.",
     });
   }
 
@@ -95,7 +96,7 @@ const login = async (req, res) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "Authentication failed. User not found."
+        message: "Authentication failed. User not found.",
       });
     }
 
@@ -103,7 +104,7 @@ const login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: "Authentication failed. Incorrect password."
+        message: "Authentication failed. Incorrect password.",
       });
     }
 
@@ -113,14 +114,14 @@ const login = async (req, res) => {
       token,
       username: user.username,
       userID: user._id,
-      message: "Login successful."
+      message: "Login successful.",
     });
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({
       success: false,
       message: "Server error during login.",
-      error: err.message
+      error: err.message,
     });
   }
 };

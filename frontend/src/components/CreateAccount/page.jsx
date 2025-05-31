@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import styles from "./createAccount.module.css";
 
 const CreateAccount = () => {
   const [formData, setFormData] = useState({
@@ -6,7 +8,7 @@ const CreateAccount = () => {
     lastName: "",
     username: "",
     email: "",
-    password: ""
+    password: "",
   });
 
   const [errors, setErrors] = useState({
@@ -15,7 +17,7 @@ const CreateAccount = () => {
     username: "",
     email: "",
     password: "",
-    form: ""
+    form: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,16 +25,15 @@ const CreateAccount = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
-    // Clear field errors when typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ""
+        [name]: "",
       }));
     }
   };
@@ -44,7 +45,7 @@ const CreateAccount = () => {
       username: "",
       email: "",
       password: "",
-      form: ""
+      form: "",
     };
 
     let isValid = true;
@@ -100,7 +101,7 @@ const CreateAccount = () => {
       username: "",
       email: "",
       password: "",
-      form: ""
+      form: "",
     });
 
     try {
@@ -129,15 +130,14 @@ const CreateAccount = () => {
         lastName: "",
         username: "",
         email: "",
-        password: ""
+        password: "",
       });
 
       setTimeout(() => setSuccessMessage(""), 5000);
-
     } catch (err) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        form: err.message
+        form: err.message,
       }));
     } finally {
       setIsSubmitting(false);
@@ -145,71 +145,75 @@ const CreateAccount = () => {
   };
 
   return (
-    <div>
+    <div className={styles.accountcontainer}>
       <h3>Create an account</h3>
-
-      {errors.form && <div style={{ color: "red" }}>{errors.form}</div>}
-      {successMessage && <div style={{ color: "green" }}>{successMessage}</div>}
+      {errors.form && <p className={styles.errorMessage}>{errors.form}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
 
       <form onSubmit={onSubmit}>
-        <div>
-          <input
-            type="text"
-            name="firstName"
-            placeholder="First name"
-            value={formData.firstName}
-            onChange={handleChange}
-          />
-          {errors.firstName && <span style={{ color: "red" }}>{errors.firstName}</span>}
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First name"
+          value={formData.firstName}
+          onChange={handleChange}
+        />
+        <div className={styles.errorContainer}>
+          <p className={styles.errorMessage}>{errors.firstName}</p>
         </div>
 
-        <div>
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last name"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-          {errors.lastName && <span style={{ color: "red" }}>{errors.lastName}</span>}
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Last name"
+          value={formData.lastName}
+          onChange={handleChange}
+        />
+        <div className={styles.errorContainer}>
+          <p className={styles.errorMessage}>{errors.lastName}</p>
         </div>
 
-        <div>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-          {errors.username && <span style={{ color: "red" }}>{errors.username}</span>}
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={formData.username}
+          onChange={handleChange}
+        />
+        <div className={styles.errorContainer}>
+          <p className={styles.errorMessage}>{errors.username}</p>
         </div>
 
-        <div>
-          <input
-            type="text"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          {errors.email && <span style={{ color: "red" }}>{errors.email}</span>}
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <div className={styles.errorContainer}>
+          <p className={styles.errorMessage}>{errors.email}</p>
         </div>
 
-        <div>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          {errors.password && <span style={{ color: "red" }}>{errors.password}</span>}
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <div className={styles.errorContainer}>
+          <p className={styles.errorMessage}>{errors.password}</p>
         </div>
 
-        <button type="submit" disabled={isSubmitting}>
+        <button className={styles.button} type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Creating account..." : "Create Account"}
         </button>
+        <div className={styles.linkContainer}>
+          <Link to="/login" className={styles.link}>
+            Back to Login
+          </Link>
+        </div>
       </form>
     </div>
   );

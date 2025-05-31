@@ -76,16 +76,6 @@ function App() {
     <Router>
       <div style={{ height: "95vh", width: "100%", padding: "20px" }}>
         <nav style={{ marginBottom: "20px" }}>
-          {!isAuthenticated && (
-            <>
-              <Link to="/Login" className="button-link">
-                Login
-              </Link>
-              <Link to="/createAccount" className="button-link">
-                Create Account
-              </Link>
-            </>
-          )}
           {isAuthenticated && (
             <>
               <Link to="/Calendar" className="button-link">

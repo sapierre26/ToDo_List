@@ -1,34 +1,22 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import style from "./login.module.css";
-import { useNavigate } from "react-router-dom";
+import styles from "../CreateAccount/createAccount.module.css";
+import { useNavigate, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [emailError, setEmailError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setEmailError("");
+    setUsernameError("");
     setPasswordError("");
     setErrorMessage("");
-
-    let hasError = false;
-    if (!username) {
-      setEmailError("Please enter your username");
-      hasError = true;
-    }
-    if (!password) {
-      setPasswordError("Please enter a password");
-      hasError = true;
-    }
-
-    if (hasError) return;
 
     try {
       const response = await fetch("http://localhost:8000/api/users/login", {
@@ -39,32 +27,37 @@ const Login = ({ onLoginSuccess }) => {
         body: JSON.stringify({ username, pwd: password }),
       });
 
-      const msg = await response.text();
+      const data = await response.json();
 
       if (!response.ok) {
-        console.error("backend response:", msg);
-        throw new Error(msg);
+        if (data.message === "Missing username.") {
+          setUsernameError("Please enter username.");
+        } else if (data.message === "Missing password.") {
+          setPasswordError("Please enter password.");
+        } else if (data.message === "All fields are required.") {
+          setUsernameError("Please enter username.");
+          setPasswordError("Please enter password.");
+        } else {
+          setErrorMessage(data.message || "Login failed.");
+        }
+        return;
       }
-      const data = JSON.parse(msg);
+
       console.log("Login successful, token received:", data.token);
 
-      if (rememberMe) {
-        localStorage.setItem("token", data.token); // persists across browser restarts
-      } else {
-        sessionStorage.setItem("token", data.token); // cleared when browser closes
-      }
-
       if (onLoginSuccess) onLoginSuccess();
+
       navigate("/Calendar");
     } catch (err) {
-      setErrorMessage(err.message);
       console.error("Error during login:", err.message);
+      setErrorMessage(err.message || "An error occurred");
     }
   };
 
   return (
     <div className={style.loginContainer}>
       <h3>Login</h3>
+      {errorMessage && <p className={style.error}>{errorMessage}</p>}
       <form onSubmit={onSubmit}>
         <input
           type="text"
@@ -72,7 +65,9 @@ const Login = ({ onLoginSuccess }) => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        {emailError && <p className={style.error}>{emailError}</p>}
+        <div className={styles.errorContainer}>
+          {usernameError && <p className={style.error}>{usernameError}</p>}
+        </div>
 
         <input
           type="password"
@@ -80,20 +75,16 @@ const Login = ({ onLoginSuccess }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        {passwordError && <p className={style.error}>{passwordError}</p>}
-
-        <div className={style.checkboxContainer}>
-          <input
-            type="checkbox"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-          />
-          <span>Remember Me</span>
+        <div className={styles.errorContainer}>
+          {passwordError && <p className={style.error}>{passwordError}</p>}
         </div>
 
-        {errorMessage && <p className={style.error}>{errorMessage}</p>}
-
         <button type="submit">Login</button>
+        <div className={styles.linkContainer}>
+          <Link to="/createAccount" className={styles.link}>
+            Create an account
+          </Link>
+        </div>
       </form>
     </div>
   );
