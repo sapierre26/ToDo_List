@@ -55,10 +55,7 @@ export const registerUser = async (req, res) => {
     const newUser = new userModel({ username, password: hashedPassword });
     const savedUser = await newUser.save();
 
-    const token = await generateAccessToken(
-      savedUser.username,
-      savedUser._id,
-    );
+    const token = await generateAccessToken(savedUser.username, savedUser._id);
     console.log("Registration successful. Token:", token);
     res.status(201).json({
       token,
@@ -81,7 +78,7 @@ export const loginUser = async (req, res) => {
   if (!username && !pwd) {
     return res.status(400).json({
       success: false,
-      message: "All fields are required."
+      message: "All fields are required.",
     });
   }
 
@@ -104,7 +101,7 @@ export const loginUser = async (req, res) => {
     if (!retrievedUser) {
       return res.status(401).json({
         success: false,
-        message: "Unauthorized: User not found."
+        message: "Unauthorized: User not found.",
       });
     }
 

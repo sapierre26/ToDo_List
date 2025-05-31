@@ -23,7 +23,7 @@ router.post("/login", async (req, res) => {
   if (!username && !pwd) {
     return res.status(400).json({
       success: false,
-      message: "All fields are required."
+      message: "All fields are required.",
     });
   }
 
@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "Unauthorized: User not found."
+        message: "Unauthorized: User not found.",
       });
     }
 

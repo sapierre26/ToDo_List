@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import style from "./login.module.css";
-import styles from "../CreateAccount/createAccount.module.css"
+import styles from "../CreateAccount/createAccount.module.css";
 import { useNavigate, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -21,9 +21,9 @@ const Login = ({ onLoginSuccess }) => {
     try {
       const response = await fetch("http://localhost:8000/api/users/login", {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-         },
+        },
         body: JSON.stringify({ username, pwd: password }),
       });
 
@@ -41,7 +41,7 @@ const Login = ({ onLoginSuccess }) => {
           setErrorMessage(data.message || "Login failed.");
         }
         return;
-      }      
+      }
 
       console.log("Login successful, token received:", data.token);
 
@@ -59,25 +59,25 @@ const Login = ({ onLoginSuccess }) => {
       <h3>Login</h3>
       {errorMessage && <p className={style.error}>{errorMessage}</p>}
       <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <div className={styles.errorContainer}>
-        {usernameError && <p className={style.error}>{usernameError}</p>}
-      </div>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <div className={styles.errorContainer}>
+          {usernameError && <p className={style.error}>{usernameError}</p>}
+        </div>
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <div className={styles.errorContainer}>
-        {passwordError && <p className={style.error}>{passwordError}</p>}
-      </div>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <div className={styles.errorContainer}>
+          {passwordError && <p className={style.error}>{passwordError}</p>}
+        </div>
 
         <button type="submit">Login</button>
         <div className={styles.linkContainer}>
