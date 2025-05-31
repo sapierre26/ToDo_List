@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import styles from './CreateAccount.module.css';
 
 const CreateAccount = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +30,6 @@ const CreateAccount = () => {
       [name]: value
     }));
 
-    // Clear field errors when typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -145,14 +146,12 @@ const CreateAccount = () => {
   };
 
   return (
-    <div>
+    <div className={styles.accountcontainer}>
       <h3>Create an account</h3>
-
-      {errors.form && <div style={{ color: "red" }}>{errors.form}</div>}
-      {successMessage && <div style={{ color: "green" }}>{successMessage}</div>}
+      {errors.form && <p className={styles.errorMessage}>{errors.form}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
 
       <form onSubmit={onSubmit}>
-        <div>
           <input
             type="text"
             name="firstName"
@@ -160,10 +159,10 @@ const CreateAccount = () => {
             value={formData.firstName}
             onChange={handleChange}
           />
-          {errors.firstName && <span style={{ color: "red" }}>{errors.firstName}</span>}
-        </div>
+          <div className={styles.errorContainer}>
+            <p className={styles.errorMessage}>{errors.firstName}</p>
+          </div>
 
-        <div>
           <input
             type="text"
             name="lastName"
@@ -171,10 +170,10 @@ const CreateAccount = () => {
             value={formData.lastName}
             onChange={handleChange}
           />
-          {errors.lastName && <span style={{ color: "red" }}>{errors.lastName}</span>}
-        </div>
+          <div className={styles.errorContainer}>
+            <p className={styles.errorMessage}>{errors.lastName}</p>
+          </div>
 
-        <div>
           <input
             type="text"
             name="username"
@@ -182,10 +181,10 @@ const CreateAccount = () => {
             value={formData.username}
             onChange={handleChange}
           />
-          {errors.username && <span style={{ color: "red" }}>{errors.username}</span>}
-        </div>
+          <div className={styles.errorContainer}>
+            <p className={styles.errorMessage}>{errors.username}</p>
+          </div>
 
-        <div>
           <input
             type="text"
             name="email"
@@ -193,10 +192,10 @@ const CreateAccount = () => {
             value={formData.email}
             onChange={handleChange}
           />
-          {errors.email && <span style={{ color: "red" }}>{errors.email}</span>}
-        </div>
+          <div className={styles.errorContainer}>
+            <p className={styles.errorMessage}>{errors.email}</p>
+          </div>
 
-        <div>
           <input
             type="password"
             name="password"
@@ -204,12 +203,16 @@ const CreateAccount = () => {
             value={formData.password}
             onChange={handleChange}
           />
-          {errors.password && <span style={{ color: "red" }}>{errors.password}</span>}
-        </div>
-
-        <button type="submit" disabled={isSubmitting}>
+          <div className={styles.errorContainer}>
+            <p className={styles.errorMessage}>{errors.password}</p>
+          </div>
+        
+        <button className={styles.button} type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Creating account..." : "Create Account"}
         </button>
+        <div className={styles.linkContainer}>
+          <Link to="/login" className={styles.link}>Back to Login</Link>
+        </div>
       </form>
     </div>
   );

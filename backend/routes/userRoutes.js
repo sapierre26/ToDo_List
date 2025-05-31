@@ -20,19 +20,42 @@ router.post("/login", async (req, res) => {
 
   const { username, pwd } = req.body;
 
-  if (!username || !pwd) {
-    return res.status(400).send("missing fields");
+  if (!username && !pwd) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required."
+    });
+  }
+
+  if (!username) {
+    return res.status(400).json({
+      success: false,
+      message: "Missing username.",
+    });
+  }
+
+  if (!pwd) {
+    return res.status(400).json({
+      success: false,
+      message: "Missing password.",
+    });
   }
 
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(401).send("user not found");
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: User not found."
+      });
     }
 
     const isMatch = await bcrypt.compare(pwd, user.password);
     if (!isMatch) {
-      return res.status(401).send("incorrect password");
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: Password does not match.",
+      });
     }
 
     const token = jwt.sign(
@@ -48,7 +71,11 @@ router.post("/login", async (req, res) => {
     });
   } catch (err) {
     console.error("login error:", err);
-    res.status(500).send("server error during login");
+    res.status(500).json({
+      success: false,
+      message: "Server error during login.",
+      error: error.message,
+    });
   }
 });
 

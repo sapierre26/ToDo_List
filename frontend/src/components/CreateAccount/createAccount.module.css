@@ -1,83 +1,99 @@
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+form {
+  background-color: #ffffff;
+  border: 1px solid #63746a;
+  border-radius: 4px;
 }
 
-body {
-  font-family: monospace;
-  background-color: #f4f4f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-/* Create Account Form Container */
-.create-account-container {
-  background-color: #eaf5ea; /* Soft pastel green background */
-  border: 2px solid #a8d5ba; /* Subtle green border */
-  border-radius: 8px; /* Rounded corners for a softer look */
-  padding: 30px; /* Spacing inside the container */
-  margin-top: 15px; /* Space above the container */
-  text-align: center; /* Centers inline content inside the container */
+.accountcontainer {
+  background-color: #d3ded8;
+  border: 1px solid #63746a;
+  border-radius: 8px;
+  padding: 30px;
+  padding-top: 10px;
   width: 100%;
-  max-width: 400px; /* Limit the width to 400px */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px #63746a;
 }
 
-/* Title */
-h2 {
-  font-size: 26px;
-  margin-bottom: 20px;
-  color: #333;
-  font-family: monospace;
-  font-weight: bold;
-}
-
-/* Input Fields */
-input {
-  width: 75%;
-  padding: 12px;
-  margin: 10px 0;
+.accountcontainer input[type="text"],
+.accountcontainer input[type="password"] {
+  width: 94%;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 12px;
-  background-color: #fafafa;
-  font-family: monospace;
-  color: black;
-}
-
-input:focus {
-  border-color: #4caf50; /* Green border when focused */
-  outline: none;
-}
-
-/* Error Messages */
-p {
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
   font-family: monospace;
 }
 
-/* Submit Button */
-button {
-  width: 75%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  background-color: #63746a; /* Green background */
+.accountcontainer button {
+  width: 100%;
+  padding: 10px;
+  background-color: #63746a;
   color: white;
+  border: none;
+  border-radius: 4px;
   font-family: monospace;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 10px;
   transition: background-color 0.3s;
 }
 
-/* Button Hover Effect */
-button:hover {
-  background-color: #62be6c; /* Darker green on hover */
+.accountcontainer button:hover {
+  background-color: #4a5c52;
+}
+
+.accountcontainer .errorMessage {
+  color: red;
+  font-size: 12px;
+  margin: 0px 0 10px 0;
+  padding-left: 5px;
+  text-align: left;
+}
+.accountcontainer a {
+  color: #63746a;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.accountcontainer a:hover {
+  color: #4a5c52;
+  text-decoration: underline;
+}
+
+/* Match form title */
+.accountcontainer h3 {
+  color: #5e5c5c;
+  font-family: monospace;
+  font-size: 26px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.linkContainer {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.link {
+  color: #63746a;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+  font-size: 14px;
+}
+
+.link:hover {
+  color: #4a5c52;
+  text-decoration: underline;
+}
+
+.errorContainer {
+  min-height: 18px;
+  margin-bottom: 10px;
+  width: 100%;
+  background-color: #d3ded8;
+  border-radius: 4px;
 }

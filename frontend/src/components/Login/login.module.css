@@ -1,86 +1,55 @@
-body {
-  font-family: monospace;
-  background-color: #f4f4f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-/* Login Form Container */
-.login-container {
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.loginContainer {
+  background-color: #d3ded8;
+  border: 1px solid #63746a;
+  border-radius: 8px;
+  padding: 30px;
+  padding-top: 10px;
   width: 100%;
   max-width: 400px;
-  text-align: center;
-  margin: 20px; /* Ensures there's space on small screens */
+  margin: 0 auto;
+  box-shadow: 0 4px 10px #63746a;
 }
 
-/* Title */
-h2 {
-  font-size: 26px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-/* Input Fields */
-input {
-  width: 100%;
+.loginContainer input[type="text"],
+.loginContainer input[type="password"] {
+  width: 91%;
   padding: 12px;
-  margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
-  color: black;
-  background-color: #fafafa;
+  font-size: 14px;
   font-family: monospace;
+  margin-bottom: 10px;
+  margin-left: 0.5px;
 }
 
-input:focus {
-  border-color: #4caf50; /* Green border when focused */
-  outline: none;
-}
-
-.checkboxContainer {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  white-space: nowrap; 
-  font-size: 0.95rem;
-  margin-top: 1rem;
-}
-
-label {
-  font-size: 14px;
-  margin-left: 8px;
-  color: #555;
-}
-
-/* Error Messages */
-p {
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
-  text-align: left;
-}
-
-/* Login Button */
-button {
+.loginContainer button {
   width: 100%;
   padding: 12px;
-  background-color: #4caf50; /* Green background */
+  background-color: #63746a;
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
+  font-family: monospace;
   cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+.loginContainer button:hover {
+  background-color: #4a5c52;
+}
+
+.loginContainer .error {
+  color: red;
+  font-size: 12px;
+  margin: 0px 0 10px 0;
+  padding-left: 5px;
+  text-align: left;
+}
+
+h3 {
+  color: #5e5c5c;
+  font-family: monospace;
+  font-size: 26px;
+  margin-bottom: 20px;
+  text-align: center;
 }
