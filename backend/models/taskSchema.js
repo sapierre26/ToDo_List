@@ -15,7 +15,7 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { collections: "tasks" }
+  { collections: "tasks" },
 );
 
 let Task;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { act } from "@testing-library/react";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import CalendarComponent from "./page";
@@ -16,11 +16,12 @@ afterEach(() => {
 
 beforeEach(async () => {
   await act(async () => {
-    render(<CalendarComponent 
-      selectedPriority={ "Low"}
-      onSelectPriority={jest.fn()}
-
-    />);
+    render(
+      <CalendarComponent
+        selectedPriority={"Low"}
+        onSelectPriority={jest.fn()}
+      />,
+    );
   });
 });
 

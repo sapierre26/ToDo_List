@@ -7,7 +7,7 @@ const Task = require("../models/taskSchema");
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
 // Mock middleware to simulate authenticated user
-jest.mock("../middleware/auth",() => (req, res, next) => {
+jest.mock("../middleware/auth", () => (req, res, next) => {
   req.user = { id: "507f1f77bcf86cd799439011" };
   next();
 });
@@ -53,7 +53,10 @@ describe("Task Routes (Mocked)", () => {
       description: "Test create task",
     };
 
-    mockingoose(Task).toReturn({ ...mockTask, _id: "123", userId: "507f1f77bcf86cd799439011" }, "save");
+    mockingoose(Task).toReturn(
+      { ...mockTask, _id: "123", userId: "507f1f77bcf86cd799439011" },
+      "save",
+    );
 
     const res = await request(app).post("/api/tasks").send(mockTask);
     expect(res.statusCode).toBe(200);

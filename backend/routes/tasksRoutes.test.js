@@ -22,7 +22,7 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
 
-  process.env.tasksDB = uri; 
+  process.env.tasksDB = uri;
 
   const { makeNewConnection } = require("../connection");
   const conn = makeNewConnection(uri);
@@ -49,9 +49,7 @@ describe("Task Routes with In-Memory MongoDB", () => {
       description: "Test description",
     };
 
-    const response = await request(app)
-      .post("/api/tasks")
-      .send(newTask);
+    const response = await request(app).post("/api/tasks").send(newTask);
 
     expect(response.status).toBe(200);
     expect(response.body.task.title).toBe("Test Task");
@@ -147,7 +145,7 @@ describe("Task Routes with In-Memory MongoDB", () => {
 
   it("should return 404 when task to delete is not found", async () => {
     const res = await request(app).delete(
-      `/api/tasks/665a3d95e92f3bb8dc83f999`
+      `/api/tasks/665a3d95e92f3bb8dc83f999`,
     );
 
     expect(res.status).toBe(404);

@@ -108,19 +108,19 @@ describe("Task API Functions", () => {
   it("should successfully delete a task", async () => {
     const mockResponse = { message: "Task deleted" };
     const mockToken = "test-token";
-  
+
     fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse,
     });
-  
+
     const result = await deleteTask("1", mockToken);
     expect(result).toBe(true);
     expect(fetch).toHaveBeenCalledWith("http://localhost:8000/api/tasks/1", {
       method: "DELETE",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${mockToken}` 
+        Authorization: `Bearer ${mockToken}`,
       },
       cache: "no-store",
     });
