@@ -1,5 +1,4 @@
-// @ts-expect-error  @typescript-eslint/ban-ts-comment
-import { getTasks, addTask, deleteTask, Task } from "./tasks"; // adjust import path
+const { getTasks, addTask, deleteTask } = require("./tasks");
 
 // Mocking fetch to simulate API calls
 global.fetch = jest.fn();
@@ -15,7 +14,7 @@ describe("Task API Functions", () => {
 
   // Test for getTasks
   it("should fetch all tasks successfully", async () => {
-    const mockTasks: Task[] = [
+    const mockTasks = [
       {
         _id: "1",
         date: "2025-03-14",
@@ -32,7 +31,7 @@ describe("Task API Functions", () => {
       },
     ];
 
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockTasks,
     });
@@ -46,7 +45,7 @@ describe("Task API Functions", () => {
   });
 
   it("should return null if fetching tasks fails", async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    fetch.mockResolvedValueOnce({
       ok: false,
       status: 500,
       statusText: "Internal Server Error",
@@ -59,7 +58,7 @@ describe("Task API Functions", () => {
 
   // Test for addTask
   it("should successfully add a task", async () => {
-    const newTask: Task = {
+    const newTask = {
       _id: "3",
       date: "2025-03-16",
       title: "Task 3",
@@ -67,7 +66,7 @@ describe("Task API Functions", () => {
       priority: "Medium",
     };
 
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => newTask,
     });
@@ -87,7 +86,7 @@ describe("Task API Functions", () => {
   });
 
   it("should return false if adding a task fails", async () => {
-    const newTask: Task = {
+    const newTask = {
       _id: "3",
       date: "2025-03-16",
       title: "Task 3",
@@ -95,7 +94,7 @@ describe("Task API Functions", () => {
       priority: "Medium",
     };
 
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    fetch.mockResolvedValueOnce({
       ok: false,
       status: 400,
       json: async () => ({ message: "Bad request" }),
@@ -108,23 +107,27 @@ describe("Task API Functions", () => {
   // Test for deleteTask
   it("should successfully delete a task", async () => {
     const mockResponse = { message: "Task deleted" };
-
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    const mockToken = "test-token";
+  
+    fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse,
     });
-
-    const result = await deleteTask("1");
+  
+    const result = await deleteTask("1", mockToken);
     expect(result).toBe(true);
     expect(fetch).toHaveBeenCalledWith("http://localhost:8000/api/tasks/1", {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${mockToken}` 
+      },
       cache: "no-store",
     });
   });
 
   it("should return false if deleting a task fails", async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    fetch.mockResolvedValueOnce({
       ok: false,
       status: 400,
       json: async () => ({ message: "Error deleting task" }),

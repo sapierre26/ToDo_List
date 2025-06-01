@@ -18,6 +18,7 @@
   border-radius: 4px;
   font-size: 14px;
   font-family: monospace;
+  margin-left: 0.5px;
 }
 
 input:focus {

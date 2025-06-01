@@ -1,3 +1,4 @@
+import React from 'react';
 import { act } from "@testing-library/react";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import CalendarComponent from "./page";
@@ -9,16 +10,17 @@ jest.mock("../../api/tasks", () => ({
   getGoogleTasks: jest.fn(() => Promise.resolve([])),
   getTasksAndEventsByEndDate: jest.fn(() => Promise.resolve([])),
 }));
-// Cleanup after each test
 afterEach(() => {
   cleanup();
 });
 
-// Render CalendarComponent before each test
 beforeEach(async () => {
   await act(async () => {
-    render(<CalendarComponent />);
-    // OR trigger the code that causes the update
+    render(<CalendarComponent 
+      selectedPriority={ "Low"}
+      onSelectPriority={jest.fn()}
+
+    />);
   });
 });
 

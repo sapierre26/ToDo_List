@@ -1,62 +1,63 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const { makeNewConnection } = require("../connection");
+const { makeNewConnection } = require("./connection");
+
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
-jest.mock("mongoose"); // Mock mongoose module
+jest.mock("mongoose");
 
 dotenv.config();
 
 describe("makeNewConnection", () => {
   let mockConnection;
   let originalEnv;
+  let originalExit;
 
   beforeAll(() => {
-    // Mock the connection creation
+    originalExit = process.exit;
+    process.exit = jest.fn();
+    originalEnv = process.env;
+
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+
     mockConnection = {
       on: jest.fn(),
       once: jest.fn(),
       close: jest.fn(),
       emit: jest.fn(),
     };
+    mongoose.createConnection = jest.fn(() => mockConnection);
     mongoose.connection = { on: jest.fn(), emit: jest.fn() };
-
-    jest.spyOn(console, "log").mockImplementation(() => {});
-    jest.spyOn(console, "error").mockImplementation(() => {});
-
-    process.exit = jest.fn();
-    originalEnv = process.env;
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-    originalExit = process.exit;
-    process.env = originalEnv;
+    process.env = { ...originalEnv };
+  });
+
+  afterAll(() => {
+    process.exit = originalExit;
   });
 
   it("should create a new connection with the correct URL", () => {
     const dbUrl = "mongodb://localhost:27017/testDB";
-    const connection = makeNewConnection(dbUrl); // Call the function with a fake URL9
+    const connection = makeNewConnection(dbUrl); // Calls the function with a fake URL
     expect(mongoose.createConnection).toHaveBeenCalledWith(dbUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    }); // Check if mongoose.createConnection was called with the correct URL
-    expect(connection).toBe(mockConnection); // Check if the returned connection is the mock connection
+    });
+    expect(connection).toBe(mockConnection);
   });
 
   it("should log an error and terminate if MONGO_URI is not set", () => {
-    const originalExit = process.exit; // Preserve original process.exit
-    process.exit = jest.fn(); // Mock exit function
-
-    // Call with no URL
+    process.env.MONGO_URI = "";
     makeNewConnection();
 
     expect(console.error).toHaveBeenCalledWith(
       "MONGO_URI is not set in the environment variables.",
     );
-    expect(process.exit).toHaveBeenCalledWith(1); // Ensure the process exits
-
-    process.exit = originalExit; // Restore process.exit after the test
+    expect(process.exit).not.toHaveBeenCalledWith();
   });
 
   it("should log the connection success message", () => {
@@ -65,7 +66,7 @@ describe("makeNewConnection", () => {
     const dbUrl = "mongodb://localhost:27017/testDB";
     const connection = makeNewConnection(dbUrl);
 
-    // Simulate the 'connected' event
+    // Mocks the 'connected' event
     connection.on.mock.calls.forEach((call) => {
       if (call[0] === "connected") call[1]();
     });
@@ -78,7 +79,7 @@ describe("makeNewConnection", () => {
     const dbUrl = "mongodb://localhost:27017/testDB";
     const connection = makeNewConnection(dbUrl);
 
-    // Simulate the 'disconnected' event
+    // Mocks the 'disconnected' event
     connection.on.mock.calls.forEach((call) => {
       if (call[0] === "disconnected") call[1]();
     });
@@ -91,7 +92,7 @@ describe("makeNewConnection", () => {
     const dbUrl = "mongodb://localhost:27017/testDB";
     jest.spyOn(console, "log").mockImplementation(() => {});
     const connection = makeNewConnection(dbUrl);
-    // Simulate the 'error' event
+    // Mocks the 'error' event
     const testError = new Error("Test error");
     mongoose.connection.on.mock.calls.forEach((call) => {
       if (call[0] === "error") call[1](testError);

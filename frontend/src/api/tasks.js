@@ -77,10 +77,15 @@ const addTask = async (task, token) => {
   }
 };
 
-const deleteTask = async (taskId) => {
+const deleteTask = async (taskId, token) => {
   try {
     const res = await fetch(`http://localhost:8000/api/tasks/${taskId}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
     });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return true;

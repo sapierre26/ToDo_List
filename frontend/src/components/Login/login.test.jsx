@@ -1,85 +1,164 @@
-/**
- * @jest-environment jsdom
- */
-import { render, screen, fireEvent } from "@testing-library/react";
-import { beforeEach } from "@jest/globals";
-import Login from "./page";
-import { act } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import Login from './page';
+import '@testing-library/jest-dom';
 
-describe("Login Component Tests", () => {
+// Mock the fetch API
+global.fetch = jest.fn();
+
+// Mock useNavigate
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+}));
+
+describe('Login Component', () => {
+  const mockOnLoginSuccess = jest.fn();
+
   beforeEach(() => {
-    render(
+    fetch.mockClear();
+    mockNavigate.mockClear();
+    mockOnLoginSuccess.mockClear();
+  });
+
+  const renderLogin = () => {
+    return render(
       <MemoryRouter>
-        <Login />
-      </MemoryRouter>,
+        <Login onLoginSuccess={mockOnLoginSuccess} />
+      </MemoryRouter>
     );
+  };
+
+  test('renders login form correctly', () => {
+    renderLogin();
+    
+    expect(screen.getByRole('heading', { name: /Login/i })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Login/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Create an account/i })).toBeInTheDocument();
   });
 
-  test("1. The Login Button should be present", () => {
-    const loginButton = screen.getByRole("button", { name: /Login/i });
-    expect(loginButton).toBeInTheDocument();
+  test('shows username error when username is missing', async () => {
+    fetch.mockResolvedValueOnce({
+      ok: false,
+      json: async () => ({ message: 'Missing username.' }),
+    });
+
+    renderLogin();
+    
+    fireEvent.click(screen.getByRole('button', { name: /Login/i }));
+    
+    await waitFor(() => {
+      expect(screen.getByText('Please enter username.')).toBeInTheDocument();
+    });
   });
 
-  test("2. Error message for empty credentials", async () => {
-    const loginButton = screen.getByRole("button", { name: /Login/i });
-    await act(async () => {
-      fireEvent.click(loginButton);
+  test('shows password error when password is missing', async () => {
+    fetch.mockResolvedValueOnce({
+      ok: false,
+      json: async () => ({ message: 'Missing password.' }),
     });
 
-    expect(screen.getByText("Please enter your username")).toBeInTheDocument();
-    expect(screen.queryByText("Please enter a password")).toBeInTheDocument();
+    renderLogin();
+    
+    fireEvent.change(screen.getByPlaceholderText('Username'), { 
+      target: { value: 'testuser' } 
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Login/i }));
+    
+    await waitFor(() => {
+      expect(screen.getByText('Please enter password.')).toBeInTheDocument();
+    });
   });
 
-  test("3. Password error with empty username credentials", async () => {
-    fireEvent.change(screen.getByPlaceholderText("Username"), {
-      target: { value: "testuser" },
-    });
-    const loginButton = screen.getByRole("button", { name: /Login/i });
-    await act(async () => {
-      fireEvent.click(loginButton);
+  test('shows both errors when all fields are missing', async () => {
+    fetch.mockResolvedValueOnce({
+      ok: false,
+      json: async () => ({ message: 'All fields are required.' }),
     });
 
-    expect(
-      screen.queryByText("Please enter your username"),
-    ).not.toBeInTheDocument();
-    expect(screen.getByText("Please enter a password")).toBeInTheDocument();
+    renderLogin();
+    
+    fireEvent.click(screen.getByRole('button', { name: /Login/i }));
+    
+    await waitFor(() => {
+      expect(screen.getByText('Please enter username.')).toBeInTheDocument();
+      expect(screen.getByText('Please enter password.')).toBeInTheDocument();
+    });
   });
 
-  test("4. Username error with empty password credentials", async () => {
-    fireEvent.change(screen.getByPlaceholderText("Password"), {
-      target: { value: "testpassword" },
-    });
-    const loginButton = screen.getByRole("button", { name: /Login/i });
-    await act(async () => {
-      fireEvent.click(loginButton);
+  test('shows general error message when login fails', async () => {
+    fetch.mockResolvedValueOnce({
+      ok: false,
+      json: async () => ({ message: 'Invalid credentials' }),
     });
 
-    expect(
-      screen.queryByText("Please enter a password"),
-    ).not.toBeInTheDocument();
-    expect(screen.getByText("Please enter your username")).toBeInTheDocument();
+    renderLogin();
+    
+    fireEvent.change(screen.getByPlaceholderText('Username'), { 
+      target: { value: 'testuser' } 
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { 
+      target: { value: 'wrongpass' } 
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Login/i }));
+    
+    await waitFor(() => {
+      expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
+    });
   });
 
-  test("5. No errors shown", async () => {
-    fireEvent.change(screen.getByPlaceholderText("Username"), {
-      target: { value: "testuser" },
-    });
-    fireEvent.change(screen.getByPlaceholderText("Password"), {
-      target: { value: "testpassword" },
-    });
-
-    const loginButton = screen.getByRole("button", { name: /Login/i });
-
-    await act(async () => {
-      fireEvent.click(loginButton);
+  test('successful login navigates to calendar and calls onLoginSuccess', async () => {
+    const mockToken = 'test-token-123';
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ token: mockToken }),
     });
 
-    expect(
-      screen.queryByText("Please enter your username"),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("Please enter a password"),
-    ).not.toBeInTheDocument();
+    renderLogin();
+    
+    fireEvent.change(screen.getByPlaceholderText('Username'), { 
+      target: { value: 'testuser' } 
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { 
+      target: { value: 'correctpass' } 
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Login/i }));
+    
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          username: 'testuser', 
+          pwd: 'correctpass' 
+        }),
+      });
+      expect(mockOnLoginSuccess).toHaveBeenCalled();
+      expect(mockNavigate).toHaveBeenCalledWith('/Calendar');
+    });
+  });
+
+  test('handles network error during login', async () => {
+    fetch.mockRejectedValueOnce(new Error('Network error'));
+
+    renderLogin();
+    
+    fireEvent.change(screen.getByPlaceholderText('Username'), { 
+      target: { value: 'testuser' } 
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { 
+      target: { value: 'testpass' } 
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Login/i }));
+    
+    await waitFor(() => {
+      expect(screen.getByText('Network error')).toBeInTheDocument();
+    });
   });
 });

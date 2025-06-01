@@ -1,108 +1,145 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import Table from "./page";
-import "@testing-library/jest-dom";
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import Table from './page';
+import '@testing-library/jest-dom';
 
-// Sample tasks to test with
-const mockTasks = [
-  {
-    id: 1,
-    description: "Task 1",
-    priority: "High",
-    dueDate: "2025-03-20",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    description: "Task 2",
-    priority: "Medium",
-    dueDate: "2025-03-21",
-    status: "Completed",
-  },
-];
+describe('Table Component', () => {
+  const mockTasks = [
+    {
+      id: 1,
+      description: 'Complete project',
+      priority: 'High',
+      dueDate: '2023-06-15',
+      status: 'Pending'
+    },
+    {
+      id: 2,
+      description: 'Review code',
+      priority: 'Medium',
+      dueDate: '2023-06-10',
+      status: 'Completed'
+    }
+  ];
 
-const mockToggleStatus = jest.fn();
-const mockDeleteTask = jest.fn();
+  const mockToggleStatus = jest.fn();
+  const mockDeleteTask = jest.fn();
 
-describe("Table Component", () => {
-  test("renders table with correct headers", () => {
-    render(
-      <Table
-        tasks={mockTasks}
-        toggleStatus={mockToggleStatus}
-        deleteTask={mockDeleteTask}
-      />,
-    );
-
-    // Check if the table headers are rendered correctly
-    expect(screen.getAllByText(/Task/i)[0]).toBeInTheDocument();
-    expect(screen.getByText(/Priority/i)).toBeInTheDocument();
-    expect(screen.getByText(/Due Date/i)).toBeInTheDocument();
-    expect(screen.getByText(/Status/i)).toBeInTheDocument();
-    expect(screen.getByText(/Actions/i)).toBeInTheDocument();
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  test("renders table rows with correct task data", () => {
+  test('renders table with correct structure', () => {
     render(
-      <Table
+      <Table 
         tasks={mockTasks}
         toggleStatus={mockToggleStatus}
         deleteTask={mockDeleteTask}
-      />,
+      />
     );
 
-    // Check if the task data is rendered in the table rows
-    expect(screen.getByText(/Task 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/High/i)).toBeInTheDocument();
-    expect(screen.getByText(/2025-03-20/i)).toBeInTheDocument();
-    expect(screen.getByText(/Pending/i)).toBeInTheDocument();
-
-    expect(screen.getByText(/Task 2/i)).toBeInTheDocument();
-    expect(screen.getByText(/Medium/i)).toBeInTheDocument();
-    expect(screen.getByText(/2025-03-21/i)).toBeInTheDocument();
-    expect(screen.getByText(/Completed/i)).toBeInTheDocument();
+    // Verify table structure
+    expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(screen.getAllByRole('rowgroup')).toHaveLength(2); // thead and tbody
+    expect(screen.getAllByRole('row')).toHaveLength(3); // header + 2 tasks
   });
 
-  test("calls toggleStatus function when Complete/Undo button is clicked", () => {
+  test('displays correct headers', () => {
     render(
-      <Table
+      <Table 
         tasks={mockTasks}
         toggleStatus={mockToggleStatus}
         deleteTask={mockDeleteTask}
-      />,
+      />
     );
 
-    // Click on the "Complete" button for Task 1
-    fireEvent.click(screen.getAllByText(/Complete/i)[0]);
+    expect(screen.getByText('Task')).toBeInTheDocument();
+    expect(screen.getByText('Priority')).toBeInTheDocument();
+    expect(screen.getByText('Due Date')).toBeInTheDocument();
+    expect(screen.getByText('Status')).toBeInTheDocument();
+    expect(screen.getByText('Actions')).toBeInTheDocument();
+  });
 
-    // Check if toggleStatus is called with the correct task ID
+  test('renders all tasks with correct data', () => {
+    render(
+      <Table 
+        tasks={mockTasks}
+        toggleStatus={mockToggleStatus}
+        deleteTask={mockDeleteTask}
+      />
+    );
+
+    // Verify first task
+    expect(screen.getByText('Complete project')).toBeInTheDocument();
+    expect(screen.getByText('High')).toBeInTheDocument();
+    expect(screen.getByText('2023-06-15')).toBeInTheDocument();
+    expect(screen.getByText('Pending')).toBeInTheDocument();
+
+    // Verify second task
+    expect(screen.getByText('Review code')).toBeInTheDocument();
+    expect(screen.getByText('Medium')).toBeInTheDocument();
+    expect(screen.getByText('2023-06-10')).toBeInTheDocument();
+    expect(screen.getByText('Completed')).toBeInTheDocument();
+  });
+
+  test('renders correct action buttons based on status', () => {
+    render(
+      <Table 
+        tasks={mockTasks}
+        toggleStatus={mockToggleStatus}
+        deleteTask={mockDeleteTask}
+      />
+    );
+
+    expect(screen.getByText('Complete')).toBeInTheDocument();
+    
+    expect(screen.getByText('Undo')).toBeInTheDocument();
+    
+    expect(screen.getAllByText('Delete')).toHaveLength(2);
+  });
+
+  test('calls toggleStatus with correct id when action button clicked', () => {
+    render(
+      <Table 
+        tasks={mockTasks}
+        toggleStatus={mockToggleStatus}
+        deleteTask={mockDeleteTask}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Complete'));
     expect(mockToggleStatus).toHaveBeenCalledWith(1);
 
-    // Click on the "Undo" button for Task 2
-    fireEvent.click(screen.getByText(/Undo/i));
-
-    // Check if toggleStatus is called with the correct task ID
+    fireEvent.click(screen.getByText('Undo'));
     expect(mockToggleStatus).toHaveBeenCalledWith(2);
   });
 
-  test("calls deleteTask function when Delete button is clicked", () => {
+  test('calls deleteTask with correct id when delete button clicked', () => {
     render(
-      <Table
+      <Table 
         tasks={mockTasks}
         toggleStatus={mockToggleStatus}
         deleteTask={mockDeleteTask}
-      />,
+      />
     );
 
-    // Click on the "Delete" button for Task 1
-    fireEvent.click(screen.getAllByText(/Delete/i)[0]);
-
-    // Check if deleteTask is called with the correct task ID
+    const deleteButtons = screen.getAllByText('Delete');
+    fireEvent.click(deleteButtons[0]);
     expect(mockDeleteTask).toHaveBeenCalledWith(1);
 
-    // Click on the "Delete" button for Task 2
-    fireEvent.click(screen.getAllByText(/Delete/i)[1]);
-
-    // Check if deleteTask is called with the correct task ID
+    fireEvent.click(deleteButtons[1]);
     expect(mockDeleteTask).toHaveBeenCalledWith(2);
+  });
+
+  test('handles empty tasks array gracefully', () => {
+    render(
+      <Table 
+        tasks={[]}
+        toggleStatus={mockToggleStatus}
+        deleteTask={mockDeleteTask}
+      />
+    );
+
+    expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(screen.getAllByRole('row')).toHaveLength(1);
   });
 });

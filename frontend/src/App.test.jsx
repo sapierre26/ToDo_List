@@ -1,90 +1,87 @@
 import App from "./App";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { act } from "@testing-library/react";
-import { beforeEach, afterEach } from "node:test";
-jest.mock("./api/tasks", () => ({
-  getTasks: jest.fn(() => Promise.resolve([])), // ← ADD THIS LINE
-  getTasksForMonth: jest.fn(() => Promise.resolve([])),
-  getGoogleCalendarEvents: jest.fn(() => Promise.resolve([])),
-  getGoogleTasks: jest.fn(() => Promise.resolve([])),
-  getTasksAndEventsByEndDate: jest.fn(() => Promise.resolve([])),
-}));
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import '@testing-library/jest-dom';
 
-beforeEach(() => {
-  const fakePayload = { exp: Math.floor(Date.now() / 1000) + 60 * 60 };
-  const token = `header.${btoa(JSON.stringify(fakePayload))}.sig`;
-  localStorage.setItem("token", token);
+// Mock child components to simplify testing
+jest.mock("./components/Calendar/page", () => () => <div>Calendar Component</div>);
+jest.mock("./components/todolist/page", () => () => <div>TodoList Component</div>);
+jest.mock("./components/Login/page", () => ({ onLoginSuccess }) => (
+  <div>
+    Login Component
+    <button onClick={onLoginSuccess}>Mock Login</button>
+  </div>
+));
+jest.mock("./components/CreateAccount/page", () => () => <div>CreateAccount Component</div>);
+
+// Mock localStorage
+const localStorageMock = (function() {
+  let store = {};
+  return {
+    getItem: function(key) {
+      return store[key] || null;
+    },
+    setItem: function(key, value) {
+      store[key] = value.toString();
+    },
+    removeItem: function(key) {
+      delete store[key];
+    },
+    clear: function() {
+      store = {};
+    }
+  };
+})();
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock
 });
-
-afterEach(() => {
-  localStorage.clear();
-  sessionStorage.clear();
-});
-
-// Utility function to render the App component inside a Router
-const renderApp = () => {
-  return render(<App />);
-};
 
 describe("App Component", () => {
-  test("renders navigation links", () => {
-    renderApp();
-
-    // Check if the navigation links are rendered
-    const calendarLink = screen.getByText(/Calendar/i);
-    const todoListLink = screen.getByText(/Todo List/i);
-    const loginLink = screen.getAllByText(/Login/i)[0];
-
-    expect(calendarLink).toBeInTheDocument();
-    expect(todoListLink).toBeInTheDocument();
-    expect(loginLink).toBeInTheDocument();
+  beforeEach(() => {
+    localStorage.clear();
   });
 
-  test("renders Calendar component when Calendar link is clicked", async () => {
-    renderApp();
+  test("renders Login component by default when not authenticated", () => {
+    render(<App />);
+    expect(screen.getByText('Login Component')).toBeInTheDocument();
+  });
 
-    // Click on the Calendar link
-    await act(async () => {
+  test("renders navigation links when authenticated", async () => {
+    // Set up a valid token
+    const fakePayload = { exp: Math.floor(Date.now() / 1000) + 60 * 60 };
+    const token = `header.${btoa(JSON.stringify(fakePayload))}.sig`;
+    localStorage.setItem("token", token);
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Calendar/i)).toBeInTheDocument();
+      expect(screen.getByText(/Todo List/i)).toBeInTheDocument();
+    });
+  });
+
+  test("navigates to Calendar when clicking Calendar link after login", async () => {
+    render(<App />);
+    
+    // Mock login
+    fireEvent.click(screen.getByText('Mock Login'));
+    
+    await waitFor(() => {
       fireEvent.click(screen.getByText(/Calendar/i));
+      expect(screen.getByText('Calendar Component')).toBeInTheDocument();
     });
-
-    // Check if the CalendarComponent is rendered
-    expect(screen.getByText(/Calendar/i)).toBeInTheDocument(); // You can change this to a more specific element or text inside the CalendarComponent
   });
 
-  test("renders Todo List component when Todo List link is clicked", async () => {
-    renderApp();
-
-    // Click on the Todo List link
-    await act(async () => {
+  test("navigates to Todo List when clicking Todo List link after login", async () => {
+    render(<App />);
+    
+    // Mock login
+    fireEvent.click(screen.getByText('Mock Login'));
+    
+    await waitFor(() => {
       fireEvent.click(screen.getByText(/Todo List/i));
+      expect(screen.getByText('TodoList Component')).toBeInTheDocument();
     });
-
-    // Check if the MyApp component is rendered
-    expect(screen.getByText(/Todo List/i)).toBeInTheDocument(); // Again, change this based on what is unique in MyApp
   });
-
-  // test("renders Login component when Login link is clicked", async () => {
-  //   renderApp();
-
-  //   // Click on the Login link
-  //   await act(async () => {
-  //     fireEvent.click(screen.getAllByText(/Login/i)[0]);
-  //   });
-
-  //   // Check if the Login component is rendered
-  //   expect(screen.getAllByText(/Login/i))[0].toBeInTheDocument(); // You can adjust this to something more specific in Login
-  // });
-
-  // test("renders Create Account component when Create Account link is clicked", async () => {
-  //   renderApp();
-
-  //   // Click on the Create Account link
-  //   await act(async () => {
-  //     fireEvent.click(screen.getByText(/Create Account/i));
-  //   });
-
-  //   // Check if the Create Account component is rendered
-  //   expect(screen.getByText(/Create Account/i)).toBeInTheDocument(); // Adjust as necessary
-  // });
 });
