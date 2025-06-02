@@ -2,30 +2,33 @@ const mongoose = require("mongoose");
 
 function makeNewConnection(url) {
   if (!url) {
-    console.error("MONGO_URI is not set in the environment variables.");
-    if (!url) {
-      if (process.env.NODE_ENV === "test") {
-        url = "mongodb://localhost:27017/testFallback";
-      } else {
-        console.error("MONGO_URI is not set in the environment variables.");
-        process.exit(1);
-      }
+    if (process.env.NODE_ENV === "test") {
+      throw new Error("MONGO_URI must be provided in test environment");
     }
-    return null;
+    console.error("MONGO_URI is not set in the environment variables.");
+    process.exit(1);
+    return;
+  }
+
+  if (
+    typeof url !== "string" ||
+    (!url.startsWith("mongodb://") && !url.startsWith("mongodb+srv://"))
+  ) {
+    throw new Error(`Invalid MongoDB connection string: ${url}`);
   }
 
   let DBname;
-  if (url.startsWith("mongodb://")) {
-    DBname = url.split("/").pop().split("?")[0];
-  } else {
-    DBname = url.substring(url.lastIndexOf("net/") + 4, url.lastIndexOf("?"));
+  try {
+    DBname = new URL(url).pathname.split("/").pop() || "default";
+  } catch (e) {
+    DBname = "unknown";
   }
 
   const connection = mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 30000, // 30 seconds
-    socketTimeoutMS: 45000, // 45 seconds
+    serverSelectionTimeoutMS: 30000,
+    socketTimeoutMS: 45000,
   });
 
   if (process.env.NODE_ENV !== "test") {

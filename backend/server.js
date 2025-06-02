@@ -82,10 +82,4 @@ app.get("/", (req, res) => {
   res.status(200).send("To-Do List Root");
 });
 
-// Start server
-const PORT1 = process.env.PORT || 8005;
-if (require.main === module) {
-  app.listen(PORT1, () => console.log(`Server running on port ${PORT1}`));
-}
-
 module.exports = app;

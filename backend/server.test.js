@@ -15,6 +15,11 @@ beforeAll(async () => {
   process.env.NODE_ENV = "test";
   process.env.TOKEN_SECRET_KEY = "test-secret";
 
+  await mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
   app = require("./server");
 });
 
