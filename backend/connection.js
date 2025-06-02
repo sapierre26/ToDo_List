@@ -20,6 +20,8 @@ function makeNewConnection(url) {
   const connection = mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000, // 30 seconds
+    socketTimeoutMS: 45000, // 45 seconds
   });
 
   if (process.env.NODE_ENV !== "test") {
