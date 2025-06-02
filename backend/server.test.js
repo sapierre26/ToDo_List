@@ -31,8 +31,12 @@ describe("Express App", () => {
       .set("Origin", "http://localhost:5173")
       .set("Access-Control-Request-Method", "GET");
 
-    expect(res.header["access-control-allow-origin"]).toBe("http://localhost:5173");
-    expect(res.header["access-control-allow-methods"]).toMatch(/GET|POST|OPTIONS|DELETE|PUT/);
+    expect(res.header["access-control-allow-origin"]).toBe(
+      "http://localhost:5173",
+    );
+    expect(res.header["access-control-allow-methods"]).toMatch(
+      /GET|POST|OPTIONS|DELETE|PUT/,
+    );
     expect(res.status).toBe(204);
   });
 
