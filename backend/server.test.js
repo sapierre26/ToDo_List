@@ -49,7 +49,7 @@ describe("Express App", () => {
   });
 
   it("should return 404 for an unknown route", async () => {
-    const res = await request(app).get("/unknown-route");
-    expect(res.status).toBe(404);
+    const response = await request(app).get("/unknown-route");
+    expect(response.status).toBe(404);
   });
 });

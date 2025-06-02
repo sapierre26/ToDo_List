@@ -1,11 +1,15 @@
-// backend/connection.js
 const mongoose = require("mongoose");
 
 function makeNewConnection(url) {
   if (!url) {
     console.error("MONGO_URI is not set in the environment variables.");
-    if (process.env.NODE_ENV !== "test") {
-      process.exit(1);
+    if (!url) {
+      if (process.env.NODE_ENV === "test") {
+        url = "mongodb://localhost:27017/testFallback";
+      } else {
+        console.error("MONGO_URI is not set in the environment variables.");
+        process.exit(1);
+      }
     }
     return null;
   }
