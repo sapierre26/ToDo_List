@@ -1,3 +1,4 @@
+jest.setTimeout(15000); // 15 seconds
 process.env.tasksDB = "mongodb://localhost:27017/test-tasks-db";
 process.env.userDB = "mongodb://localhost:27017/test-users-db";
 

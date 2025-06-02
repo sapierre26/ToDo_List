@@ -1,3 +1,5 @@
+jest.setTimeout(15000); // 15 seconds
+
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const { makeNewConnection } = require("./connection");

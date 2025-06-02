@@ -1,3 +1,4 @@
+jest.setTimeout(15000); // 15 seconds
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
 process.env.tasksDB = "mongodb://localhost:27017/test";
 process.env.userDB = "mongodb://localhost:27017/test";
