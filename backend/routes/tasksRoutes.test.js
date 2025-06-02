@@ -1,7 +1,11 @@
+process.env.tasksDB = "mongodb://localhost:27017/test-tasks-db";
+process.env.userDB = "mongodb://localhost:27017/test-users-db";
+
 jest.mock("../middleware/auth", () => (req, res, next) => {
   req.user = { id: "507f1f77bcf86cd799439011" };
   next();
 });
+
 const request = require("supertest");
 const express = require("express");
 const mongoose = require("mongoose");
