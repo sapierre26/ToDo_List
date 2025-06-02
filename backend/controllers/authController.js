@@ -141,8 +141,8 @@ const getProfile = async (req, res) => {
       username: user.username,
       name: user.name,
       email: user.email,
-      profilePic: base64,  // Used in Navbar
-      image: base64,       // Used in UserProfile page
+      profilePic: base64, // Used in Navbar
+      image: base64, // Used in UserProfile page
       theme: user.theme || "light",
       font: user.font || "Arial",
     });

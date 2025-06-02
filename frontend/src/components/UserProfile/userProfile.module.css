@@ -88,7 +88,7 @@
   border-radius: 100%;
   text-align: center;
   pointer-events: none;
-  overflow: hidden; 
+  overflow: hidden;
   display: flex;
   padding: 10px; /* adds spacing from the edges */
 }

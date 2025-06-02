@@ -30,7 +30,7 @@ function decodeJWT(token) {
     const payload = token.split(".")[1];
     const decodedPayload = atob(payload);
     return JSON.parse(decodedPayload);
-  } catch (e) {
+  } catch {
     return null;
   }
 }
@@ -64,10 +64,9 @@ function App() {
         })
           .then((res) => res.json())
           .then((data) => {
-          if (data?.profilePic) {
-            setProfilePic(data.profilePic); // it’s already a base64 data URL
-          }
-
+            if (data?.profilePic) {
+              setProfilePic(data.profilePic); // it’s already a base64 data URL
+            }
           })
           .catch((err) => console.error("Failed to fetch profile:", err));
       } else {
@@ -96,86 +95,106 @@ function App() {
   };
 
   return (
-  <Router>
-    <div style={{ height: "94vh", width: "100%", padding: "10px", border: "solid" }}>
-      {/* Top bar with nav links and profile pic */}
-      {isAuthenticated ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "20px",
-          }}
-        >
-          {/* Left: navigation links */}
-        <Link to="/Calendar" className="button-link">
-          <img src={calendarImage} alt="Calendar" style={{ width: "25px", marginRight: "6px" }} />
-          Calendar
-        </Link>
-        <Link to="/Todolist" className="button-link">
-          <img src={todolistImage} alt="Todo List" style={{ width: "25px", marginRight: "6px" }} />
-          Todo List
-        </Link>
-        <Link to="/Settings" className="button-link">
-          <img src={settingImage} alt="Settings" style={{ width: "25px", margin: "5px" }} />
-        </Link>
-          {/* Right: profile picture */}
-          <Navbar profilePic={profilePic} />
-        </div>
-      ) : (
-        <nav style={{ marginBottom: "20px" }}>
-          <Link to="/Login" className="button-link">
-            Login
-          </Link>
-          <Link to="/createAccount" className="button-link">
-            Create Account
-          </Link>
-        </nav>
-      )}
+    <Router>
+      <div
+        style={{
+          height: "94vh",
+          width: "100%",
+          padding: "10px",
+          border: "solid",
+        }}
+      >
+        {/* Top bar with nav links and profile pic */}
+        {isAuthenticated ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "20px",
+            }}
+          >
+            {/* Left: navigation links */}
+            <Link to="/Calendar" className="button-link">
+              <img
+                src={calendarImage}
+                alt="Calendar"
+                style={{ width: "25px", marginRight: "6px" }}
+              />
+              Calendar
+            </Link>
+            <Link to="/Todolist" className="button-link">
+              <img
+                src={todolistImage}
+                alt="Todo List"
+                style={{ width: "25px", marginRight: "6px" }}
+              />
+              Todo List
+            </Link>
+            <Link to="/Settings" className="button-link">
+              <img
+                src={settingImage}
+                alt="Settings"
+                style={{ width: "25px", margin: "5px" }}
+              />
+            </Link>
+            {/* Right: profile picture */}
+            <Navbar profilePic={profilePic} />
+          </div>
+        ) : (
+          <nav style={{ marginBottom: "20px" }}>
+            <Link to="/Login" className="button-link">
+              Login
+            </Link>
+            <Link to="/createAccount" className="button-link">
+              Create Account
+            </Link>
+          </nav>
+        )}
 
-      {/* App routes */}
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />
-          }
-        />
-        <Route
-          path="/Login"
-          element={<Login onLoginSuccess={handleLoginSuccess} />}
-        />
-        <Route path="/createAccount" element={<CreateAccount />} />
-        <Route
-          path="/Calendar"
-          element={
-            isAuthenticated ? <CalendarComponent /> : <Navigate to="/Login" />
-          }
-        />
-        <Route
-          path="/Todolist"
-          element={isAuthenticated ? <MyApp /> : <Navigate to="/Login" />}
-        />
-        <Route
-          path="/UserProfile"
-          element={
-            isAuthenticated ? (
-              <UserProfile onLogout={handleLogout} />
-            ) : (
-              <Navigate to="/Login" />
-            )
-          }
-        />
-        <Route
-          path="/Settings"
-          element={isAuthenticated ? <Settings /> : <Navigate to="/Login" />}
-        />
-        <Route path="/SplitScreen" element={<SplitScreen />} />
-        <Route path="*" element={<div>Page not found.</div>} />
-      </Routes>
-    </div>
-  </Router>
-)};
+        {/* App routes */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />
+            }
+          />
+          <Route
+            path="/Login"
+            element={<Login onLoginSuccess={handleLoginSuccess} />}
+          />
+          <Route path="/createAccount" element={<CreateAccount />} />
+          <Route
+            path="/Calendar"
+            element={
+              isAuthenticated ? <CalendarComponent /> : <Navigate to="/Login" />
+            }
+          />
+          <Route
+            path="/Todolist"
+            element={isAuthenticated ? <MyApp /> : <Navigate to="/Login" />}
+          />
+          <Route
+            path="/UserProfile"
+            element={
+              isAuthenticated ? (
+                <UserProfile onLogout={handleLogout} />
+              ) : (
+                <Navigate to="/Login" />
+              )
+            }
+          />
+          <Route
+            path="/Settings"
+            element={isAuthenticated ? <Settings /> : <Navigate to="/Login" />}
+          />
+          <Route path="/SplitScreen" element={<SplitScreen />} />
+          <Route path="*" element={<div>Page not found.</div>} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
 
 export default App;

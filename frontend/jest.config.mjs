@@ -6,8 +6,8 @@ export default {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
   transform: {
-    "^.+\\.(js|jsx)$": "babel-jest",
+    "^.+\\.(js|jsx)$": ["babel-jest", { configFile: "./babel.config.js" }],
   },
-  extensionsToTreatAsEsm: [".(js|jsx)$"],
-  transformIgnorePatterns: ["/node_modules/(?!your-esm-packages)/"],
+  extensionsToTreatAsEsm: [".js", ".jsx"],
+  transformIgnorePatterns: [],
 };

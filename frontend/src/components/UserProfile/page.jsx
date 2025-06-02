@@ -130,17 +130,18 @@ const UserProfile = ({ onLogout }) => {
         <div className={style.profileLeft}>
           <div className={style.profilePicContainer}>
             {userPic ? (
-                <img src={userPic} alt="Profile" className={style.profileImage} />
-              ) : (
-                <div className={style.profilePlaceholder} />
+              <img src={userPic} alt="Profile" className={style.profileImage} />
+            ) : (
+              <div className={style.profilePlaceholder} />
             )}
             <label className={style.overlay}>
               Edit Picture
-              <input 
-                type="file" 
-                accept="image/*" 
-                onChange={handleImageUpload} 
-                style={{ display: "none" }} />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                style={{ display: "none" }}
+              />
             </label>
           </div>
         </div>
