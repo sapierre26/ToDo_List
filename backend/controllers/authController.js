@@ -132,16 +132,17 @@ const getProfile = async (req, res) => {
     );
     if (!user) return res.status(404).json({ msg: "User not found" });
 
-    let base64Image = null;
+    let base64 = null;
     if (user.image && user.image.data) {
-      base64Image = `data:${user.image.contentType};base64,${user.image.data.toString("base64")}`;
+      base64 = `data:${user.image.contentType};base64,${user.image.data.toString("base64")}`;
     }
 
     res.json({
       username: user.username,
       name: user.name,
       email: user.email,
-      image: base64Image,
+      profilePic: base64,  // Used in Navbar
+      image: base64,       // Used in UserProfile page
       theme: user.theme || "light",
       font: user.font || "Arial",
     });

@@ -4,6 +4,9 @@ require("dotenv").config({ path: __dirname + "/.env" });
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
+const session = require("express-session");
+require("dotenv").config();
+
 const connectDB = require("./db.js");
 const authRoutes = require("./routes/authRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
@@ -11,32 +14,34 @@ const tasksRoutes = require("./routes/tasksRoutes.js");
 const googleCalendarRoutes = require("./routes/googleCalendar");
 const session = require("express-session");
 
-require("dotenv").config();
-connectDB();
 const app = express();
+const PORT = process.env.PORT || 8000;
 
-app.use(cors());
-app.use(express.json());
+// Connect to database
+connectDB();
+
+// Middleware
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(express.json());
 
-app.use("/api/tasks", tasksRoutes);
+// Session
 app.use(
   session({
     secret: process.env.TOKEN_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
-  }),
+  })
 );
-app.use("/api/google-calendar", googleCalendarRoutes);
 
+// Custom headers middleware
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
-  res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,DELETE,PUT");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE, PUT");
   next();
 });
 
@@ -46,14 +51,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
+// ✅ Serve uploaded profile pictures
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", tasksRoutes);
 app.use("/api/google-calendar", googleCalendarRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-const PORT = process.env.PORT || 8000;
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
@@ -72,13 +79,10 @@ function loggerMiddleware(request, response, next) {
 //logs testing middleware to console
 app.use(loggerMiddleware);
 
+// Root route
 app.get("/", (req, res) => {
-  res.status(200);
-  res.send("To-Do List Root");
+  res.status(200).send("To-Do List Root");
 });
-const PORT1 = process.env.PORT || 8005;
 
-if (require.main === module) {
-  app.listen(PORT1, () => console.log(`Server running on port ${PORT1}`));
-}
-module.exports = app;
+// Start server
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
