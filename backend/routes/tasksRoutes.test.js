@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
 const taskRouter = require("./tasksRoutes");
+const { MongoMemoryServer } = require("mongodb-memory-server");
 const Task = require("../models/taskSchema");
+
 
 const app = express();
 app.use(express.json());
@@ -45,7 +47,12 @@ describe("Task Routes with In-Memory MongoDB", () => {
       startDate: new Date("2025-06-01"),
       endDate: new Date("2025-06-02"),
       priority: "High",
+      title: "Test Task",
+      startDate: new Date("2025-06-01"),
+      endDate: new Date("2025-06-02"),
+      priority: "High",
       label: "Work",
+      description: "Test description",
       description: "Test description",
     };
 
@@ -86,6 +93,7 @@ describe("Task Routes with In-Memory MongoDB", () => {
     });
   });
 
+  // Test for GET tasks with date query parameter
   it("should get all tasks for the user", async () => {
     await Task.create([
       {
@@ -95,9 +103,16 @@ describe("Task Routes with In-Memory MongoDB", () => {
         priority: "Medium",
         label: "Personal",
         userId: "507f1f77bcf86cd799439011",
+        startDate: new Date("2025-06-01"),
+        endDate: new Date("2025-06-02"),
+        priority: "Medium",
+        label: "Personal",
+        userId: "507f1f77bcf86cd799439011",
       },
       {
         title: "Task 2",
+        startDate: new Date("2025-06-03"),
+        endDate: new Date("2025-06-04"),
         startDate: new Date("2025-06-03"),
         endDate: new Date("2025-06-04"),
         priority: "Low",
@@ -118,7 +133,12 @@ describe("Task Routes with In-Memory MongoDB", () => {
         title: "Same Day Task",
         startDate: new Date("2025-06-01T08:00:00Z"),
         endDate: new Date("2025-06-01T18:00:00Z"),
+        title: "Same Day Task",
+        startDate: new Date("2025-06-01T08:00:00Z"),
+        endDate: new Date("2025-06-01T18:00:00Z"),
         priority: "High",
+        label: "Work",
+        userId: "507f1f77bcf86cd799439011",
         label: "Work",
         userId: "507f1f77bcf86cd799439011",
       },
@@ -127,7 +147,12 @@ describe("Task Routes with In-Memory MongoDB", () => {
         startDate: new Date("2025-06-05"),
         endDate: new Date("2025-06-06"),
         priority: "Low",
+        title: "Outside Date Range",
+        startDate: new Date("2025-06-05"),
+        endDate: new Date("2025-06-06"),
+        priority: "Low",
         label: "Personal",
+        userId: "507f1f77bcf86cd799439011",
         userId: "507f1f77bcf86cd799439011",
       },
     ]);
@@ -148,11 +173,23 @@ describe("Task Routes with In-Memory MongoDB", () => {
       label: "Work",
       userId: "507f1f77bcf86cd799439011",
     });
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveLength(1);
+    expect(res.body[0].title).toBe("Same Day Task");
+  });
 
+  it("should update a task", async () => {
+    const task = await Task.create({
+      title: "Old Title",
+      startDate: new Date("2025-06-01"),
+      endDate: new Date("2025-06-02"),
+      priority: "Medium",
+      label: "Work",
+      userId: "507f1f77bcf86cd799439011",
+    });
     const res = await request(app)
       .put(`/api/tasks/${task._id}`)
       .send({ title: "Updated Title" });
-
     expect(res.status).toBe(200);
     expect(res.body.title).toBe("Updated Title");
   });
@@ -165,12 +202,22 @@ describe("Task Routes with In-Memory MongoDB", () => {
       priority: "Low",
       label: "Work",
       userId: "507f1f77bcf86cd799439011",
+      userId: "507f1f77bcf86cd799439011",
     });
 
     const res = await request(app).delete(`/api/tasks/${task._id}`);
 
     expect(res.status).toBe(200);
     expect(res.body.message).toBe("Task deleted successfully");
+  });
+
+  it("should return 404 when task to delete is not found", async () => {
+    const res = await request(app).delete(
+      `/api/tasks/665a3d95e92f3bb8dc83f999`,
+    );
+
+    expect(res.status).toBe(404);
+    expect(res.body.message).toBe("Task not found");
   });
 
   it("should return 404 when task to delete is not found", async () => {

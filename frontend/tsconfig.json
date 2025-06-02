@@ -12,6 +12,11 @@
     "resolveJsonModule": true,
     "noEmit": true
   },
+<<<<<<< HEAD
   "include": ["src/**/*", "frontend/src/api/**/*.test.ts", "babel.config.js"],
   "exclude": ["node_modules", "dist", "cypress"]
+=======
+  "include": ["src/**/*", "babel.config.js"],
+  "exclude": ["node_modules", "dist"]
+>>>>>>> refs/remotes/origin/main
 }
