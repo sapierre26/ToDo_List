@@ -9,7 +9,7 @@ describe("getUsers API", () => {
     const consoleSpy = jest
       .spyOn(console, "error")
       .mockImplementation(() => {});
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    fetch.mockResolvedValueOnce({
       ok: false,
       status: 400,
       statusText: "Bad Request",
@@ -26,7 +26,7 @@ describe("getUsers API", () => {
       { id: 1, name: "John Doe", email: "john@example.com" },
       { id: 2, name: "Jane Doe", email: "jane@example.com" },
     ];
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockUsers,
     });
@@ -43,7 +43,7 @@ describe("getUsers API", () => {
     const consoleSpy = jest
       .spyOn(console, "error")
       .mockImplementation(() => {});
-    (fetch as jest.Mock).mockRejectedValueOnce(new Error("Network error"));
+    fetch.mockRejectedValueOnce(new Error("Network error"));
 
     const result = await getUsers();
     expect(result).toBeUndefined();

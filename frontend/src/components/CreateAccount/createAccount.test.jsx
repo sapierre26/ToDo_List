@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import CreateAccount from "./page";
@@ -49,7 +48,7 @@ describe("CreateAccount Component", () => {
 
     await waitFor(() => {
       const errorMessages = screen.getAllByText("This field is required.");
-      expect(errorMessages.length).toBe(5);
+      expect(errorMessages.length).toHaveLength(5);
     });
   });
 

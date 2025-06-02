@@ -9,4 +9,9 @@ module.exports = {
     "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
   },
   transformIgnorePatterns: ["/node_modules/(?!your-esm-packages)/"],
+  globals: {
+    "ts-jest": {
+      tsconfig: "tsconfig.jest.json",
+    },
+  },
 };
