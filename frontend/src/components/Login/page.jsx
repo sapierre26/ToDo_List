@@ -45,6 +45,12 @@ const Login = ({ onLoginSuccess }) => {
 
       console.log("Login successful, token received:", data.token);
 
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      } else {
+        console.error("No token received in login response");
+      }
+
       if (onLoginSuccess) onLoginSuccess();
 
       navigate("/Calendar");
