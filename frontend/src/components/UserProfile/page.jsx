@@ -1,3 +1,4 @@
+// userProfile/page.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./userProfile.module.css";
@@ -124,17 +125,24 @@ const UserProfile = ({ onLogout }) => {
 
   return (
     <div className={style.settingsContainer}>
-      <h2>Settings</h2>
-
       <div className={style.settingsTop}>
         {/* Profile Picture */}
         <div className={style.profileLeft}>
-          {userPic ? (
-            <img src={userPic} alt="Profile" className={style.profileImage} />
-          ) : (
-            <div className={style.profilePlaceholder} />
-          )}
-          <input type="file" accept="image/*" onChange={handleImageUpload} />
+          <div className={style.profilePicContainer}>
+            {userPic ? (
+                <img src={userPic} alt="Profile" className={style.profileImage} />
+              ) : (
+                <div className={style.profilePlaceholder} />
+            )}
+            <label className={style.overlay}>
+              Edit Picture
+              <input 
+                type="file" 
+                accept="image/*" 
+                onChange={handleImageUpload} 
+                style={{ display: "none" }} />
+            </label>
+          </div>
         </div>
 
         {/* User Info */}
