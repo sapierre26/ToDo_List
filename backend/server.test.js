@@ -1,7 +1,11 @@
 const request = require("supertest");
-const app = require("./server.js");
+const mongoose = require("mongoose");
+process.env.tasksDB = "mongodb://localhost:27017/testTasks";
+process.env.userDB = "mongodb://localhost:27017/testUsers";
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
 require("dotenv").config();
+
+const app = require("./server.js");
 
 describe("Express App", () => {
   it("should return a 200 status for the root endpoint", async () => {
@@ -31,5 +35,9 @@ describe("Express App", () => {
   it("should return 404 for an unknown route", async () => {
     const response = await request(app).get("/unknown-route");
     expect(response.status).toBe(404);
+  });
+
+  afterAll(async () => {
+    await mongoose.disconnect();
   });
 });
