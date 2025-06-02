@@ -1,7 +1,6 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const { makeNewConnection } = require("./connection");
-
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
 jest.mock("mongoose");
@@ -27,17 +26,19 @@ describe("makeNewConnection", () => {
       close: jest.fn(),
       emit: jest.fn(),
     };
-    mongoose.createConnection = jest.fn(() => mockConnection);
     mongoose.connection = { on: jest.fn(), emit: jest.fn() };
+
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+
+    process.exit = jest.fn();
+    originalEnv = process.env;
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-    process.env = { ...originalEnv };
-  });
-
-  afterAll(() => {
     process.exit = originalExit;
+    process.env = originalEnv;
   });
 
   it("should create a new connection with the correct URL", () => {
@@ -51,13 +52,22 @@ describe("makeNewConnection", () => {
   });
 
   it("should log an error and terminate if MONGO_URI is not set", () => {
-    process.env.MONGO_URI = "";
+    const originalExit = process.exit; // Preserve original process.exit
+    const originalEnv = process.env.NODE_ENV;
+
+    process.exit = jest.fn(); // Mock exit function
+    process.env.NODE_ENV = "development";
+
+    // Call with no URL
     makeNewConnection();
 
     expect(console.error).toHaveBeenCalledWith(
       "MONGO_URI is not set in the environment variables.",
     );
-    expect(process.exit).not.toHaveBeenCalledWith();
+    expect(process.exit).toHaveBeenCalledWith(1); // Ensure the process exits
+
+    process.exit = originalExit; // Restore process.exit after the test
+    process.env.NODE_ENV = originalEnv;
   });
 
   it("should log the connection success message", () => {

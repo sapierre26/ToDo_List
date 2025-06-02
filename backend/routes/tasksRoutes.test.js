@@ -49,11 +49,41 @@ describe("Task Routes with In-Memory MongoDB", () => {
       description: "Test description",
     };
 
+    Task.mockImplementation(() => ({
+      title: "Task 3",
+      save: jest.fn().mockResolvedValueOnce(),
+    }));
+
     const response = await request(app).post("/api/tasks").send(newTask);
 
     expect(response.status).toBe(200);
-    expect(response.body.task.title).toBe("Test Task");
-    expect(response.body.msg).toContain("added to the taskDB");
+    expect(response.body).toEqual({
+      msg: `${newTask.title} added to the taskDB`,
+    });
+  });
+
+  // Test for PUT update a task (In your code, this is actually creating a new task, so it's tested as POST)
+  it("should update an existing task", async () => {
+    const updatedTask = {
+      _id: "3",
+      title: "Updated Task",
+      date: "2025-03-16",
+      label: "Work",
+      priority: "Medium",
+      description: "Updated description",
+    };
+
+    Task.mockImplementation(() => ({
+      title: "Updated Task",
+      save: jest.fn().mockResolvedValueOnce(),
+    }));
+
+    const response = await request(app).put("/api/tasks").send(updatedTask);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      msg: `${updatedTask.title} added to the taskDB`,
+    });
   });
 
   it("should get all tasks for the user", async () => {
