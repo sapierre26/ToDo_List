@@ -1,0 +1,16 @@
+/* src/components/Navbar.css */
+.navbar {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.navbar-profile-pic {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-3);
+  cursor: pointer;
+}

@@ -120,7 +120,7 @@ const MyCustomToolbar = ({
           className="custom-datepicker"
         />
       </div>
-      {!isGoogleConnected && (
+      {/* {!isGoogleConnected && (
         <div style={{ margin: "0.5rem 0" }}>
           <button
             onClick={() => {
@@ -132,9 +132,20 @@ const MyCustomToolbar = ({
             Import
           </button>
         </div>
-      )}
+      )} */}
 
       <div className="calendar-view">
+        {!isGoogleConnected && (
+          <button
+            onClick={() => {
+              window.location.href =
+                "http://localhost:8000/api/google-calendar/auth";
+            }}
+            className="google-calendar-button"
+          >
+            Import
+          </button>
+        )}
         <button
           onClick={() => {
             onView("month");
