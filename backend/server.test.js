@@ -1,5 +1,4 @@
 jest.setTimeout(20000);
-
 const request = require("supertest");
 const mongoose = require("mongoose");
 
@@ -32,12 +31,8 @@ describe("Express App", () => {
       .set("Origin", "http://localhost:5173")
       .set("Access-Control-Request-Method", "GET");
 
-    expect(res.header["access-control-allow-origin"]).toBe(
-      "http://localhost:5173",
-    );
-    expect(res.header["access-control-allow-methods"]).toMatch(
-      /GET|POST|OPTIONS|DELETE|PUT/,
-    );
+    expect(res.header["access-control-allow-origin"]).toBe("http://localhost:5173");
+    expect(res.header["access-control-allow-methods"]).toMatch(/GET|POST|OPTIONS|DELETE|PUT/);
     expect(res.status).toBe(204);
   });
 
@@ -49,7 +44,7 @@ describe("Express App", () => {
   });
 
   it("should return 404 for an unknown route", async () => {
-    const response = await request(app).get("/unknown-route");
-    expect(response.status).toBe(404);
+    const res = await request(app).get("/unknown-route");
+    expect(res.status).toBe(404);
   });
 });
