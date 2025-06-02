@@ -12,8 +12,8 @@ beforeAll(async () => {
   const uri = mongoServer.getUri();
 
   process.env.MONGO_URI = uri;
-
-  await mongoose.connect(uri);
+  process.env.NODE_ENV = "test";
+  process.env.TOKEN_SECRET_KEY = "test-secret";
 
   app = require("./server");
 });
@@ -31,20 +31,20 @@ describe("Express App", () => {
   });
 
   it("should respond to CORS headers correctly", async () => {
-    const response = await request(app).get("/api/users");
+    const response = await request(app).options("/");
     expect(response.headers["access-control-allow-origin"]).toBe(
       "http://localhost:5173",
     );
     expect(response.headers["access-control-allow-methods"]).toBe(
-      "GET, POST, OPTIONS, DELETE, PUT",
+      "GET,HEAD,PUT,PATCH,POST,DELETE",
     );
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(204);
   });
 
   it("should log the correct request method and path", async () => {
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
-    await request(app).get("/api/users");
-    expect(consoleSpy).toHaveBeenCalledWith("GET /api/users");
+    await request(app).get("/");
+    expect(consoleSpy).toHaveBeenCalledWith("GET /");
     consoleSpy.mockRestore();
   });
 

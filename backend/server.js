@@ -49,7 +49,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// ✅ Serve uploaded profile pictures
+// Server uploaded profile pictures
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // API routes
