@@ -4,7 +4,6 @@ require("dotenv").config({ path: __dirname + "/.env" });
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-const session = require("express-session");
 require("dotenv").config();
 
 const connectDB = require("./db.js");
@@ -85,4 +84,8 @@ app.get("/", (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+if (require.main === module) {
+  app.listen(PORT1, () => console.log(`Server running on port ${PORT1}`));
+}
+
+module.exports = app;

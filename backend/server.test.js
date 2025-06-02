@@ -12,9 +12,9 @@ describe("Express App", () => {
 
   it("should respond to CORS headers correctly", async () => {
     const response = await request(app).get("/api/Users");
-    expect(response.header["access-control-allow-origin"]).toBe("*");
+    expect(response.header["access-control-allow-origin"]).toBe("http://localhost:5173");
     expect(response.header["access-control-allow-methods"]).toBe(
-      "GET,POST,OPTIONS,DELETE,PUT",
+      "GET, POST, OPTIONS, DELETE, PUT",
     );
     expect(response.status).toBe(200);
   });
