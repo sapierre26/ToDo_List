@@ -1,20 +1,17 @@
-jest.setTimeout(15000); // 15 seconds
-process.env.tasksDB = "mongodb://localhost:27017/test-tasks-db";
-process.env.userDB = "mongodb://localhost:27017/test-users-db";
+jest.setTimeout(20000);
+
+const request = require("supertest");
+const mongoose = require("mongoose");
+const { MongoMemoryServer } = require("mongodb-memory-server");
+
+let mongoServer;
+let app;
+let Task;
 
 jest.mock("../middleware/auth", () => (req, res, next) => {
   req.user = { id: "507f1f77bcf86cd799439011" };
   next();
 });
-
-const request = require("supertest");
-const express = require("express");
-const mongoose = require("mongoose");
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const { Task } = require("../models/initModels");
-const app = require("../server");
-
-let mongoServer;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
@@ -22,17 +19,17 @@ beforeAll(async () => {
 
   process.env.tasksDB = uri;
   process.env.userDB = uri;
+  process.env.MONGO_URI = uri;
 
-  require("../models/initModels");
+  app = require("../server.js");
+  Task = require("../models/initModels").Task;
 });
 
 afterEach(async () => {
-  const { Task } = require("../models/initModels");
-  await Task.deleteMany();
+  if (Task) await Task.deleteMany({});
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
   await mongoose.disconnect();
   await mongoServer.stop();
 });
@@ -57,7 +54,6 @@ describe("Task Routes with In-Memory MongoDB", () => {
     });
   });
 
-  // Test for PUT update a task (In your code, this is actually creating a new task, so it's tested as POST)
   it("should update an existing task", async () => {
     const createdTask = await Task.create({
       title: "Old Title",
@@ -68,13 +64,13 @@ describe("Task Routes with In-Memory MongoDB", () => {
       description: "Old description",
       userId: "507f1f77bcf86cd799439011",
     });
-    const updatedTask = {
-      title: "Updated Task",
-      description: "Updated description",
-    };
+
+    const updatedTask = { title: "Updated Task", description: "Updated desc" };
+
     const response = await request(app)
       .put(`/api/tasks/${createdTask._id}`)
       .send(updatedTask);
+
     expect(response.status).toBe(200);
     expect(response.body.title).toBe("Updated Task");
   });
@@ -130,24 +126,6 @@ describe("Task Routes with In-Memory MongoDB", () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveLength(1);
     expect(res.body[0].title).toBe("Same Day Task");
-  });
-
-  it("should update a task", async () => {
-    const task = await Task.create({
-      title: "Old Title",
-      startDate: new Date("2025-06-01"),
-      endDate: new Date("2025-06-02"),
-      priority: "Medium",
-      label: "Work",
-      userId: "507f1f77bcf86cd799439011",
-    });
-
-    const res = await request(app)
-      .put(`/api/tasks/${task._id}`)
-      .send({ title: "Updated Title" });
-
-    expect(res.status).toBe(200);
-    expect(res.body.title).toBe("Updated Title");
   });
 
   it("should delete a task", async () => {
