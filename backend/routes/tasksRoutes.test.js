@@ -1,35 +1,35 @@
-const request = require("supertest");
-const express = require("express");
-const mongoose = require("mongoose");
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const taskRouter = require("./tasksRoutes");
-const Task = require("../models/taskSchema");
-const app = express();
-app.use(express.json());
-
 jest.mock("../middleware/auth", () => (req, res, next) => {
   req.user = { id: "507f1f77bcf86cd799439011" };
   next();
 });
-app.use("/api/tasks", taskRouter);
+const request = require("supertest");
+const express = require("express");
+const mongoose = require("mongoose");
+const { MongoMemoryServer } = require("mongodb-memory-server");
+const { Task } = require("../models/initModels");
+const app = require("../server");
+
 let mongoServer;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
-  process.env.tasksDB = uri;
-  const { makeNewConnection } = require("../connection");
-  const conn = makeNewConnection(uri);
-  await conn.asPromise();
-});
 
-afterAll(async () => {
-  await mongoose.disconnect();
-  if (mongoServer) await mongoServer.stop();
+  process.env.tasksDB = uri;
+  process.env.userDB = uri;
+
+  require("../models/initModels");
 });
 
 afterEach(async () => {
-  await Task.deleteMany({});
+  const { Task } = require("../models/initModels");
+  await Task.deleteMany();
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+  await mongoose.disconnect();
+  await mongoServer.stop();
 });
 
 describe("Task Routes with In-Memory MongoDB", () => {

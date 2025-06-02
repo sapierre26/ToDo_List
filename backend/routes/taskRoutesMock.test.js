@@ -1,16 +1,16 @@
-const request = require("supertest");
-const express = require("express");
-const mockingoose = require("mockingoose");
-const taskRoutes = require("./tasksRoutes");
-const Task = require("../models/taskSchema");
-
-process.env.MONGO_URI = "mongodb://localhost:27017/test";
-
-// Mock middleware to simulate authenticated user
 jest.mock("../middleware/auth", () => (req, res, next) => {
   req.user = { id: "507f1f77bcf86cd799439011" };
   next();
 });
+const request = require("supertest");
+const express = require("express");
+const mockingoose = require("mockingoose");
+const taskRoutes = require("./tasksRoutes");
+const { Task } = require("../models/initModels");
+
+process.env.MONGO_URI = "mongodb://localhost:27017/test";
+
+// Mock middleware to simulate authenticated user
 
 const app = express();
 app.use(express.json());

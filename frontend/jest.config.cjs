@@ -6,12 +6,8 @@ module.exports = {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
   transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
+    "^.+\\.(js|jsx)$": "babel-jest",
   },
+  extensionsToTreatAsEsm: [".(js|jsx)$"],
   transformIgnorePatterns: ["/node_modules/(?!your-esm-packages)/"],
-  globals: {
-    "ts-jest": {
-      tsconfig: "tsconfig.jest.json",
-    },
-  },
 };

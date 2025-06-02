@@ -1,4 +1,4 @@
-import { getTasks, addTask, deleteTask } from "./tasks.js"; // adjust import path
+import { getTasks, addTask, deleteTask } from "./tasks";
 
 // Mocking fetch to simulate API calls
 global.fetch = jest.fn();

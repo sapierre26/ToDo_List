@@ -6,7 +6,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "lint": "npx eslint . && npx prettier --check .",
-    "test": "jest",
+    "test": "jest --maxWorkers=1",
     "format": "npx prettier --write ."
   },
   "keywords": [],

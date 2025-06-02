@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
-const { makeNewConnection } = require("../connection");
 
-const userConnection = makeNewConnection(process.env.userDB);
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -17,6 +15,5 @@ const userSchema = new mongoose.Schema(
   },
   { collection: "Users" },
 );
-const User = userConnection.model("Users", userSchema);
 
-module.exports = User;
+module.exports = userSchema;

@@ -10,10 +10,6 @@ const userRoutes = require("./routes/userRoutes.js");
 const tasksRoutes = require("./routes/tasksRoutes.js");
 const googleCalendarRoutes = require("./routes/googleCalendar");
 const session = require("express-session");
-const corsOptions = {
-  origin: "http://localhost:5173",
-  credentials: true,
-};
 
 require("dotenv").config();
 connectDB();
@@ -58,7 +54,9 @@ app.use("/api/google-calendar", googleCalendarRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
 const userEndpoints = require("./routes/userRoutes.js");
 const tasksEndpoints = require("./routes/tasksRoutes.js");
 

@@ -4,13 +4,11 @@ const { makeNewConnection } = require("./connection");
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
 
 jest.mock("mongoose");
-jest.mock("mongoose");
 
 dotenv.config();
 
 describe("makeNewConnection", () => {
   let mockConnection;
-  let originalEnv;
   let originalExit;
 
   beforeAll(() => {
@@ -22,19 +20,16 @@ describe("makeNewConnection", () => {
     };
 
     mongoose.createConnection = jest.fn().mockReturnValue(mockConnection);
-    mongoose.connection = { on: jest.fn(), emit: jest.fn() };
 
     jest.spyOn(console, "log").mockImplementation(() => {});
     jest.spyOn(console, "error").mockImplementation(() => {});
     originalExit = process.exit;
     process.exit = jest.fn();
-    originalEnv = process.env;
   });
 
   afterEach(() => {
     jest.clearAllMocks();
     process.exit = originalExit;
-    process.env = originalEnv;
   });
 
   afterAll(() => {
@@ -99,15 +94,16 @@ describe("makeNewConnection", () => {
   it("should handle mongoose errors", () => {
     process.env.NODE_ENV = "development";
     const dbUrl = "mongodb://localhost:27017/testDB";
-    jest.spyOn(console, "log").mockImplementation(() => {});
     const connection = makeNewConnection(dbUrl);
     // Mocks the 'error' event
-    // Mocks the 'error' event
     const testError = new Error("Test error");
-    mongoose.connection.on.mock.calls.forEach((call) => {
+    connection.on.mock.calls.forEach((call) => {
       if (call[0] === "error") call[1](testError);
     });
 
-    expect(console.log).toHaveBeenCalledWith(testError);
+    expect(console.error).toHaveBeenCalledWith(
+      "MongoDB connection error:",
+      testError,
+    );
   });
 });

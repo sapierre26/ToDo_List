@@ -1,26 +1,21 @@
+jest.mock("../models/initModels", () => ({
+  User: {
+    find: jest.fn(),
+  },
+}));
 const request = require("supertest");
 const express = require("express");
 const userRouter = require("../routes/userRoutes");
-const User = require("../models/userSchema");
 
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
-
 require("dotenv").config();
 
-jest.mock("../models/userSchema");
-
+const { User } = require("../models/initModels");
 const app = express();
 app.use(express.json());
 app.use("/api/users", userRouter);
 
 describe("User Routes", () => {
-  beforeAll(() => {
-    jest.mock("../connection", () => ({
-      userConnection: { model: jest.fn(() => ({})) },
-      tasksConnection: { model: jest.fn(() => ({})) },
-    }));
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });

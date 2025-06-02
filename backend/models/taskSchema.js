@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const { makeNewConnection } = require("../connection");
-const tasksConnection = makeNewConnection(process.env.tasksDB);
 const taskSchema = new mongoose.Schema(
   {
     title: String,
@@ -18,11 +16,4 @@ const taskSchema = new mongoose.Schema(
   { collections: "tasks" },
 );
 
-let Task;
-if (tasksConnection) {
-  Task = tasksConnection.model("tasks", taskSchema);
-} else {
-  Task = mongoose.model("tasks", taskSchema);
-}
-
-module.exports = Task;
+module.exports = taskSchema;
