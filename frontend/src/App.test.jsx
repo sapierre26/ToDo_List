@@ -1,24 +1,40 @@
 import App from "./App";
-import React from "react";
+import PropTypes from "prop-types";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 // Mock child components to simplify testing
-jest.mock("./components/Calendar/page", () => () => (
-  <div>Calendar Component</div>
-));
-jest.mock("./components/todolist/page", () => () => (
-  <div>TodoList Component</div>
-));
-jest.mock("./components/Login/page", () => ({ onLoginSuccess }) => (
-  <div>
-    Login Component
-    <button onClick={onLoginSuccess}>Mock Login</button>
-  </div>
-));
-jest.mock("./components/CreateAccount/page", () => () => (
-  <div>CreateAccount Component</div>
-));
+jest.mock("./components/Calendar/page", () => {
+  const CalendarComponent = () => <div>Calendar Component</div>;
+  CalendarComponent.displayName = "CalendarComponent";
+  return CalendarComponent;
+});
+
+jest.mock("./components/todolist/page", () => {
+  const TodoListComponent = () => <div>TodoList Component</div>;
+  TodoListComponent.displayName = "TodoListComponent";
+  return TodoListComponent;
+});
+
+jest.mock("./components/Login/page", () => {
+  const LoginComponent = ({ onLoginSuccess }) => (
+    <div>
+      Login Component
+      <button onClick={onLoginSuccess}>Mock Login</button>
+    </div>
+  );
+  LoginComponent.propTypes = {
+    onLoginSuccess: PropTypes.func.isRequired,
+  };
+  LoginComponent.displayName = "LoginComponent";
+  return LoginComponent;
+});
+
+jest.mock("./components/CreateAccount/page", () => {
+  const CreateAccountComponent = () => <div>CreateAccount Component</div>;
+  CreateAccountComponent.displayName = "CreateAccountComponent";
+  return CreateAccountComponent;
+});
 
 // Mock localStorage
 const localStorageMock = (function () {

@@ -71,10 +71,23 @@ export default [
     files: ["**/*.test.{js,jsx,ts,tsx}"],
     languageOptions: {
       globals: {
+        ...globals.jest,
+        global: true,
         jest: true,
         describe: true,
         test: true,
         expect: true,
+      },
+    },
+  },
+  {
+    files: ["jest.setup.js"],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+        jest: true,
+        global: true,
+        module: true,
       },
     },
   },

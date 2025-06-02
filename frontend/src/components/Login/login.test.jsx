@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Login from "./page";
@@ -14,15 +13,20 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNavigate,
 }));
 
+const mockOnLoginSuccess = jest.fn();
+beforeEach(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+  jest.spyOn(console, "log").mockImplementation(() => {});
+  fetch.mockClear();
+  mockNavigate.mockClear();
+  mockOnLoginSuccess.mockClear();
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
 describe("Login Component", () => {
-  const mockOnLoginSuccess = jest.fn();
-
-  beforeEach(() => {
-    fetch.mockClear();
-    mockNavigate.mockClear();
-    mockOnLoginSuccess.mockClear();
-  });
-
   const renderLogin = () => {
     return render(
       <MemoryRouter>

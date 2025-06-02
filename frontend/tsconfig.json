@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["jest", "node"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -11,6 +12,6 @@
     "resolveJsonModule": true,
     "noEmit": true
   },
-  "include": ["src/**/*", "babel.config.js"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "frontend/src/api/**/*.test.ts", "babel.config.js"],
+  "exclude": ["node_modules", "dist", "cypress"]
 }
