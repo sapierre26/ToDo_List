@@ -47,10 +47,14 @@ describe("Task Routes with In-Memory MongoDB", () => {
       startDate: new Date("2025-06-01"),
       endDate: new Date("2025-06-02"),
       priority: "High",
+<<<<<<< HEAD
       title: "Test Task",
       startDate: new Date("2025-06-01"),
       endDate: new Date("2025-06-02"),
       priority: "High",
+=======
+<<<<<<< HEAD
+>>>>>>> 9e20c74 (Error Fixing)
       label: "Work",
       description: "Test description",
       description: "Test description",
@@ -60,10 +64,16 @@ describe("Task Routes with In-Memory MongoDB", () => {
       title: "Task 3",
       save: jest.fn().mockResolvedValueOnce(),
     }));
+=======
+      label: "Work",
+      description: "Test description",
+    };
+>>>>>>> refs/remotes/origin/main
 
     const response = await request(app).post("/api/tasks").send(newTask);
 
     expect(response.status).toBe(200);
+<<<<<<< HEAD
     expect(response.body).toEqual({
       msg: `${newTask.title} added to the taskDB`,
     });
@@ -96,6 +106,18 @@ describe("Task Routes with In-Memory MongoDB", () => {
   // Test for GET tasks with date query parameter
   it("should get all tasks for the user", async () => {
     await Task.create([
+<<<<<<< HEAD
+=======
+>>>>>>> refs/remotes/origin/main
+=======
+    expect(response.body.task.title).toBe("Test Task");
+    expect(response.body.msg).toContain("added to the taskDB");
+  });
+
+  it("should get all tasks for the user", async () => {
+    await Task.create([
+>>>>>>> refs/remotes/origin/main
+>>>>>>> 9e20c74 (Error Fixing)
       {
         title: "Task 1",
         startDate: new Date("2025-06-01"),

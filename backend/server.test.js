@@ -1,8 +1,12 @@
 const request = require("supertest");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const app = require("./server.js");
 process.env.MONGO_URI = "mongodb://localhost:27017/test";
+=======
+const app = require("./server");
+>>>>>>> refs/remotes/origin/main
 =======
 const app = require("./server");
 >>>>>>> refs/remotes/origin/main

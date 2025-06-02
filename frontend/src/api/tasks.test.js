@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< HEAD:frontend/src/api/tasks.test.ts
 ///// <reference types="jest" />
 import { getTasks, addTask, deleteTask, Task} from "./tasks"; // adjust import path
@@ -11,10 +12,20 @@ global.fetch = jest.fn() as jest.Mock;
 describe("Task API Functions", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+=======
+const { getTasks, addTask, deleteTask } = require("./tasks");
+
+// Mocking fetch to simulate API calls
+global.fetch = jest.fn();
+
+describe("Task API Functions", () => {
+  beforeEach(() => {
+>>>>>>> refs/remotes/origin/main
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
 
   afterEach(() => {
+<<<<<<< HEAD
     jest.restoreAllMocks();
   });
 
@@ -68,6 +79,12 @@ describe("Task API Functions", () => {
       const result = await getTasks(token);
       expect(result).toBeNull();
 =======
+=======
+    jest.clearAllMocks(); // Clear mocks after each test
+  });
+
+  // Test for getTasks
+>>>>>>> refs/remotes/origin/main
   it("should fetch all tasks successfully", async () => {
     const mockTasks = [
       {
@@ -105,6 +122,7 @@ describe("Task API Functions", () => {
       status: 500,
       statusText: "Internal Server Error",
       json: async () => ({}),
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/main:frontend/src/api/tasks.test.js
     });
   });
@@ -139,6 +157,15 @@ describe("Task API Functions", () => {
         cache: "no-store",
       });
 =======
+=======
+    });
+
+    const result = await getTasks();
+    expect(result).toBeNull();
+  });
+
+  // Test for addTask
+>>>>>>> refs/remotes/origin/main
   it("should successfully add a task", async () => {
     const newTask = {
       _id: "3",
@@ -151,6 +178,7 @@ describe("Task API Functions", () => {
     fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => newTask,
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/main:frontend/src/api/tasks.test.js
     });
 
@@ -204,6 +232,24 @@ describe("Task API Functions", () => {
       const result = await deleteTask("1");
       expect(result).toBe(false);
 =======
+=======
+    });
+
+    const result = await addTask(newTask);
+    const mockToken = "undefined";
+    expect(result).toBe(newTask);
+    expect(fetch).toHaveBeenCalledWith("http://localhost:8000/api/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${mockToken}`,
+      },
+      body: JSON.stringify(newTask),
+      cache: "no-store",
+    });
+  });
+
+>>>>>>> refs/remotes/origin/main
   it("should return false if adding a task fails", async () => {
     const newTask = {
       _id: "3",
@@ -250,7 +296,14 @@ describe("Task API Functions", () => {
       ok: false,
       status: 400,
       json: async () => ({ message: "Error deleting task" }),
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/main:frontend/src/api/tasks.test.js
     });
+=======
+    });
+
+    const result = await deleteTask("1");
+    expect(result).toBe(false);
+>>>>>>> refs/remotes/origin/main
   });
 });

@@ -13,9 +13,16 @@
     "noEmit": true
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   "include": ["src/**/*", "frontend/src/api/**/*.test.ts", "babel.config.js"],
+=======
+<<<<<<< HEAD
+  "include": ["src/**/*", "frontend/src/api/**/*.test.ts"],
+>>>>>>> 9e20c74 (Error Fixing)
   "exclude": ["node_modules", "dist", "cypress"]
 =======
+=======
+>>>>>>> refs/remotes/origin/main
   "include": ["src/**/*", "babel.config.js"],
   "exclude": ["node_modules", "dist"]
 >>>>>>> refs/remotes/origin/main
