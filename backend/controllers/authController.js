@@ -1,7 +1,6 @@
-// controllers/authController.js
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/userSchema.js");
+const { User } = require("../models/initModels.js");
 require("dotenv").config();
 
 const generateAccessToken = (username, userId) => {
@@ -10,7 +9,6 @@ const generateAccessToken = (username, userId) => {
   });
 };
 
-// controllers/authController.js
 const register = async (req, res) => {
   const { username, pwd, name, email } = req.body;
 

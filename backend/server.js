@@ -1,4 +1,3 @@
-// server.js
 require("dotenv").config({ path: __dirname + "/.env" });
 
 const express = require("express");
@@ -84,6 +83,7 @@ app.get("/", (req, res) => {
 });
 
 // Start server
+const PORT1 = process.env.PORT || 8005;
 if (require.main === module) {
   app.listen(PORT1, () => console.log(`Server running on port ${PORT1}`));
 }

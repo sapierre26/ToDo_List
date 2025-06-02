@@ -1,4 +1,3 @@
-// backend/models/initModels.js
 const { makeNewConnection } = require("../connection");
 const taskSchema = require("./taskSchema");
 const userSchema = require("./userSchema");
