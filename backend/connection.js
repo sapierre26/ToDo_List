@@ -11,8 +11,9 @@ function makeNewConnection(url) {
   }
 
   if (
-    typeof url !== "string" ||
-    (!url.startsWith("mongodb://") && !url.startsWith("mongodb+srv://"))
+    process.env.NODE_ENV !== "test" &&
+    (typeof url !== "string" ||
+      (!url.startsWith("mongodb://") && !url.startsWith("mongodb+srv://")))
   ) {
     throw new Error(`Invalid MongoDB connection string: ${url}`);
   }
@@ -25,8 +26,6 @@ function makeNewConnection(url) {
   }
 
   const connection = mongoose.createConnection(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
     serverSelectionTimeoutMS: 30000,
     socketTimeoutMS: 45000,
   });

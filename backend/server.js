@@ -51,8 +51,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", tasksRoutes);
 app.use("/api/google-calendar", googleCalendarRoutes);
-app.use("/api/Users", userRoutes); // duplicated route (maybe delete?)
-app.use("/api/tasks", tasksRoutes); // duplicated route (maybe delete?)
+app.use("/api/Users", userRoutes);
+app.use("/api/tasks", tasksRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).send("To-Do List Root");
