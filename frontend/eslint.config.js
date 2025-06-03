@@ -1,14 +1,14 @@
-/* eslint-env jest */
-import js from "@eslint/js";
-import globals from "globals";
-import react from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
-import reactRefresh from "eslint-plugin-react-refresh";
-import tseslint from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import jestPlugin from "eslint-plugin-jest";
+const js = require("@eslint/js");
+const globals = require("globals");
+const react = require("eslint-plugin-react");
+const reactHooks = require("eslint-plugin-react-hooks");
+const reactRefresh = require("eslint-plugin-react-refresh");
+const tseslint = require("@typescript-eslint/eslint-plugin");
+const tsParser = require("@typescript-eslint/parser");
+const jestPlugin = require("eslint-plugin-jest");
+const babelEslintParser = require("@babel/eslint-parser");
 
-export default [
+module.exports = [
   { ignores: ["dist"] },
   {
     files: ["**/*.{js,jsx}"],
@@ -77,6 +77,33 @@ export default [
         describe: true,
         test: true,
         expect: true,
+        require: true,
+        module: true,
+      },
+    },
+  },
+  {
+    files: ["vite.config.js"],
+    languageOptions: {
+      parser: babelEslintParser, // use the imported parser object here
+      parserOptions: {
+        requireConfigFile: false,
+        babelOptions: {
+          presets: ["@babel/preset-env"],
+        },
+        ecmaVersion: 2022,
+        sourceType: "module",
+      },
+    },
+  },
+  {
+    files: ["babel.config.js", "__mocks__/**", "**/*.config.js"],
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: {
+        module: true,
+        require: true,
+        exports: true,
       },
     },
   },
