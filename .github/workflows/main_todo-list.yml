@@ -34,7 +34,7 @@ jobs:
         working-directory: ./backend
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip server.js package.json package-lock.json connection.js db.js controllers middleware models routes
+        run: zip -r release.zip .
         working-directory: ./backend
 
       - name: Upload artifact for deployment job
