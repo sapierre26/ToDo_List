@@ -14,26 +14,26 @@ const EditTask = ({ taskToEdit, onTaskUpdated, onClose }) => {
     description: "",
   });
 
-    useEffect(() => {
+  useEffect(() => {
     if (taskToEdit) {
-        const start = new Date(taskToEdit.startDate);
-        const end = new Date(taskToEdit.endDate);
+      const start = new Date(taskToEdit.startDate);
+      const end = new Date(taskToEdit.endDate);
 
-        if (!isNaN(start) && !isNaN(end)) {
+      if (!isNaN(start) && !isNaN(end)) {
         setFormData({
-            title: taskToEdit.title,
-            date: start.toISOString().split("T")[0],
-            startTime: start.toTimeString().split(":").slice(0, 2).join(":"),
-            endTime: end.toTimeString().split(":").slice(0, 2).join(":"),
-            priority: taskToEdit.priority,
-            label: taskToEdit.label,
-            description: taskToEdit.description,
+          title: taskToEdit.title,
+          date: start.toISOString().split("T")[0],
+          startTime: start.toTimeString().split(":").slice(0, 2).join(":"),
+          endTime: end.toTimeString().split(":").slice(0, 2).join(":"),
+          priority: taskToEdit.priority,
+          label: taskToEdit.label,
+          description: taskToEdit.description,
         });
-        } else {
+      } else {
         console.warn("Invalid date in taskToEdit:", taskToEdit);
-        }
+      }
     }
-    }, [taskToEdit]);
+  }, [taskToEdit]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,8 +42,10 @@ const EditTask = ({ taskToEdit, onTaskUpdated, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-    const { title, date, startTime, endTime, priority, label, description } = formData;
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    const { title, date, startTime, endTime, priority, label, description } =
+      formData;
 
     if (!title || !date || !endTime || !description) {
       alert("Please fill all required fields");

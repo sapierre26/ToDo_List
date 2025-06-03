@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTasks, deleteTask } from "../../api/tasks";
+import { getTasks, deleteTask } from "../../api/tasks.js";
 import AddTask from "./addTask";
 import EditTask from "./editTask";
 import styles from "./page.module.css";
@@ -16,7 +16,8 @@ const TodoList = () => {
 
   const fetchTasks = async () => {
     try {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
       const fetchedTasks = await getTasks(token);
       if (fetchedTasks) setTasks(fetchedTasks);
     } catch (error) {
@@ -40,7 +41,8 @@ const TodoList = () => {
 
   const handleDelete = async (taskId) => {
     try {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
       await deleteTask(taskId, token);
       setTasks((prev) => prev.filter((task) => task._id !== taskId));
     } catch (error) {
@@ -58,12 +60,16 @@ const TodoList = () => {
 
   const formatTime = (str) => {
     const date = new Date(str);
-    return isNaN(date) ? "Invalid" : date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    return isNaN(date)
+      ? "Invalid"
+      : date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   const formatDate = (str) => {
     const date = new Date(str);
-    return isNaN(date) ? "Invalid" : date.toLocaleDateString([], { month: "short", day: "numeric" });
+    return isNaN(date)
+      ? "Invalid"
+      : date.toLocaleDateString([], { month: "short", day: "numeric" });
   };
 
   return (
@@ -91,8 +97,18 @@ const TodoList = () => {
               {tasks.map((task) => (
                 <tr key={task._id}>
                   <td>{task.title}</td>
-                  <td className={styles[task.label?.toLowerCase() || "default"]}>{task.label || "Unknown"}</td>
-                  <td className={styles[task.priority?.toLowerCase() || "default"]}>{task.priority || "Unknown"}</td>
+                  <td
+                    className={styles[task.label?.toLowerCase() || "default"]}
+                  >
+                    {task.label || "Unknown"}
+                  </td>
+                  <td
+                    className={
+                      styles[task.priority?.toLowerCase() || "default"]
+                    }
+                  >
+                    {task.priority || "Unknown"}
+                  </td>
                   <td>
                     {formatDate(task.startDate)}
                     <br />
@@ -102,8 +118,18 @@ const TodoList = () => {
                   </td>
                   <td>{task.description}</td>
                   <td>
-                    <button className={styles.deleteButton} onClick={() => handleDelete(task._id)}>Delete</button>
-                    <button className={styles.modifyButton} onClick={() => handleEditTask(task._id)}>Edit</button>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => handleDelete(task._id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className={styles.modifyButton}
+                      onClick={() => handleEditTask(task._id)}
+                    >
+                      Edit
+                    </button>
                   </td>
                 </tr>
               ))}

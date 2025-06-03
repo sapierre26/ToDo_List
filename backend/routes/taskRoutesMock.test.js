@@ -1,43 +1,99 @@
+jest.setTimeout(15000); // 15 seconds
+process.env.MONGO_URI = "mongodb://localhost:27017/test";
+process.env.tasksDB = "mongodb://localhost:27017/test";
+process.env.userDB = "mongodb://localhost:27017/test";
+
+jest.mock("../middleware/auth", () => (req, res, next) => {
+  req.user = { id: "507f1f77bcf86cd799439011" };
+  next();
+});
 const request = require("supertest");
 const express = require("express");
 const mockingoose = require("mockingoose");
-const Task = require("../models/taskSchema");
-
-jest.mock("../middleware/auth.js", () => (req, res, next) => {
-  req.user = { id: "mockUserId" }; // Simulate a logged in user
-  next();
-});
-
 const taskRoutes = require("./tasksRoutes");
+const { Task } = require("../models/initModels");
+
+// Mock middleware to simulate authenticated user
 
 const app = express();
 app.use(express.json());
-app.use("/", taskRoutes);
+app.use("/api/tasks", taskRoutes);
 
-describe("GET /tasks with date query", () => {
+describe("Task Routes (Mocked)", () => {
   beforeEach(() => {
     mockingoose.resetAll();
   });
 
-  it("returns tasks within specific date", async () => {
-    const mockTasks = [
+  test("GET /api/tasks should return mocked tasks", async () => {
+    const mockedTasks = [
       {
-        _id: "1",
+        _id: "task1",
         title: "Mock Task",
-        startDate: new Date("2025-04-15T08:00:00Z"),
-        endDate: new Date("2025-04-15T12:00:00Z"),
-        label: "Task",
+        startDate: new Date(),
+        endDate: new Date(),
         priority: "High",
+        label: "Work",
+        description: "Description",
+        userId: "507f1f77bcf86cd799439011",
       },
     ];
 
-    mockingoose(Task).toReturn(mockTasks, "find");
+    mockingoose(Task).toReturn(mockedTasks, "find");
 
-    const response = await request(app).get("/?date=2025-04-15");
+    const res = await request(app).get("/api/tasks");
+    expect(res.statusCode).toBe(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].title).toBe("Mock Task");
+  });
 
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(
-      expect.arrayContaining([expect.objectContaining({ title: "Mock Task" })]),
+  test("POST /api/tasks should create a task", async () => {
+    const mockTask = {
+      title: "New Task",
+      startDate: new Date(),
+      endDate: new Date(),
+      priority: "Low",
+      label: "Personal",
+      description: "Test create task",
+    };
+
+    mockingoose(Task).toReturn(
+      { ...mockTask, _id: "123", userId: "507f1f77bcf86cd799439011" },
+      "save",
     );
+
+    const res = await request(app).post("/api/tasks").send(mockTask);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.task.title).toBe("New Task");
+  });
+
+  test("PUT /api/tasks/:id should update a task", async () => {
+    const updatedTask = {
+      _id: "123",
+      title: "Updated Task",
+      userId: "507f1f77bcf86cd799439011",
+    };
+
+    mockingoose(Task).toReturn(updatedTask, "findOneAndUpdate");
+
+    const res = await request(app)
+      .put("/api/tasks/123")
+      .send({ title: "Updated Task" });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.title).toBe("Updated Task");
+  });
+
+  test("DELETE /api/tasks/:id should delete a task", async () => {
+    const deletedTask = {
+      _id: "123",
+      title: "Task to Delete",
+      userId: "507f1f77bcf86cd799439011",
+    };
+
+    mockingoose(Task).toReturn(deletedTask, "findOneAndDelete");
+
+    const res = await request(app).delete("/api/tasks/123");
+    expect(res.statusCode).toBe(200);
+    expect(res.body.message).toBe("Task deleted successfully");
   });
 });

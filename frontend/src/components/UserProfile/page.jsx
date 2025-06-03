@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./userProfile.module.css";
+import PropTypes from "prop-types";
 
 const UserProfile = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -89,7 +90,9 @@ const UserProfile = ({ onLogout }) => {
   };
 
   const handleDeleteAccount = async () => {
-    const confirmed = window.confirm("Are you sure you want to delete your account?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete your account?",
+    );
     if (!confirmed) return;
 
     try {
@@ -121,17 +124,25 @@ const UserProfile = ({ onLogout }) => {
 
   return (
     <div className={style.settingsContainer}>
-      <h2>Settings</h2>
-
       <div className={style.settingsTop}>
         {/* Profile Picture */}
         <div className={style.profileLeft}>
-          {userPic ? (
-            <img src={userPic} alt="Profile" className={style.profileImage} />
-          ) : (
-            <div className={style.profilePlaceholder} />
-          )}
-          <input type="file" accept="image/*" onChange={handleImageUpload} />
+          <div className={style.profilePicContainer}>
+            {userPic ? (
+              <img src={userPic} alt="Profile" className={style.profileImage} />
+            ) : (
+              <div className={style.profilePlaceholder} />
+            )}
+            <label className={style.overlay}>
+              Edit Picture
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                style={{ display: "none" }}
+              />
+            </label>
+          </div>
         </div>
 
         {/* User Info */}
@@ -140,7 +151,10 @@ const UserProfile = ({ onLogout }) => {
           <input value={name} onChange={(e) => setName(e.target.value)} />
 
           <label>Username</label>
-          <input value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
           <label>Email</label>
           <input value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -154,7 +168,9 @@ const UserProfile = ({ onLogout }) => {
           Delete My Account
         </button>
         <button onClick={handleLogout}>Log Out</button>
-        <button onClick={() => window.location.href = "mailto:support@example.com"}>
+        <button
+          onClick={() => (window.location.href = "mailto:support@example.com")}
+        >
           Contact Support
         </button>
         {message && <p style={{ marginTop: "1rem" }}>{message}</p>}
@@ -163,4 +179,7 @@ const UserProfile = ({ onLogout }) => {
   );
 };
 
+UserProfile.propTypes = {
+  onLogout: PropTypes.func.isRequired,
+};
 export default UserProfile;

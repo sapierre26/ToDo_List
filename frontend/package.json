@@ -2,13 +2,12 @@
   "name": "react-frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "npx eslint . && npx prettier --check .",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest --transformIgnorePatterns"
   },
   "dependencies": {
     "18": "^0.0.0",
@@ -29,8 +28,11 @@
     "react-router-dom": "^7.3.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.26.9",
-    "@babel/preset-react": "^7.26.3",
+    "@babel/core": "^7.27.4",
+    "@babel/eslint-parser": "^7.27.5",
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@eslint/js": "^9.17.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -52,6 +54,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "node-fetch": "^3.3.2",
     "react-testing-library": "^8.0.1",
     "ts-jest": "^29.3.2",
     "vite": "^6.2.0"

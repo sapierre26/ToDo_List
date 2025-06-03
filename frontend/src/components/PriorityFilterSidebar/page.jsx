@@ -1,6 +1,5 @@
-import PropTypes from "prop-types"; // Import PropTypes for prop validation
+import PropTypes from "prop-types";
 import styles from "./priorityFilter.module.css";
-
 const priorities = ["High", "Medium", "Low"];
 
 const PriorityFilterSidebar = ({ selectedPriority, onSelectPriority }) => {
@@ -40,7 +39,10 @@ const PriorityFilterSidebar = ({ selectedPriority, onSelectPriority }) => {
 };
 
 PriorityFilterSidebar.propTypes = {
-  selectedPriority: PropTypes.string.isRequired,
+  selectedPriority: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.oneOf([null]),
+  ]),
   onSelectPriority: PropTypes.func.isRequired,
 };
 
