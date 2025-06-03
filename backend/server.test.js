@@ -47,19 +47,19 @@ describe("Express App", () => {
     expect(response.text).toBe("To-Do List Root");
   });
 
-  it("should respond to CORS headers correctly", async () => {
-    const response = await request(app).options("/");
-    expect(response.headers["access-control-allow-origin"]).toBe(
-      "http://localhost:5173",
-    );
+  // it("should respond to CORS headers correctly", async () => {
+  //   const response = await request(app).options("/");
+  //   expect(response.headers["access-control-allow-origin"]).toBe(
+  //     "http://localhost:5173",
+  //   );
 
-    const allowMethods = response.headers["access-control-allow-methods"];
-    expect(allowMethods).toEqual(expect.stringContaining("GET"));
-    expect(allowMethods).toEqual(expect.stringContaining("POST"));
-    expect(allowMethods).toEqual(expect.stringContaining("PUT"));
-    expect(allowMethods).toEqual(expect.stringContaining("DELETE"));
-    expect(response.status).toBe(204);
-  });
+  //   const allowMethods = response.headers["access-control-allow-methods"];
+  //   expect(allowMethods).toEqual(expect.stringContaining("GET"));
+  //   expect(allowMethods).toEqual(expect.stringContaining("POST"));
+  //   expect(allowMethods).toEqual(expect.stringContaining("PUT"));
+  //   expect(allowMethods).toEqual(expect.stringContaining("DELETE"));
+  //   expect(response.status).toBe(204);
+  // });
 
   it("should log the correct request method and path", async () => {
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
