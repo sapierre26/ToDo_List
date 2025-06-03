@@ -20,9 +20,9 @@ import Settings from "./components/Settings/page";
 import Navbar from "./navbar/Navbar";
 
 /* image imports */
-import calendarImage from "/Images/calendar.png";
-import todolistImage from "/Images/to-do-list.png";
-import settingImage from "/Images/settings.png";
+import calendarImage from "../Images/calendar.png";
+import todolistImage from "../Images/to-do-list.png";
+import settingImage from "../Images/settings.png";
 
 // Manual JWT decode helper
 function decodeJWT(token) {

@@ -3,26 +3,21 @@ require("dotenv").config({ path: __dirname + "/.env" });
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-require("dotenv").config();
+const session = require("express-session");
 
 const connectDB = require("./db.js");
 const authRoutes = require("./routes/authRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
 const tasksRoutes = require("./routes/tasksRoutes.js");
 const googleCalendarRoutes = require("./routes/googleCalendar");
-const session = require("express-session");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
-
-// Connect to database
-connectDB();
 
 // Middleware
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 
-// Session
 app.use(
   session({
     secret: process.env.TOKEN_SECRET_KEY,
@@ -32,7 +27,6 @@ app.use(
   }),
 );
 
-// Custom headers middleware
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:5173");
   res.header(
@@ -49,37 +43,26 @@ app.use((req, res, next) => {
   next();
 });
 
-// Server uploaded profile pictures
+// Static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// API routes
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", tasksRoutes);
 app.use("/api/google-calendar", googleCalendarRoutes);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/Users", userRoutes); // duplicated route (maybe delete?)
+app.use("/api/tasks", tasksRoutes); // duplicated route (maybe delete?)
 
-if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
-const userEndpoints = require("./routes/userRoutes.js");
-const tasksEndpoints = require("./routes/tasksRoutes.js");
-
-app.use("/api/Users", userEndpoints);
-app.use("/api/tasks", tasksEndpoints);
-
-//testing middleware
-function loggerMiddleware(request, response, next) {
-  console.log(`${request.method} ${request.path}`);
-  next();
-}
-
-//logs testing middleware to console
-app.use(loggerMiddleware);
-
-// Root route
 app.get("/", (req, res) => {
   res.status(200).send("To-Do List Root");
 });
+
+// Only start server (and connect to DB) outside of tests
+if (process.env.NODE_ENV !== "test") {
+  connectDB().then(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  });
+}
 
 module.exports = app;

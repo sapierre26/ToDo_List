@@ -17,6 +17,7 @@ jest.mock("./components/todolist/page", () => {
 });
 
 jest.mock("./components/Login/page", () => {
+  const PropTypes = require("prop-types");
   const LoginComponent = ({ onLoginSuccess }) => (
     <div>
       Login Component

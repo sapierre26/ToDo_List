@@ -48,7 +48,7 @@ describe("CreateAccount Component", () => {
 
     await waitFor(() => {
       const errorMessages = screen.getAllByText("This field is required.");
-      expect(errorMessages.length).toHaveLength(5);
+      expect(errorMessages).toHaveLength(5);
     });
   });
 
