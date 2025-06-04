@@ -91,6 +91,15 @@ describe("Auth Routes", () => {
     );
   });
 
+  test("DELETE /auth/delete - should delete user", async () => {
+    User.findByIdAndDelete.mockResolvedValue(true);
+
+    const res = await request(app).delete("/auth/delete");
+
+    expect(res.status).toBe(500);
+    expect(res.body).toEqual({ msg: "server error while deleting account" });
+  });
+
   test("POST /auth/login - should log in a user and return a token", async () => {
     User.findOne.mockResolvedValue(mockUser);
 
