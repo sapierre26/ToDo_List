@@ -2,10 +2,8 @@ const request = require("supertest");
 const express = require("express");
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
-
 const taskRouter = require("./tasksRoutes");
 const Task = require("../models/taskSchema");
-
 const app = express();
 app.use(express.json());
 
@@ -13,17 +11,13 @@ jest.mock("../middleware/auth", () => (req, res, next) => {
   req.user = { id: "507f1f77bcf86cd799439011" };
   next();
 });
-
 app.use("/api/tasks", taskRouter);
-
 let mongoServer;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
-
   process.env.tasksDB = uri;
-
   const { makeNewConnection } = require("../connection");
   const conn = makeNewConnection(uri);
   await conn.asPromise();
@@ -52,8 +46,32 @@ describe("Task Routes with In-Memory MongoDB", () => {
     const response = await request(app).post("/api/tasks").send(newTask);
 
     expect(response.status).toBe(200);
-    expect(response.body.task.title).toBe("Test Task");
-    expect(response.body.msg).toContain("added to the taskDB");
+    expect(response.body).toEqual({
+      msg: `${newTask.title} added to the taskDB`,
+      task: expect.any(Object),
+    });
+  });
+
+  // Test for PUT update a task (In your code, this is actually creating a new task, so it's tested as POST)
+  it("should update an existing task", async () => {
+    const createdTask = await Task.create({
+      title: "Old Title",
+      startDate: new Date("2025-03-16"),
+      endDate: new Date("2025-03-17"),
+      label: "Work",
+      priority: "Medium",
+      description: "Old description",
+      userId: "507f1f77bcf86cd799439011",
+    });
+    const updatedTask = {
+      title: "Updated Task",
+      description: "Updated description",
+    };
+    const response = await request(app)
+      .put(`/api/tasks/${createdTask._id}`)
+      .send(updatedTask);
+    expect(response.status).toBe(200);
+    expect(response.body.title).toBe("Updated Task");
   });
 
   it("should get all tasks for the user", async () => {

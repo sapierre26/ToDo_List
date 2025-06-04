@@ -1,15 +1,29 @@
-import React from "react";
 import { act } from "@testing-library/react";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import CalendarComponent from "./page";
 import "@testing-library/jest-dom";
-import { afterEach, beforeEach } from "@jest/globals";
+import { afterEach, beforeEach, beforeAll, afterAll } from "@jest/globals";
 jest.mock("../../api/tasks", () => ({
   getTasksForMonth: jest.fn(() => Promise.resolve([])),
   getGoogleCalendarEvents: jest.fn(() => Promise.resolve([])),
   getGoogleTasks: jest.fn(() => Promise.resolve([])),
   getTasksAndEventsByEndDate: jest.fn(() => Promise.resolve([])),
 }));
+
+beforeAll(() => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve([]),
+    }),
+  );
+});
+
+afterAll(() => {
+  global.fetch.mockClear();
+  delete global.fetch;
+});
+
 afterEach(() => {
   cleanup();
 });
