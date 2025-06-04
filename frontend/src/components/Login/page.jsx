@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import style from "./login.module.css";
 import styles from "../CreateAccount/createAccount.module.css";
 import { useNavigate, Link } from "react-router-dom";
@@ -45,9 +45,15 @@ const Login = ({ onLoginSuccess }) => {
 
       console.log("Login successful, token received:", data.token);
 
+      if (data.token) {
+      localStorage.setItem("token", data.token);
+      } else {
+        console.error("No token received in login response");
+      }
+
       if (onLoginSuccess) onLoginSuccess();
 
-      navigate("/Calendar");
+        navigate("/Calendar");
     } catch (err) {
       console.error("Error during login:", err.message);
       setErrorMessage(err.message || "An error occurred");
@@ -55,8 +61,8 @@ const Login = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className={style.loginContainer}>
-      <h3>Login</h3>
+  <div className={style.loginContainer}>
+    <h3>Login</h3>
       {errorMessage && <p className={style.error}>{errorMessage}</p>}
       <form onSubmit={onSubmit}>
         <input

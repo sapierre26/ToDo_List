@@ -55,16 +55,22 @@
 .button-link {
   text-decoration: none; /* Remove underline */
   padding: 10px 20px; /* Button padding */
-  background-color: #a8d5ba; /* Button background color */
-  color: white; /* Button text color */
+  background-color: var(--button-background-color);
+  color: var(--button-font-color);
+  font: var(--button-font);
   border-radius: 5px; /* Rounded corners */
-  font-size: 16px;
+  font-size: 12px;
   transition: background-color 0.3s ease; /* Smooth color transition */
-  font-family: monospace;
+}
+
+.dark-theme .button-link {
+  color: var(--dark-theme-button-color);
 }
 
 :root {
+  --button-background-color: #aeaeae; 
   --button-font-color: white;
+  --button-font-family: monospace;
 }
 
 button {

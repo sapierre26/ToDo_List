@@ -97,7 +97,7 @@ function App() {
 
   return (
   <Router>
-    <div style={{ height: "94vh", width: "100%", padding: "10px", border: "solid" }}>
+    <div style={{ height: "94vh", width: "100%", padding: "20px", border: "solid" }}>
       {/* Top bar with nav links and profile pic */}
       {isAuthenticated ? (
         <div
