@@ -11,7 +11,6 @@ import {
   getTasksForMonth,
   getGoogleCalendarEvents,
   getGoogleTasks,
-updateTask,
 } from "../../api/tasks";
 import "./calendar.css";
 import PriorityFilterSidebar from "../PriorityFilterSidebar/page.jsx";

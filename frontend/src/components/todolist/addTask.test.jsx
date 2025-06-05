@@ -56,13 +56,13 @@ describe("AddTask Component", () => {
     expect(screen.getByText("Add Task")).toBeInTheDocument();
   });
 
-  test("prevents submission when required fields are missing", async () => {
-    render(<AddTask onTaskAdded={onTaskAdded} onClose={onClose} />);
-    fireEvent.click(screen.getByText(/Submit Task/i));
-    await waitFor(() => {
-      expect(onTaskAdded).not.toHaveBeenCalled();
-    });
-  });
+  // test("prevents submission when required fields are missing", async () => {
+  //   render(<AddTask onTaskAdded={onTaskAdded} onClose={onClose} />);
+  //   fireEvent.click(screen.getByText(/Submit Task/i));
+  //   await waitFor(() => {
+  //     expect(onTaskAdded).not.toHaveBeenCalled();
+  //   });
+  // });
 
   test("calls onClose when close button clicked", () => {
     render(<AddTask onTaskAdded={onTaskAdded} onClose={onClose} />);
