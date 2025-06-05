@@ -142,7 +142,7 @@ const getProfile = async (req, res) => {
       profilePic: base64, // Used in Navbar
       image: base64, // Used in UserProfile page
       theme: user.theme || "light",
-      font: user.font || "Arial",
+      font: user.font || "Monospace",
     });
   } catch (err) {
     console.error("Profile fetch error:", err);

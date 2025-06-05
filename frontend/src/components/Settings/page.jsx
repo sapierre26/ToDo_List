@@ -3,7 +3,14 @@ import { useCallback } from "react";
 import style from "./settings.module.css";
 
 const themeColors = {
-  "gold-blue": ["#D2B48C", "#50708F", "#B8B8C4", "#CEA98A", "#AEA98B"],
+  //"theme-name": ["[0] background", "[1] navbar", "[2] button", "[3] hover", "[4] text"]
+  "gold-blue": [
+  "#E9D7C0", // background
+  "#608986", // navbar
+  "#9B7D61", // input container
+  "#7C6A6A", // hover
+  "#402D21"  // text, black
+  ],
   vintage: ["#7C6A6A", "#C9A66B", "#F0E1C6", "#A57F60", "#5E5343"],
   "pastel-purple": ["#C9B6E4", "#E8DAEF", "#F6E9FF", "#D3C0EB", "#BFA2DB"],
   "forest-green": ["#608986", "#9AD7A7", "#B3D5C9", "#74AD9B", "#53778B"],
@@ -13,7 +20,7 @@ const themeColors = {
 
 const Settings = () => {
   const [theme, setTheme] = useState("light");
-  const [font, setFont] = useState("Arial");
+  const [font, setFont] = useState("Monospace");
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -21,19 +28,11 @@ const Settings = () => {
   const applyTheme = useCallback((themeName) => {
     const colors = themeColors[themeName];
     if (colors) {
-      document.documentElement.style.setProperty("--color-1", colors[0]);
-      document.documentElement.style.setProperty("--color-2", colors[1]);
-      document.documentElement.style.setProperty("--color-3", colors[2]);
-      document.documentElement.style.setProperty("--color-4", colors[3]);
-      document.documentElement.style.setProperty("--color-5", colors[4]);
-      document.documentElement.style.setProperty(
-        "--navbar-background-color",
-        colors[5],
-      );
-      document.documentElement.style.setProperty(
-        "--button-background-color",
-        colors[5],
-      ); // make buttons match navbar
+      document.documentElement.style.setProperty("--background-color", colors[0]);
+      document.documentElement.style.setProperty("--navbar-background-color", colors[1]);
+      document.documentElement.style.setProperty("--button-background-color-hover", colors[2]);
+      document.documentElement.style.setProperty("--button-font-color", colors[3]);
+      document.body.style.backgroundColor = colors[0]; // Optional: apply directly
       document.documentElement.style.setProperty(
         "--button-font-color",
         themeName === "light" ? "#333333" : "white",
@@ -87,8 +86,7 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
     const fetchSettings = async () => {
       try {

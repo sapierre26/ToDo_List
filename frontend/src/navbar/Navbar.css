@@ -4,6 +4,7 @@
   top: 15px;
   right: 20px;
   z-index: 1000;
+  /* background-color: var(--navbar-background-color); // will make the color appear under the pfp too*/ 
 }
 
 .navbar-profile-pic {

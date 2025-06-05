@@ -9,7 +9,7 @@ const {
   updateProfile,
   updateProfileImage,
 } = require("../controllers/authController.js");
-const User = require("../models/userSchema.js");
+const { User } = require("../models/initModels.js");
 
 // Memory storage (does not save to disk)
 const storage = multer.memoryStorage();
@@ -68,7 +68,7 @@ router.get("/settings", auth, async (req, res) => {
     const user = await User.findById(req.user.id);
     res.json({
       theme: user.theme || "light",
-      font: user.font || "Arial",
+      font: user.font || "Monospace",
     });
   } catch (err) {
     console.error("Error fetching settings:", err);

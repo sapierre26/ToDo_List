@@ -1,23 +1,109 @@
+/* ------------------------------ */
+/* Root-Level Theme Variables     */
+/* ------------------------------ */
+:light-theme {
+  /* Global Theme (used across app) */
+  --color-1: #f5f5f5;            /* Background */
+  --color-2: #bdbdbd;       /* Navbar Background */
+  --color-3: #f0f0f0;       /* Surface / cards / inputs */
+  --color-4: #434343;       /* Borders / secondary */
+  --text: #333333;       /* Primary text */
+  --font: Monospace;
+
+  /* Navbar and Buttons */
+  --website-background-color: var(--color-1);
+  --navbar-background-color: var(--color-2);
+  --button-background-color-hover: var(--color-3);
+  --borders: var(--color-4);
+  --button-font-color: var(--text);
+  --button-font-family: var(--font);
+}
+
+/* ------------------------------ */
+/* App & Page Layout              */
+/* ------------------------------ */
 #root {
   max-width: 1340px;
-  max-height: 750;
+  max-height: 750px;
   margin: 0 auto;
   overflow-anchor: auto;
   justify-items: center;
 }
 
+.calendar-container {
+  padding: 1.5rem;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------------------ */
+/* Navigation Buttons             */
+/* ------------------------------ */
+.button-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-family: var(--button-font-family);
+  color: var(--button-font-color);
+  border-radius: 5px;
+  gap: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.button-link:hover {
+  background-color: var(--button-background-color-hover);
+  color: #2d3436;
+}
+
+.button-link img {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional dark theme override */
+/* .dark-theme .button-link {
+  color: var(--);
+} */
+
+/* ------------------------------ */
+/* Standard Button Styles         */
+/* ------------------------------ */
+button {
+  color: var(--button-font-color);
+  font-family: var(--button-font-family);
+  border: 1px solid var(--color-3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* ------------------------------ */
+/* Logo + Animation               */
+/* ------------------------------ */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -27,21 +113,18 @@
   }
 }
 
-.calendar-container {
-  overflow-anchor: auto;
-  height: auto;
-  width: auto;
-  margin: auto;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
+}
+
+/* ------------------------------ */
+/* Utilities & Misc               */
+/* ------------------------------ */
+img {
+  display: block;
+  margin-bottom: 1rem;
 }
 
 .card {
@@ -50,51 +133,6 @@
 
 .read-the-docs {
   color: #888;
-}
-
-.button-link {
-  text-decoration: none; /* Remove underline */
-  padding: 10px 20px; /* Button padding */
-  background-color: var(--button-background-color);
-  color: var(--button-font-color);
-  font: var(--button-font);
-  border-radius: 5px; /* Rounded corners */
-  font-size: 8px;
-  transition: background-color 0.3s ease; /* Smooth color transition */
-  display: flex;
-  flex-direction: columns;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  color: black;
-}
-
-.button-link:hover {
-  background-color: var(--button-background-color-hover) ;
-  color: #2d3436;            /* darker text on hover */
-
-}
-
-.dark-theme .button-link {
-  color: var(--dark-theme-button-color);
-}
-
-:root {
-  --button-background-color: #aeaeae;
-  --button-font-color: #333333;
-  --button-font-family: monospace;
-  --navbar-background-color: #d5d5d5; 
-  --button-background-color-hover: #ffffff;
-
-}
-
-button {
-  color: var(--button-font-color);
-}
-
-img {
-  display: block;
-  margin-bottom: 1rem;
 }
 
 .Settings > * {
