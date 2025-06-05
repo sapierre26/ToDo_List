@@ -56,7 +56,6 @@ function App() {
       if (decoded && Date.now() < decoded.exp * 1000) {
         setIsAuthenticated(true);
 
-        // Fetch profilePic after auth check
         fetch("http://localhost:8000/api/auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -96,6 +95,57 @@ function App() {
 
   return (
     <Router>
+      <div style={{ height: "94vh", width: "100%", padding: "20px" }}>
+        {isAuthenticated ? (
+          <div
+            style={{
+              position: "fixed",
+              top: "25px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "750px", // Wider to contain buttons and avatar neatly
+              height: "65px",
+              backgroundColor: "var(--navbar-background-color)",
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              padding: "0 30px",
+              borderRadius: "40px",
+              boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+              zIndex: 1000,
+            }}
+          >
+            {/* Navigation links */}
+            <div style={{ display: "flex", gap: "14px", alignItems: "center", gap: "120px" }}>
+              <Link to="/Calendar" className="button-link">
+                <img src={calendarImage} alt="Calendar" style={{ width: "18px" }} />
+                Calendar
+              </Link>
+              <Link to="/Todolist" className="button-link">
+                <img src={todolistImage} alt="Todo List" style={{ width: "18px" }} />
+                Todo List
+              </Link>
+              <Link to="/Settings" className="button-link">
+                <img src={settingImage} alt="Settings" style={{ width: "18px" }} />
+                Settings
+              </Link>
+            </div>
+
+            {/* Profile picture */}
+            <div 
+              style={{ 
+                height: "50px", 
+                width: "50px", 
+                borderRadius: "50%", 
+                overflow: "hidden",
+                alignSelf: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "white",
+                }}>
+              <Navbar profilePic={profilePic} />
+            </div>
       <div
         style={{
           height: "94vh",
@@ -151,7 +201,12 @@ function App() {
             </Link>
           </nav>
         )}
-
+        <Routes>
+          <Route
+            path="/"
+            element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
+          />
+          <Route path="/Login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
         {/* App routes */}
         <Routes>
           <Route
@@ -168,6 +223,22 @@ function App() {
           <Route
             path="/Calendar"
             element={
+              isAuthenticated ? (
+                <div
+                  style={{
+                    maxWidth: "1100px", // Expandable width
+                    margin: "0 auto", // Center it
+                    paddingTop: "45px", // Push below navbar
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem"
+                  }}
+                >
+                  <CalendarComponent />
+                </div>
+              ) : (
+                <Navigate to="/Login" />
+              )
               isAuthenticated ? <CalendarComponent /> : <Navigate to="/Login" />
             }
           />
@@ -177,6 +248,7 @@ function App() {
           />
           <Route
             path="/UserProfile"
+            element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/Login" />}
             element={
               isAuthenticated ? (
                 <UserProfile onLogout={handleLogout} />
@@ -196,5 +268,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;
