@@ -6,9 +6,16 @@ Our goal is to create an intelligent and user-friendly task manager that integra
 * The ability to import an existing Google Calendar
 
 ## Coverage Report
-Backend Coverage:
+### Backend Coverage:
 
-![Screenshot 2025-06-03 213649](https://github.com/user-attachments/assets/32c5aa32-9963-4168-8ce1-35ded7d48947)
+![image](https://github.com/user-attachments/assets/2c849978-5ba3-44c2-a307-0397634b84b6)
+
+
+### Frontend Coverage:
+
+![Screenshot 2025-06-05 001945](https://github.com/user-attachments/assets/6f11c0ad-ec8f-40d8-973a-b57b8d66e749)
+
+
 ## Scripts
 * ```npm run dev``` Runs the development environment. This command is directory-specific (```frontend```, ```backend```). Make sure you're inside the right folder before running (```root``` does not have this command)
 * ```npm run frontend``` Runs the development environment for the ``````frontend`````` in the ```root``` directory
