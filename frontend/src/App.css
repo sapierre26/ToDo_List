@@ -61,6 +61,11 @@
   border-radius: 5px; /* Rounded corners */
   font-size: 12px;
   transition: background-color 0.3s ease; /* Smooth color transition */
+  display: fle;
+  flex-direction: columns;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .dark-theme .button-link {
@@ -69,8 +74,9 @@
 
 :root {
   --button-background-color: #aeaeae; 
-  --button-font-color: white;
+  --button-font-color: #333333; 
   --button-font-family: monospace;
+  --navbar-background-color: #b3d1b3; 
 }
 
 button {

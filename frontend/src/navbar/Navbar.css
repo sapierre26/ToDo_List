@@ -7,10 +7,11 @@
 }
 
 .navbar-profile-pic {
-  width: 70px;
-  height: 70px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--color-3);
+  border: 2px var(--color-3);
   cursor: pointer;
+  justify-content: center;
 }

@@ -56,7 +56,6 @@ function App() {
       if (decoded && Date.now() < decoded.exp * 1000) {
         setIsAuthenticated(true);
 
-        // Fetch profilePic after auth check
         fetch("http://localhost:8000/api/auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,10 +63,9 @@ function App() {
         })
           .then((res) => res.json())
           .then((data) => {
-          if (data?.profilePic) {
-            setProfilePic(data.profilePic); // it’s already a base64 data URL
-          }
-
+            if (data?.profilePic) {
+              setProfilePic(data.profilePic);
+            }
           })
           .catch((err) => console.error("Failed to fetch profile:", err));
       } else {
@@ -96,86 +94,116 @@ function App() {
   };
 
   return (
-  <Router>
-    <div style={{ height: "94vh", width: "100%", padding: "20px", border: "solid" }}>
-      {/* Top bar with nav links and profile pic */}
-      {isAuthenticated ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "20px",
-          }}
-        >
-          {/* Left: navigation links */}
-        <Link to="/Calendar" className="button-link">
-          <img src={calendarImage} alt="Calendar" style={{ width: "25px", marginRight: "6px" }} />
-          Calendar
-        </Link>
-        <Link to="/Todolist" className="button-link">
-          <img src={todolistImage} alt="Todo List" style={{ width: "25px", marginRight: "6px" }} />
-          Todo List
-        </Link>
-        <Link to="/Settings" className="button-link">
-          <img src={settingImage} alt="Settings" style={{ width: "25px", margin: "5px" }} />
-        </Link>
-          {/* Right: profile picture */}
-          <Navbar profilePic={profilePic} />
-        </div>
-      ) : (
-        <nav style={{ marginBottom: "20px" }}>
-          <Link to="/Login" className="button-link">
-            Login
-          </Link>
-          <Link to="/createAccount" className="button-link">
-            Create Account
-          </Link>
-        </nav>
-      )}
+    <Router>
+      <div style={{ height: "94vh", width: "100%", padding: "20px" }}>
+        {isAuthenticated ? (
+          <div
+            style={{
+              position: "fixed",
+              top: "25px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "750px", // Wider to contain buttons and avatar neatly
+              height: "65px",
+              backgroundColor: "var(--navbar-background-color)",
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              padding: "0 30px",
+              borderRadius: "40px",
+              boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+              zIndex: 1000,
+            }}
+          >
+            {/* Navigation links */}
+            <div style={{ display: "flex", gap: "14px", alignItems: "center", gap: "120px" }}>
+              <Link to="/Calendar" className="button-link">
+                <img src={calendarImage} alt="Calendar" style={{ width: "18px" }} />
+                Calendar
+              </Link>
+              <Link to="/Todolist" className="button-link">
+                <img src={todolistImage} alt="Todo List" style={{ width: "18px" }} />
+                Todo List
+              </Link>
+              <Link to="/Settings" className="button-link">
+                <img src={settingImage} alt="Settings" style={{ width: "18px" }} />
+                Settings
+              </Link>
+            </div>
 
-      {/* App routes */}
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />
-          }
-        />
-        <Route
-          path="/Login"
-          element={<Login onLoginSuccess={handleLoginSuccess} />}
-        />
-        <Route path="/createAccount" element={<CreateAccount />} />
-        <Route
-          path="/Calendar"
-          element={
-            isAuthenticated ? <CalendarComponent /> : <Navigate to="/Login" />
-          }
-        />
-        <Route
-          path="/Todolist"
-          element={isAuthenticated ? <MyApp /> : <Navigate to="/Login" />}
-        />
-        <Route
-          path="/UserProfile"
-          element={
-            isAuthenticated ? (
-              <UserProfile onLogout={handleLogout} />
-            ) : (
-              <Navigate to="/Login" />
-            )
-          }
-        />
-        <Route
-          path="/Settings"
-          element={isAuthenticated ? <Settings /> : <Navigate to="/Login" />}
-        />
-        <Route path="/SplitScreen" element={<SplitScreen />} />
-        <Route path="*" element={<div>Page not found.</div>} />
-      </Routes>
-    </div>
-  </Router>
-)};
+            {/* Profile picture */}
+            <div 
+              style={{ 
+                height: "50px", 
+                width: "50px", 
+                borderRadius: "50%", 
+                overflow: "hidden",
+                alignSelf: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "white",
+                }}>
+              <Navbar profilePic={profilePic} />
+            </div>
+          </div>
+        ) : (
+          <nav style={{ marginBottom: "20px" }}>
+            <Link to="/Login" className="button-link">
+              Login
+            </Link>
+            <Link to="/createAccount" className="button-link">
+              Create Account
+            </Link>
+          </nav>
+        )}
+
+        <Routes>
+          <Route
+            path="/"
+            element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
+          />
+          <Route path="/Login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/createAccount" element={<CreateAccount />} />
+          <Route
+            path="/Calendar"
+            element={
+              isAuthenticated ? (
+                <div
+                  style={{
+                    maxWidth: "1100px", // Expandable width
+                    margin: "0 auto", // Center it
+                    paddingTop: "45px", // Push below navbar
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem"
+                  }}
+                >
+                  <CalendarComponent />
+                </div>
+              ) : (
+                <Navigate to="/Login" />
+              )
+            }
+          />
+          <Route
+            path="/Todolist"
+            element={isAuthenticated ? <MyApp /> : <Navigate to="/Login" />}
+          />
+          <Route
+            path="/UserProfile"
+            element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/Login" />}
+          />
+          <Route
+            path="/Settings"
+            element={isAuthenticated ? <Settings /> : <Navigate to="/Login" />}
+          />
+          <Route path="/SplitScreen" element={<SplitScreen />} />
+          <Route path="*" element={<div>Page not found.</div>} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
 
 export default App;
