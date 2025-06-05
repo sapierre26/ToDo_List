@@ -27,7 +27,6 @@
 .tasks-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
 }
 
 .tasks-table th,
@@ -64,7 +63,7 @@ th {
   font-size: 14px;
   text-align: center;
   border-bottom: 2px solid #ccc;
-  background-color: #578057; /* Green header */
+  background-color: var(--table-header-color);  
   margin-bottom: 10px;
   letter-spacing: 1px;
 }

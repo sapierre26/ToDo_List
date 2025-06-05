@@ -48,7 +48,7 @@ function App() {
   };
 
   useEffect(() => {
-  initializeUserPreferences();
+    initializeUserPreferences();
   }, []);
 
   useEffect(() => {
@@ -84,27 +84,27 @@ function App() {
 
   if (isCheckingAuth) return <div>Loading...</div>;
 
-const handleLoginSuccess = async () => {
-  setIsAuthenticated(true);
+  const handleLoginSuccess = async () => {
+    setIsAuthenticated(true);
 
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-  if (!token) return;
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    if (!token) return;
 
-  try {
-    const res = await fetch("http://localhost:8000/api/auth/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const res = await fetch("http://localhost:8000/api/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (!res.ok) throw new Error("Failed to fetch profile");
-    const data = await res.json();
+      if (!res.ok) throw new Error("Failed to fetch profile");
+      const data = await res.json();
 
-    if (data?.profilePic) setProfilePic(data.profilePic);
-  } catch (err) {
-    console.error("Error fetching profile on login:", err);
-  }
-};
+      if (data?.profilePic) setProfilePic(data.profilePic);
+    } catch (err) {
+      console.error("Error fetching profile on login:", err);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -115,9 +115,17 @@ const handleLoginSuccess = async () => {
 
   return (
     <Router>
-      {isAuthenticated && <Navbar profilePic={profilePic} />}
+      {isAuthenticated && <Navbar />}
+
+      {/* Profile Picture in top-right */}
+      {isAuthenticated && profilePic && (
+        <Link to="/UserProfile">
+          <img src={profilePic} alt="Profile" className="profilePic" />
+        </Link>
+      )}
 
       <div style={{ height: "94vh", width: "100%", padding: "20px" }}>
+        {/* Custom Navigation Bar */}
         {isAuthenticated && (
           <div
             style={{
@@ -133,6 +141,7 @@ const handleLoginSuccess = async () => {
               padding: "0 30px",
               borderRadius: "40px",
               boxShadow: "0 3px 10px rgba(0, 0, 0, 0.3)",
+              backgroundColor: "var(--navbar-background-color)",
               zIndex: 1000,
             }}
           >
@@ -153,13 +162,12 @@ const handleLoginSuccess = async () => {
           </div>
         )}
 
-        {/* Main app routes */}
+        {/* Main Routes */}
+        <div className="page-content">
         <Routes>
           <Route
             path="/"
-            element={
-              <Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />
-            }
+            element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
           />
           <Route
             path="/Login"
@@ -178,9 +186,8 @@ const handleLoginSuccess = async () => {
               isAuthenticated ? (
                 <div
                   style={{
-                    maxWidth: "1100px",
+                    maxWidth: "2000px",
                     margin: "0 auto",
-                    paddingTop: "100px", // space below navbar
                     display: "flex",
                     flexDirection: "column",
                     gap: "1rem",
@@ -214,6 +221,7 @@ const handleLoginSuccess = async () => {
           <Route path="/SplitScreen" element={<SplitScreen />} />
           <Route path="*" element={<div>Page not found.</div>} />
         </Routes>
+        </div>
       </div>
     </Router>
   );

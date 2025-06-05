@@ -1,23 +1,59 @@
 /* ------------------------------ */
 /* Root-Level Theme Variables     */
 /* ------------------------------ */
-:light-theme {
-  /* Global Theme (used across app) */
-  --color-1: #f5f5f5;            /* Background */
-  --color-2: #bdbdbd;       /* Navbar Background */
-  --color-3: #f0f0f0;       /* Surface / cards / inputs */
-  --color-4: #434343;       /* Borders / secondary */
-  --text: #333333;       /* Primary text */
-  --font: Monospace;
+:root {
+  --background-color: #f5f5f5;         
+  --navbar-background-color: #bdbdbd;
+  --input-color: #f0f0f0;              
+  --hover-color: #434343;    
+  --table-header-color: #666666;          
+  --text-color: #333333;
+  --font: "Monospace";
 
-  /* Navbar and Buttons */
-  --website-background-color: var(--color-1);
-  --navbar-background-color: var(--color-2);
-  --button-background-color-hover: var(--color-3);
-  --borders: var(--color-4);
-  --button-font-color: var(--text);
-  --button-font-family: var(--font);
+  --button-bg: var(--input-color);
+  --button-hover: var(--hover-color);
+  --button-text: var(--text-color);
+  --button-background-color-hover: var(--hover-color); /* ✅ add this */
 }
+
+/* Gold-Blue Theme */
+.theme-gold-blue {
+  --background-color: #E9D7C0;
+  --table-header-color: #9B7D61;
+  --navbar-background-color: #608986;
+  --input-color: #9B7D61;
+  --hover-color: #7C6A6A;
+  --text-color: #402D21;
+}
+
+/* Forest Green Theme */
+.theme-forest-green {
+  --background-color: #809076;
+  --table-header-color: #578057;
+  --navbar-background-color: #284139;
+  --input-color: #F8D794;
+  --hover-color: #BB6830;
+  --text-color: #111A19;
+}
+
+.theme-lavendar {
+  --background-color: #EDABBE;
+  --table-header-color: #DE5C8F;
+  --navbar-background-color: #872D72;
+  --input-color: #872D72;
+  --hover-color: #7C4EBB;
+  --text-color: #411E57;
+}
+
+.theme-red {
+  --background-color: #A24C61;
+  --table-header-color: #E2A9C0;
+  --navbar-background-color: #E1C9D5;
+  --input-color: #E1C9D5;
+  --hover-color:#710C21;
+  --text-color:#411528;
+}
+
 
 /* ------------------------------ */
 /* App & Page Layout              */
@@ -57,7 +93,7 @@
 }
 
 .button-link:hover {
-  background-color: var(--button-background-color-hover);
+  background-color: var(--button-background-color-hover); /* apply hover background */
   color: #2d3436;
 }
 
@@ -119,6 +155,9 @@ button {
   }
 }
 
+.page-content {
+  padding-top: 100px;
+}
 /* ------------------------------ */
 /* Utilities & Misc               */
 /* ------------------------------ */
@@ -137,4 +176,19 @@ img {
 
 .Settings > * {
   margin-bottom: 0.5rem;
+}
+
+.profilePic {
+  position: fixed;
+  top: 25px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  z-index: 1100;
 }

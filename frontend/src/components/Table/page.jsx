@@ -1,15 +1,17 @@
 import PropTypes from "prop-types";
 // Table Header Component
 const TableHeader = () => (
-  <thead>
-    <tr>
-      <th>Task</th>
-      <th>Priority</th>
-      <th>Due Date</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
+  <table className="tasks-table" style={{ marginTop: '100px' }}>
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Priority</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+  </table>
 );
 
 // Table Body Component
