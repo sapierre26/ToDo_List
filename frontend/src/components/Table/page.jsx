@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 // Table Header Component
 const TableHeader = () => (
-  <table className="tasks-table" style={{ marginTop: '100px' }}>
+  <table className="tasks-table" style={{ marginTop: "100px" }}>
     <thead>
       <tr>
         <th>Task</th>

@@ -52,7 +52,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
 
     if (token) {
       const decoded = decodeJWT(token);
@@ -87,7 +88,8 @@ function App() {
   const handleLoginSuccess = async () => {
     setIsAuthenticated(true);
 
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     if (!token) return;
 
     try {
@@ -147,15 +149,27 @@ function App() {
           >
             <div style={{ display: "flex", gap: "110px" }}>
               <Link to="/Calendar" className="button-link">
-                <img src={calendarImage} alt="Calendar" style={{ width: "20px", height: "20px" }} />
+                <img
+                  src={calendarImage}
+                  alt="Calendar"
+                  style={{ width: "20px", height: "20px" }}
+                />
                 <span>Calendar</span>
               </Link>
               <Link to="/Todolist" className="button-link">
-                <img src={todolistImage} alt="Todo List" style={{ width: "20px", height: "20px" }} />
+                <img
+                  src={todolistImage}
+                  alt="Todo List"
+                  style={{ width: "20px", height: "20px" }}
+                />
                 <span>Todo List</span>
               </Link>
               <Link to="/Settings" className="button-link">
-                <img src={settingImage} alt="Settings" style={{ width: "20px", height: "20px" }} />
+                <img
+                  src={settingImage}
+                  alt="Settings"
+                  style={{ width: "20px", height: "20px" }}
+                />
                 <span>Settings</span>
               </Link>
             </div>
@@ -164,63 +178,70 @@ function App() {
 
         {/* Main Routes */}
         <div className="page-content">
-        <Routes>
-          <Route
-            path="/"
-            element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
-          />
-          <Route
-            path="/Login"
-            element={
-              isAuthenticated ? (
-                <Navigate to="/Calendar" replace />
-              ) : (
-                <Login onLoginSuccess={handleLoginSuccess} />
-              )
-            }
-          />
-          <Route path="/createAccount" element={<CreateAccount />} />
-          <Route
-            path="/Calendar"
-            element={
-              isAuthenticated ? (
-                <div
-                  style={{
-                    maxWidth: "2000px",
-                    margin: "0 auto",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1rem",
-                  }}
-                >
-                  <CalendarComponent />
-                </div>
-              ) : (
-                <Navigate to="/Login" />
-              )
-            }
-          />
-          <Route
-            path="/Todolist"
-            element={isAuthenticated ? <MyApp /> : <Navigate to="/Login" />}
-          />
-          <Route
-            path="/UserProfile"
-            element={
-              isAuthenticated ? (
-                <UserProfile onLogout={handleLogout} />
-              ) : (
-                <Navigate to="/Login" />
-              )
-            }
-          />
-          <Route
-            path="/Settings"
-            element={isAuthenticated ? <Settings /> : <Navigate to="/Login" />}
-          />
-          <Route path="/SplitScreen" element={<SplitScreen />} />
-          <Route path="*" element={<div>Page not found.</div>} />
-        </Routes>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Navigate
+                  to={isAuthenticated ? "/Calendar" : "/Login"}
+                  replace
+                />
+              }
+            />
+            <Route
+              path="/Login"
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/Calendar" replace />
+                ) : (
+                  <Login onLoginSuccess={handleLoginSuccess} />
+                )
+              }
+            />
+            <Route path="/createAccount" element={<CreateAccount />} />
+            <Route
+              path="/Calendar"
+              element={
+                isAuthenticated ? (
+                  <div
+                    style={{
+                      maxWidth: "2000px",
+                      margin: "0 auto",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "1rem",
+                    }}
+                  >
+                    <CalendarComponent />
+                  </div>
+                ) : (
+                  <Navigate to="/Login" />
+                )
+              }
+            />
+            <Route
+              path="/Todolist"
+              element={isAuthenticated ? <MyApp /> : <Navigate to="/Login" />}
+            />
+            <Route
+              path="/UserProfile"
+              element={
+                isAuthenticated ? (
+                  <UserProfile onLogout={handleLogout} />
+                ) : (
+                  <Navigate to="/Login" />
+                )
+              }
+            />
+            <Route
+              path="/Settings"
+              element={
+                isAuthenticated ? <Settings /> : <Navigate to="/Login" />
+              }
+            />
+            <Route path="/SplitScreen" element={<SplitScreen />} />
+            <Route path="*" element={<div>Page not found.</div>} />
+          </Routes>
         </div>
       </div>
     </Router>
