@@ -26,10 +26,17 @@ const Settings = () => {
       document.documentElement.style.setProperty("--color-3", colors[2]);
       document.documentElement.style.setProperty("--color-4", colors[3]);
       document.documentElement.style.setProperty("--color-5", colors[4]);
-      document.documentElement.style.setProperty("--navbar-background-color", colors[5]);
-      document.documentElement.style.setProperty("--button-background-color", colors[5]); // make buttons match navbar
-      document.documentElement.style.setProperty("--button-font-color",
-        themeName === "light" ? "#333333" : "white"
+      document.documentElement.style.setProperty(
+        "--navbar-background-color",
+        colors[5],
+      );
+      document.documentElement.style.setProperty(
+        "--button-background-color",
+        colors[5],
+      ); // make buttons match navbar
+      document.documentElement.style.setProperty(
+        "--button-font-color",
+        themeName === "light" ? "#333333" : "white",
       );
     }
   }, []);

@@ -80,11 +80,12 @@
 }
 
 :root {
-  --button-background-color: #aeaeae; 
-  --button-font-color: #333333; 
+  --button-background-color: #aeaeae;
+  --button-font-color: #333333;
   --button-font-family: monospace;
   --navbar-background-color: #d5d5d5; 
   --button-background-color-hover: #ffffff;
+
 }
 
 button {

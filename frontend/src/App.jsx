@@ -140,9 +140,14 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
+            element={
+              <Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />
+            }
           />
-          <Route path="/Login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          <Route
+            path="/Login"
+            element={<Login onLoginSuccess={handleLoginSuccess} />}
+          />
           <Route path="/createAccount" element={<CreateAccount />} />
           <Route
             path="/Calendar"
