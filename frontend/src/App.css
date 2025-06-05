@@ -1,23 +1,146 @@
+/* ------------------------------ */
+/* Root-Level Theme Variables     */
+/* ------------------------------ */
+:root {
+  --background-color: #f5f5f5;
+  --navbar-background-color: #bdbdbd;
+  --input-color: #f0f0f0;
+  --hover-color: #434343;
+  --table-header-color: #666666;
+  --text-color: #333333;
+  --font: "Monospace";
+
+  --button-bg: var(--input-color);
+  --button-hover: var(--hover-color);
+  --button-text: var(--text-color);
+  --button-background-color-hover: var(--hover-color); /* ✅ add this */
+}
+
+/* Gold-Blue Theme */
+.theme-gold-blue {
+  --background-color: #e9d7c0;
+  --table-header-color: #9b7d61;
+  --navbar-background-color: #608986;
+  --input-color: #9b7d61;
+  --hover-color: #7c6a6a;
+  --text-color: #402d21;
+}
+
+/* Forest Green Theme */
+.theme-forest-green {
+  --background-color: #809076;
+  --table-header-color: #578057;
+  --navbar-background-color: #284139;
+  --input-color: #f8d794;
+  --hover-color: #bb6830;
+  --text-color: #111a19;
+}
+
+.theme-lavendar {
+  --background-color: #edabbe;
+  --table-header-color: #de5c8f;
+  --navbar-background-color: #872d72;
+  --input-color: #872d72;
+  --hover-color: #7c4ebb;
+  --text-color: #411e57;
+}
+
+.theme-red {
+  --background-color: #a24c61;
+  --table-header-color: #e2a9c0;
+  --navbar-background-color: #e1c9d5;
+  --input-color: #e1c9d5;
+  --hover-color: #710c21;
+  --text-color: #411528;
+}
+
+/* ------------------------------ */
+/* App & Page Layout              */
+/* ------------------------------ */
 #root {
   max-width: 1340px;
-  max-height: 750;
+  max-height: 750px;
   margin: 0 auto;
   overflow-anchor: auto;
   justify-items: center;
 }
 
+.calendar-container {
+  padding: 1.5rem;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------------------ */
+/* Navigation Buttons             */
+/* ------------------------------ */
+.button-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-family: var(--button-font-family);
+  color: var(--button-font-color);
+  border-radius: 5px;
+  gap: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.button-link:hover {
+  background-color: var(
+    --button-background-color-hover
+  ); /* apply hover background */
+  color: #2d3436;
+}
+
+.button-link img {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional dark theme override */
+/* .dark-theme .button-link {
+  color: var(--);
+} */
+
+/* ------------------------------ */
+/* Standard Button Styles         */
+/* ------------------------------ */
+button {
+  color: var(--button-font-color);
+  font-family: var(--button-font-family);
+  border: 1px solid var(--color-3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* ------------------------------ */
+/* Logo + Animation               */
+/* ------------------------------ */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -27,21 +150,21 @@
   }
 }
 
-.calendar-container {
-  overflow-anchor: auto;
-  height: auto;
-  width: auto;
-  margin: auto;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
+}
+
+.page-content {
+  padding-top: 100px;
+}
+/* ------------------------------ */
+/* Utilities & Misc               */
+/* ------------------------------ */
+img {
+  display: block;
+  margin-bottom: 1rem;
 }
 
 .card {
@@ -52,49 +175,21 @@
   color: #888;
 }
 
-.button-link {
-  text-decoration: none; /* Remove underline */
-  padding: 10px 20px; /* Button padding */
-  background-color: var(--button-background-color);
-  color: var(--button-font-color);
-  font: var(--button-font);
-  border-radius: 5px; /* Rounded corners */
-  font-size: 8px;
-  transition: background-color 0.3s ease; /* Smooth color transition */
-  display: flex;
-  flex-direction: columns;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  color: black;
-}
-
-.button-link:hover {
-  background-color: var(--button-background-color-hover);
-  color: #2d3436; /* darker text on hover */
-}
-
-.dark-theme .button-link {
-  color: var(--dark-theme-button-color);
-}
-
-:root {
-  --button-background-color: #aeaeae;
-  --button-font-color: #333333;
-  --button-font-family: monospace;
-  --navbar-background-color: #d5d5d5;
-  --button-background-color-hover: #ffffff;
-}
-
-button {
-  color: var(--button-font-color);
-}
-
-img {
-  display: block;
-  margin-bottom: 1rem;
-}
-
 .Settings > * {
   margin-bottom: 0.5rem;
+}
+
+.profilePic {
+  position: fixed;
+  top: 25px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  z-index: 1100;
 }

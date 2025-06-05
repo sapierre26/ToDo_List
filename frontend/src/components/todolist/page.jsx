@@ -74,6 +74,7 @@ const TodoList = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}></div>
       <div className={styles.taskList}>
         {tasks.length === 0 ? (
           <p className={styles.emptyState}>No tasks!</p>

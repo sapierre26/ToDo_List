@@ -40,11 +40,15 @@ function App() {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [profilePic, setProfilePic] = useState(null);
 
-  useEffect(() => {
+  const initializeUserPreferences = () => {
     const savedTheme = localStorage.getItem("theme") || "light";
     const savedFont = localStorage.getItem("font") || "Arial";
     applyTheme(savedTheme);
     document.body.style.fontFamily = savedFont;
+  };
+
+  useEffect(() => {
+    initializeUserPreferences();
   }, []);
 
   useEffect(() => {
@@ -76,14 +80,32 @@ function App() {
     } else {
       setIsAuthenticated(false);
     }
-
     setIsCheckingAuth(false);
   }, []);
 
   if (isCheckingAuth) return <div>Loading...</div>;
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = async () => {
     setIsAuthenticated(true);
+
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const res = await fetch("http://localhost:8000/api/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch profile");
+      const data = await res.json();
+
+      if (data?.profilePic) setProfilePic(data.profilePic);
+    } catch (err) {
+      console.error("Error fetching profile on login:", err);
+    }
   };
 
   const handleLogout = () => {
@@ -95,11 +117,17 @@ function App() {
 
   return (
     <Router>
-      {/* ✅ Floating profile pic - OUTSIDE the nav bar */}
-      {isAuthenticated && <Navbar profilePic={profilePic} />}
+      {isAuthenticated && <Navbar />}
+
+      {/* Profile Picture in top-right */}
+      {isAuthenticated && profilePic && (
+        <Link to="/UserProfile">
+          <img src={profilePic} alt="Profile" className="profilePic" />
+        </Link>
+      )}
 
       <div style={{ height: "94vh", width: "100%", padding: "20px" }}>
-        {/* ✅ Main nav bar */}
+        {/* Custom Navigation Bar */}
         {isAuthenticated && (
           <div
             style={{
@@ -109,22 +137,22 @@ function App() {
               transform: "translateX(-50%)",
               width: "750px",
               height: "65px",
-              backgroundColor: "var(--navbar-background-color)",
               display: "flex",
               justifyContent: "space-around",
               alignItems: "center",
               padding: "0 30px",
               borderRadius: "40px",
               boxShadow: "0 3px 10px rgba(0, 0, 0, 0.3)",
+              backgroundColor: "var(--navbar-background-color)",
               zIndex: 1000,
             }}
           >
-            <div style={{ display: "flex", gap: "120px" }}>
+            <div style={{ display: "flex", gap: "110px" }}>
               <Link to="/Calendar" className="button-link">
                 <img
                   src={calendarImage}
                   alt="Calendar"
-                  style={{ width: "25px", height: "25px" }}
+                  style={{ width: "20px", height: "20px" }}
                 />
                 <span>Calendar</span>
               </Link>
@@ -132,7 +160,7 @@ function App() {
                 <img
                   src={todolistImage}
                   alt="Todo List"
-                  style={{ width: "25px", height: "25px" }}
+                  style={{ width: "20px", height: "20px" }}
                 />
                 <span>Todo List</span>
               </Link>
@@ -140,7 +168,7 @@ function App() {
                 <img
                   src={settingImage}
                   alt="Settings"
-                  style={{ width: "25px", height: "25px" }}
+                  style={{ width: "20px", height: "20px" }}
                 />
                 <span>Settings</span>
               </Link>
@@ -148,67 +176,73 @@ function App() {
           </div>
         )}
 
-        {/* ✅ Main app routes */}
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />
-            }
-          />
-          <Route
-            path="/Login"
-            element={
-              isAuthenticated ? (
-                <Navigate to="/Calendar" replace />
-              ) : (
-                <Login onLoginSuccess={handleLoginSuccess} />
-              )
-            }
-          />
-          <Route path="/createAccount" element={<CreateAccount />} />
-          <Route
-            path="/Calendar"
-            element={
-              isAuthenticated ? (
-                <div
-                  style={{
-                    maxWidth: "1100px",
-                    margin: "0 auto",
-                    paddingTop: "100px", // space below navbar
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1rem",
-                  }}
-                >
-                  <CalendarComponent />
-                </div>
-              ) : (
-                <Navigate to="/Login" />
-              )
-            }
-          />
-          <Route
-            path="/Todolist"
-            element={isAuthenticated ? <MyApp /> : <Navigate to="/Login" />}
-          />
-          <Route
-            path="/UserProfile"
-            element={
-              isAuthenticated ? (
-                <UserProfile onLogout={handleLogout} />
-              ) : (
-                <Navigate to="/Login" />
-              )
-            }
-          />
-          <Route
-            path="/Settings"
-            element={isAuthenticated ? <Settings /> : <Navigate to="/Login" />}
-          />
-          <Route path="/SplitScreen" element={<SplitScreen />} />
-          <Route path="*" element={<div>Page not found.</div>} />
-        </Routes>
+        {/* Main Routes */}
+        <div className="page-content">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Navigate
+                  to={isAuthenticated ? "/Calendar" : "/Login"}
+                  replace
+                />
+              }
+            />
+            <Route
+              path="/Login"
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/Calendar" replace />
+                ) : (
+                  <Login onLoginSuccess={handleLoginSuccess} />
+                )
+              }
+            />
+            <Route path="/createAccount" element={<CreateAccount />} />
+            <Route
+              path="/Calendar"
+              element={
+                isAuthenticated ? (
+                  <div
+                    style={{
+                      maxWidth: "2000px",
+                      margin: "0 auto",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "1rem",
+                    }}
+                  >
+                    <CalendarComponent />
+                  </div>
+                ) : (
+                  <Navigate to="/Login" />
+                )
+              }
+            />
+            <Route
+              path="/Todolist"
+              element={isAuthenticated ? <MyApp /> : <Navigate to="/Login" />}
+            />
+            <Route
+              path="/UserProfile"
+              element={
+                isAuthenticated ? (
+                  <UserProfile onLogout={handleLogout} />
+                ) : (
+                  <Navigate to="/Login" />
+                )
+              }
+            />
+            <Route
+              path="/Settings"
+              element={
+                isAuthenticated ? <Settings /> : <Navigate to="/Login" />
+              }
+            />
+            <Route path="/SplitScreen" element={<SplitScreen />} />
+            <Route path="*" element={<div>Page not found.</div>} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );

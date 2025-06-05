@@ -1,8 +1,18 @@
 /* src/components/Navbar.css */
 .navbar {
+  background-color: var(--navbar-background-color);
+  width: 750px;
+  height: 65px;
+  border-radius: 40px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 30px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
   position: fixed;
-  top: 15px;
-  right: 20px;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
 }
 
@@ -11,7 +21,6 @@
   height: 54px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px var(--color-3);
   cursor: pointer;
   justify-content: center;
 }

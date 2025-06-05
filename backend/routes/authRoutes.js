@@ -68,7 +68,7 @@ router.get("/settings", auth, async (req, res) => {
     const user = await User.findById(req.user.id);
     res.json({
       theme: user.theme || "light",
-      font: user.font || "Arial",
+      font: user.font || "Monospace",
     });
   } catch (err) {
     console.error("Error fetching settings:", err);
