@@ -20,8 +20,7 @@
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  object-fit: cover;  
+  object-fit: cover;
   cursor: pointer;
   justify-content: center;
 }
-

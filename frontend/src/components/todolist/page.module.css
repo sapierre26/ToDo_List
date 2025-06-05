@@ -14,8 +14,8 @@
 }
 
 .addTaskContainer {
-  background-color: #eaf5ea;   /* Soft pastel green */
-  border: 2px solid #a8d5ba;   /* Subtle green border */
+  background-color: #eaf5ea; /* Soft pastel green */
+  border: 2px solid #a8d5ba; /* Subtle green border */
   border-radius: 8px;
   text-align: center;
 }
@@ -63,7 +63,7 @@ th {
   font-size: 14px;
   text-align: center;
   border-bottom: 2px solid #ccc;
-  background-color: var(--table-header-color);  
+  background-color: var(--table-header-color);
   margin-bottom: 10px;
   letter-spacing: 1px;
 }
