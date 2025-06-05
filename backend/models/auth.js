@@ -145,7 +145,7 @@ export function authenticateUser(req, res, next) {
       message: "Unauthorized: No token provided.",
     });
   } else {
-    jwt.verify(token, process.env.TOKEN_SECRET, (error, decoded) => {
+    jwt.verify(token, process.env.TOKEN_SECRET_KEY, (error, decoded) => {
       if (error) {
         console.log("JWT error:", error);
         return res.status(403).json({

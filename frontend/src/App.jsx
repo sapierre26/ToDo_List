@@ -163,7 +163,13 @@ const handleLoginSuccess = async () => {
           />
           <Route
             path="/Login"
-            element={<Login onLoginSuccess={handleLoginSuccess} />}
+            element={
+              isAuthenticated ? (
+                <Navigate to="/Calendar" replace />
+              ) : (
+                <Login onLoginSuccess={handleLoginSuccess} />
+              )
+            }
           />
           <Route path="/createAccount" element={<CreateAccount />} />
           <Route
@@ -193,7 +199,13 @@ const handleLoginSuccess = async () => {
           />
           <Route
             path="/UserProfile"
-            element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/Login" />}
+            element={
+              isAuthenticated ? (
+                <UserProfile onLogout={handleLogout} />
+              ) : (
+                <Navigate to="/Login" />
+              )
+            }
           />
           <Route
             path="/Settings"
