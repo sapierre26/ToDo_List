@@ -1,4 +1,13 @@
-import { getTasks, addTask, deleteTask } from "./tasks";
+import {
+  getTasks,
+  addTask,
+  deleteTask,
+  getTasksAndEventsByEndDate,
+  getTasksForMonth,
+  updateTask,
+  getGoogleCalendarEvents,
+  getGoogleTasks,
+} from "./tasks";
 
 // Mocking fetch to simulate API calls
 global.fetch = jest.fn();
@@ -48,7 +57,7 @@ describe("Task API Functions", () => {
       });
     });
 
-    it("should return null if fetching tasks fails", async () => {
+    test("should return null if fetching tasks fails", async () => {
       fetch.mockResolvedValueOnce({
         ok: false,
         status: 500,
@@ -142,6 +151,116 @@ describe("Task API Functions", () => {
 
       const result = await deleteTask("1");
       expect(result).toBe(false);
+    });
+  });
+
+  // Test for getTasksForMonth
+  describe("getTasksForMonth", () => {
+    it("should fetch tasks for month", async () => {
+      const mockData = [{ title: "Monthly Task" }];
+      fetch.mockResolvedValueOnce({ ok: true, json: async () => mockData });
+
+      const result = await getTasksForMonth(
+        new Date("2025-06-01"),
+        new Date("2025-06-30"),
+        "token",
+      );
+      expect(result).toEqual(mockData);
+    });
+
+    it("should handle error for month fetch", async () => {
+      fetch.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({}),
+      });
+      const result = await getTasksForMonth(
+        new Date("2025-06-01"),
+        new Date("2025-06-30"),
+        "token",
+      );
+      expect(result).toBeNull();
+    });
+  });
+
+  // Test for getTasksAndEventsByEndDate
+  describe("getTasksAndEventsByEndDate", () => {
+    it("should fetch tasks by date", async () => {
+      const mockData = [{ title: "Task 1" }];
+      fetch.mockResolvedValueOnce({ ok: true, json: async () => mockData });
+
+      const result = await getTasksAndEventsByEndDate(
+        new Date("2025-06-04"),
+        "token",
+      );
+      expect(result).toEqual(mockData);
+    });
+
+    it("should handle error when fetching by date", async () => {
+      fetch.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({}),
+      });
+      const result = await getTasksAndEventsByEndDate(
+        new Date("2025-06-04"),
+        "token",
+      );
+      expect(result).toBeNull();
+    });
+  });
+
+  // Test for getGoogleCalendarEvents
+  describe("getGoogleCalendarEvents", () => {
+    it("should fetch Google Calendar events", async () => {
+      const events = [{ id: "1", summary: "Event 1" }];
+      fetch.mockResolvedValueOnce({ ok: true, json: async () => events });
+      const result = await getGoogleCalendarEvents();
+      expect(result).toEqual(events);
+    });
+
+    it("should handle Google Calendar events fetch failure", async () => {
+      fetch.mockResolvedValueOnce({ ok: false });
+      const result = await getGoogleCalendarEvents();
+      expect(result).toEqual([]);
+    });
+  });
+
+  //Test for getGoogleTasks
+  describe("getGoogleTasks", () => {
+    it("should fetch Google Tasks", async () => {
+      const tasks = [{ id: "1", title: "Google Task 1" }];
+      fetch.mockResolvedValueOnce({ ok: true, json: async () => tasks });
+      const result = await getGoogleTasks();
+      expect(result).toEqual(tasks);
+    });
+
+    it("should handle Google Tasks fetch failure", async () => {
+      fetch.mockResolvedValueOnce({ ok: false });
+      await expect(getGoogleTasks()).rejects.toThrow(
+        "Failed to fetch Google Tasks",
+      );
+    });
+  });
+
+  // Test for updateTask
+  describe("updateTask", () => {
+    it("should update task successfully", async () => {
+      const updatedTask = { title: "Updated Task" };
+      fetch.mockResolvedValueOnce({ ok: true, json: async () => updatedTask });
+
+      const result = await updateTask("1", { title: "Updated Task" }, "token");
+      expect(result).toEqual(updatedTask);
+    });
+
+    it("should handle update failure with error message", async () => {
+      fetch.mockResolvedValueOnce({
+        ok: false,
+        text: async () => "Error message",
+      });
+
+      const result = await updateTask("1", { title: "Updated Task" }, "token");
+      expect(result).toBeNull();
     });
   });
 });

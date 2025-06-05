@@ -1,87 +1,17 @@
-.settingsContainer {
-  max-width: 600px;
-  margin: 3rem auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.heading {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-}
-
-.preferencesSection {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-}
-
-.selectGroup {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.selectGroup label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.selectGroup select {
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  min-width: 180px;
-}
-
-.settingsActions {
-  display: flex;
-  justify-content: center;
-}
-
-.settingsActions button {
-  background-color: #4caf50;
-  color: white;
-  font-size: 1rem;
-  padding: 0.75rem 2rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.settingsActions button:hover {
-  background-color: #45a049;
-}
-
-:root {
-  /* Light theme base (your current UI) */
-  --color-1: #ffffff; /* background */
-  --color-2: #f0f0f0; /* surface / card */
-  --color-3: #cccccc; /* borders / secondary elements */
-  --color-4: #999999; /* muted text */
-  --color-5: #333333; /* primary text */
-  --font: Arial;
-}
-
-/* Global styles using variables */
+/* ------------------------------ */
+/* Global Element Styles       */
+/* ------------------------------ */
 body {
-  background-color: var(--color-1);
-  color: var(--color-5);
+  background-color: var(--background-color);
+  color: var(--hover);
   font-family: var(--font);
-  transition:
-    background-color 0.3s,
-    color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 button {
-  background-color: var(--color-2);
-  color: var(--color-5);
-  border: 1px solid var(--color-3);
+  background-color: var(--background);
+  color: var(--main-text);
+
   padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
@@ -96,21 +26,101 @@ select {
   border-radius: 4px;
 }
 
+/* ------------------------------ */
+/* Settings Container         */
+/* ------------------------------ */
+.settingsContainer {
+  width: 600px;
+  margin: 120px auto 0;
+  padding: 32px 40px;
+  border: 2px solid #aaa;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ------------------------------ */
+/* Form Section Layout         */
+/* ------------------------------ */
+.preferencesSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rem;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.selectGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selectGroup label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.selectGroup select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--hover-color);
+  font-size: 1rem;
+  min-width: 180px;
+  background-color: var(--hover-color);
+  color: var(--input-text-color);
+}
+
+/* ------------------------------ */
+/* Button Section              */
+/* ------------------------------ */
+.settingsActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Change to center if you want centered buttons */
+  gap: 10px;
+}
+
+.settingsActions button {
+  background-color: var(--hover-color);
+  color: white;
+  font-size: 1rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.settingsActions button:hover {
+  background-color: var(--button-bg-color);
+  color: black;
+}
+
+/* ------------------------------ */
+/* Messaging Styles            */
+/* ------------------------------ */
 .successMessage {
-  color: green;
+  color: rgb(78, 121, 78);
   margin-top: 10px;
   font-size: 0.95rem;
 }
 
 .errorMessage {
-  color: red;
+  color: rgb(174, 82, 82);
   margin-top: 10px;
   font-size: 0.95rem;
 }
 
-.settingsActions {
-  display: flex;
-  flex-direction: column; /* This stacks children vertically */
-  align-items: flex-start; /* Optional: aligns left, change to center if needed */
-  gap: 10px; /* Optional: adds spacing between button and message */
+/* ------------------------------ */
+/* Optional Heading            */
+/* ------------------------------ */
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
 }

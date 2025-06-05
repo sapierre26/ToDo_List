@@ -15,7 +15,7 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 
 app.use(
@@ -55,7 +55,7 @@ app.use("/api/Users", userRoutes);
 app.use("/api/tasks", tasksRoutes);
 
 app.get("/", (req, res) => {
-  console.log("Hello World, I am here in the get");
+  console.log("Hello World, I am here");
   res.status(200).send("To-Do List Root");
 });
 
