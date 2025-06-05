@@ -3,6 +3,7 @@ import style from "./login.module.css";
 import styles from "../CreateAccount/createAccount.module.css";
 import { useNavigate, Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import API_BASE from "./config";
 
 const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState("");
@@ -19,7 +20,7 @@ const Login = ({ onLoginSuccess }) => {
     setErrorMessage("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/users/login", {
+      const response = await fetch(`${API_BASE}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
