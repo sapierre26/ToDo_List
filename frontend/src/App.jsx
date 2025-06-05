@@ -6,6 +6,7 @@ import {
   Routes,
   Link,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import "./App.css";
 
@@ -146,7 +147,13 @@ function App() {
           />
           <Route
             path="/Login"
-            element={<Login onLoginSuccess={handleLoginSuccess} />}
+            element={
+              isAuthenticated ? (
+                <Navigate to="/Calendar" replace />
+              ) : (
+                <Login onLoginSuccess={handleLoginSuccess} />
+              )
+            }
           />
           <Route path="/createAccount" element={<CreateAccount />} />
           <Route

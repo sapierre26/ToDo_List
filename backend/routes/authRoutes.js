@@ -9,7 +9,7 @@ const {
   updateProfile,
   updateProfileImage,
 } = require("../controllers/authController.js");
-const User = require("../models/userSchema.js");
+const { User } = require("../models/initModels.js");
 
 // Memory storage (does not save to disk)
 const storage = multer.memoryStorage();
