@@ -259,7 +259,29 @@
 <a name='L198'></a><a href='#L198'>198</a>
 <a name='L199'></a><a href='#L199'>199</a>
 <a name='L200'></a><a href='#L200'>200</a>
-<a name='L201'></a><a href='#L201'>201</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -316,7 +338,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -459,6 +480,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useEffect } from "react";
 import { applyTheme } from "./utils/theme";
 import {
@@ -470,7 +514,7 @@ import {
 } from "react-router-dom";
 import "./App.css";
 &nbsp;
-/* component page imports */
+/* component imports */
 import CalendarComponent from "./components/Calendar/page";
 import MyApp from "./components/todolist/page";
 import Login from "./components/Login/page";
@@ -517,7 +561,6 @@ function App() {
       if (decoded &amp;&amp; Date.now() &lt; decoded.exp * 1000) {
         setIsAuthenticated(true);
 &nbsp;
-        // Fetch profilePic after auth check
         fetch("http://localhost:8000/api/auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -526,7 +569,7 @@ function App() {
           .then(<span class="fstat-no" title="function not covered" >(r</span>es) =&gt; <span class="cstat-no" title="statement not covered" >res.json())</span>
           .then(<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; {
 <span class="cstat-no" title="statement not covered" >            if (data?.profilePic) {</span>
-<span class="cstat-no" title="statement not covered" >              setProfilePic(data.profilePic); </span>// it’s already a base64 data URL
+<span class="cstat-no" title="statement not covered" >              setProfilePic(data.profilePic);</span>
             }
           })
           .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >console.error("Failed to fetch profile:", err))</span>;
@@ -557,63 +600,71 @@ function App() {
 &nbsp;
   return (
     &lt;Router&gt;
-      &lt;div
-        style={{
-          height: "94vh",
-          width: "100%",
-          padding: "10px",
-          border: "solid",
-        }}
-      &gt;
-        {/* Top bar with nav links and profile pic */}
-        {isAuthenticated ? (
+      &lt;div style={{ height: "94vh", width: "100%", padding: "20px" }}&gt;
+        {isAuthenticated &amp;&amp; (
           &lt;div
             style={{
+              position: "fixed",
+              top: "25px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "750px",
+              height: "65px",
+              backgroundColor: "var(--navbar-background-color)",
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "space-around",
               alignItems: "center",
-              marginBottom: "20px",
+              padding: "0 30px",
+              borderRadius: "40px",
+              boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+              zIndex: 1000,
             }}
           &gt;
-            {/* Left: navigation links */}
-            &lt;Link to="/Calendar" className="button-link"&gt;
-              &lt;img
-                src={calendarImage}
-                alt="Calendar"
-                style={{ width: "25px", marginRight: "6px" }}
-              /&gt;
-              Calendar
-            &lt;/Link&gt;
-            &lt;Link to="/Todolist" className="button-link"&gt;
-              &lt;img
-                src={todolistImage}
-                alt="Todo List"
-                style={{ width: "25px", marginRight: "6px" }}
-              /&gt;
-              Todo List
-            &lt;/Link&gt;
-            &lt;Link to="/Settings" className="button-link"&gt;
-              &lt;img
-                src={settingImage}
-                alt="Settings"
-                style={{ width: "25px", margin: "5px" }}
-              /&gt;
-            &lt;/Link&gt;
-            {/* Right: profile picture */}
-            &lt;Navbar profilePic={profilePic} /&gt;
+            &lt;div
+              style={{ display: "flex", alignItems: "center", gap: "120px" }}
+            &gt;
+              &lt;Link to="/Calendar" className="button-link"&gt;
+                &lt;img
+                  src={calendarImage}
+                  alt="Calendar"
+                  style={{ width: "18px" }}
+                /&gt;
+                Calendar
+              &lt;/Link&gt;
+              &lt;Link to="/Todolist" className="button-link"&gt;
+                &lt;img
+                  src={todolistImage}
+                  alt="Todo List"
+                  style={{ width: "18px" }}
+                /&gt;
+                Todo List
+              &lt;/Link&gt;
+              &lt;Link to="/Settings" className="button-link"&gt;
+                &lt;img
+                  src={settingImage}
+                  alt="Settings"
+                  style={{ width: "18px" }}
+                /&gt;
+                Settings
+              &lt;/Link&gt;
+            &lt;/div&gt;
+            &lt;div
+              style={{
+                height: "50px",
+                width: "50px",
+                borderRadius: "50%",
+                overflow: "hidden",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "white",
+              }}
+            &gt;
+              &lt;Navbar profilePic={profilePic} /&gt;
+            &lt;/div&gt;
           &lt;/div&gt;
-        ) : (
-          &lt;nav style={{ marginBottom: "20px" }}&gt;
-            &lt;Link to="/Login" className="button-link"&gt;
-              Login
-            &lt;/Link&gt;
-            &lt;Link to="/createAccount" className="button-link"&gt;
-              Create Account
-            &lt;/Link&gt;
-          &lt;/nav&gt;
         )}
 &nbsp;
-        {/* App routes */}
         &lt;Routes&gt;
           &lt;Route
             path="/"
@@ -629,7 +680,22 @@ function App() {
           &lt;Route
             path="/Calendar"
             element={
-              isAuthenticated ? &lt;CalendarComponent /&gt; : &lt;Navigate to="/Login" /&gt;
+              isAuthenticated ? (
+                &lt;div
+                  style={{
+                    maxWidth: "1100px",
+                    margin: "0 auto",
+                    paddingTop: "45px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                  }}
+                &gt;
+                  &lt;CalendarComponent /&gt;
+                &lt;/div&gt;
+              ) : (
+                &lt;Navigate to="/Login" /&gt;
+              )
             }
           /&gt;
           &lt;Route
@@ -673,7 +739,7 @@ export default App;
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2025-06-03T18:55:35.512Z
+      at 2025-06-05T00:49:09.223Z
     </div>
     <script src="../prettify.js"></script>
     <script>

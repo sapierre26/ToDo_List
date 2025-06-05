@@ -73,10 +73,10 @@
 }
 
 :root {
-  --button-background-color: #aeaeae; 
-  --button-font-color: #333333; 
+  --button-background-color: #aeaeae;
+  --button-font-color: #333333;
   --button-font-family: monospace;
-  --navbar-background-color: #b3d1b3; 
+  --navbar-background-color: #b3d1b3;
 }
 
 button {

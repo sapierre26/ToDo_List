@@ -3,6 +3,12 @@ import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import CalendarComponent from "./page";
 import "@testing-library/jest-dom";
 import { afterEach, beforeEach, beforeAll, afterAll } from "@jest/globals";
+import {
+  getTasksForMonth,
+  getGoogleCalendarEvents,
+  getGoogleTasks,
+} from "../../api/tasks";
+
 jest.mock("../../api/tasks", () => ({
   getTasksForMonth: jest.fn(() => Promise.resolve([])),
   getGoogleCalendarEvents: jest.fn(() => Promise.resolve([])),
@@ -114,5 +120,130 @@ describe("CalendarComponent Tests", () => {
     });
 
     expect(document.getElementById("da8vorr"));
+  });
+});
+
+describe("Task and Google Tasks", () => {
+  test("Displays 'No tasks for this date' when dailyTasks is empty", () => {
+    const emptyTaskDate = screen.getByText(/No tasks for this date/i);
+    expect(emptyTaskDate).toBeInTheDocument();
+  });
+
+  test("shows Import button when Google not connected", () => {
+    expect(screen.getByText("Import")).toBeInTheDocument();
+  });
+
+  test("filters events by selected priority", async () => {
+    getTasksForMonth.mockResolvedValue([
+      {
+        _id: "1",
+        title: "High Priority Task",
+        startDate: new Date().toISOString(),
+        endDate: new Date().toISOString(),
+        label: "Task",
+        priority: "High",
+      },
+      {
+        _id: "2",
+        title: "Low Priority Task",
+        startDate: new Date().toISOString(),
+        endDate: new Date().toISOString(),
+        label: "Task",
+        priority: "Low",
+      },
+    ]);
+
+    await act(async () => {
+      render(<CalendarComponent />);
+    });
+
+    const highPriorityButton = screen.getAllByText("High")[0];
+    await act(async () => {
+      fireEvent.click(highPriorityButton);
+    });
+
+    expect(screen.getByText("High Priority Task")).toBeInTheDocument();
+  });
+
+  test("fetches and displays tasks/events correctly", async () => {
+    getTasksForMonth.mockResolvedValue([
+      {
+        _id: "1",
+        title: "My Task",
+        startDate: new Date().toISOString(),
+        endDate: new Date().toISOString(),
+        label: "Task",
+        priority: "High",
+      },
+    ]);
+    getGoogleCalendarEvents.mockResolvedValue([
+      {
+        id: "g1",
+        title: "Google Event",
+        start: new Date().toISOString(),
+        end: new Date().toISOString(),
+      },
+    ]);
+    getGoogleTasks.mockResolvedValue([
+      {
+        id: "gt1",
+        title: "Google Task",
+        due: new Date().toISOString(),
+        notes: "Google Notes",
+      },
+    ]);
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ connected: true }),
+    });
+    await act(async () => {
+      render(<CalendarComponent />);
+    });
+    expect(screen.getAllByText("My Task")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("Google Event")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("Google Task")[0]).toBeInTheDocument();
+  });
+
+  test("filters out Google tasks without due date", async () => {
+    getGoogleTasks.mockResolvedValue([
+      { id: "1", title: "Undated Google Task" },
+    ]);
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ connected: true }),
+    });
+    await act(async () => {
+      render(<CalendarComponent />);
+    });
+    expect(screen.queryByText("Undated Google Task")).not.toBeInTheDocument();
+  });
+
+  test("correctly maps fetched tasks into events", async () => {
+    getTasksForMonth.mockResolvedValue([
+      {
+        _id: "123",
+        title: "Mapped Task",
+        startDate: new Date().toISOString(),
+        endDate: new Date().toISOString(),
+        label: "Task",
+        priority: "Low",
+      },
+    ]);
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ connected: false }),
+    });
+    await act(async () => {
+      render(<CalendarComponent />);
+    });
+    expect(screen.getByText("Mapped Task")).toBeInTheDocument();
+  });
+
+  test("view changes correctly", async () => {
+    await act(async () => {
+      render(<CalendarComponent />);
+    });
+    fireEvent.click(screen.getAllByText("Week")[0]);
+    expect(document.querySelector(".rbc-time-view")).toBeInTheDocument();
   });
 });

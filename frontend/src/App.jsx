@@ -115,17 +115,31 @@ function App() {
               zIndex: 1000,
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "120px" }}>
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "120px" }}
+            >
               <Link to="/Calendar" className="button-link">
-                <img src={calendarImage} alt="Calendar" style={{ width: "18px" }} />
+                <img
+                  src={calendarImage}
+                  alt="Calendar"
+                  style={{ width: "18px" }}
+                />
                 Calendar
               </Link>
               <Link to="/Todolist" className="button-link">
-                <img src={todolistImage} alt="Todo List" style={{ width: "18px" }} />
+                <img
+                  src={todolistImage}
+                  alt="Todo List"
+                  style={{ width: "18px" }}
+                />
                 Todo List
               </Link>
               <Link to="/Settings" className="button-link">
-                <img src={settingImage} alt="Settings" style={{ width: "18px" }} />
+                <img
+                  src={settingImage}
+                  alt="Settings"
+                  style={{ width: "18px" }}
+                />
                 Settings
               </Link>
             </div>
@@ -149,9 +163,14 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
+            element={
+              <Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />
+            }
           />
-          <Route path="/Login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          <Route
+            path="/Login"
+            element={<Login onLoginSuccess={handleLoginSuccess} />}
+          />
           <Route path="/createAccount" element={<CreateAccount />} />
           <Route
             path="/Calendar"
