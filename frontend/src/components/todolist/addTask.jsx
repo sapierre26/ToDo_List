@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import style from "./addTask.module.css";
 import { addTask } from "../../api/tasks";
 
-const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
+const AddTask = ({ taskDate, onTaskAdded, onClose, isCompact = false }) => {
   const [formData, setFormData] = useState({
     title: "",
     date: "",
@@ -67,16 +67,14 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
   };
 
   return (
-    <form className={style.form} onSubmit={handleSubmit}>
-      <div className={style.header}>
-        <button type="button" className={style.closeButton} onClick={onClose}>
-          ×
-        </button>
-        <h3>Add {formData.label}</h3>
-      </div>
+    <form className={`${style.form} ${isCompact ? style.compactForm : ""}`} onSubmit={handleSubmit}>
+      <button type="button" className={style.closeButton} onClick={onClose}>
+        ×
+      </button>
+      <h3>Add {formData.label}</h3>
 
-      <div className={style.optionContainer}>
-        <span className={style.optionLabel}>Type:</span>
+      <div className={style.formRow}>
+        <label className={style.formLabel}>Type:</label>
         <div className={style.optionGroup}>
           {["Task", "Event"].map((type) => (
             <button
@@ -131,14 +129,12 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
         placeholder={formData.label === "Event" ? "End Time" : "Time"}
       />
 
-      <div className={style.optionContainer}>
-        <span className={style.optionLabel} htmlFor="priority">
-          Priority:
-        </span>
+      <div className={style.formRow}>
+        <label className={style.formLabel}>Priority:</label>
         <select
           id="priority"
           name="priority"
-          className={style.select} // You can style this in your CSS
+          className={style.select}
           value={formData.priority}
           onChange={handleChange}
         >
@@ -160,7 +156,7 @@ const AddTask = ({ taskDate, onTaskAdded, onClose }) => {
       />
 
       <button className={style.submitButton} type="submit">
-        Submit {formData.label}
+        Submit
       </button>
     </form>
   );
