@@ -40,16 +40,19 @@ function App() {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [profilePic, setProfilePic] = useState(null);
 
-  useEffect(() => {
+  const initializeUserPreferences = () => {
     const savedTheme = localStorage.getItem("theme") || "light";
     const savedFont = localStorage.getItem("font") || "Arial";
     applyTheme(savedTheme);
     document.body.style.fontFamily = savedFont;
+  };
+
+  useEffect(() => {
+  initializeUserPreferences();
   }, []);
 
   useEffect(() => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
     if (token) {
       const decoded = decodeJWT(token);
@@ -76,15 +79,32 @@ function App() {
     } else {
       setIsAuthenticated(false);
     }
-
     setIsCheckingAuth(false);
   }, []);
 
   if (isCheckingAuth) return <div>Loading...</div>;
 
-  const handleLoginSuccess = () => {
-    setIsAuthenticated(true);
-  };
+const handleLoginSuccess = async () => {
+  setIsAuthenticated(true);
+
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  if (!token) return;
+
+  try {
+    const res = await fetch("http://localhost:8000/api/auth/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch profile");
+    const data = await res.json();
+
+    if (data?.profilePic) setProfilePic(data.profilePic);
+  } catch (err) {
+    console.error("Error fetching profile on login:", err);
+  }
+};
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -95,11 +115,9 @@ function App() {
 
   return (
     <Router>
-      {/* ✅ Floating profile pic - OUTSIDE the nav bar */}
       {isAuthenticated && <Navbar profilePic={profilePic} />}
 
       <div style={{ height: "94vh", width: "100%", padding: "20px" }}>
-        {/* ✅ Main nav bar */}
         {isAuthenticated && (
           <div
             style={{
@@ -109,7 +127,6 @@ function App() {
               transform: "translateX(-50%)",
               width: "750px",
               height: "65px",
-              backgroundColor: "var(--navbar-background-color)",
               display: "flex",
               justifyContent: "space-around",
               alignItems: "center",
@@ -119,36 +136,24 @@ function App() {
               zIndex: 1000,
             }}
           >
-            <div style={{ display: "flex", gap: "120px" }}>
+            <div style={{ display: "flex", gap: "110px" }}>
               <Link to="/Calendar" className="button-link">
-                <img
-                  src={calendarImage}
-                  alt="Calendar"
-                  style={{ width: "25px", height: "25px" }}
-                />
+                <img src={calendarImage} alt="Calendar" style={{ width: "20px", height: "20px" }} />
                 <span>Calendar</span>
               </Link>
               <Link to="/Todolist" className="button-link">
-                <img
-                  src={todolistImage}
-                  alt="Todo List"
-                  style={{ width: "25px", height: "25px" }}
-                />
+                <img src={todolistImage} alt="Todo List" style={{ width: "20px", height: "20px" }} />
                 <span>Todo List</span>
               </Link>
               <Link to="/Settings" className="button-link">
-                <img
-                  src={settingImage}
-                  alt="Settings"
-                  style={{ width: "25px", height: "25px" }}
-                />
+                <img src={settingImage} alt="Settings" style={{ width: "20px", height: "20px" }} />
                 <span>Settings</span>
               </Link>
             </div>
           </div>
         )}
 
-        {/* ✅ Main app routes */}
+        {/* Main app routes */}
         <Routes>
           <Route
             path="/"
