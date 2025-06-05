@@ -1,46 +1,48 @@
-const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-
-dotenv.config();
 
 function makeNewConnection(url) {
   if (!url) {
+    if (process.env.NODE_ENV === "test") {
+      throw new Error("MONGO_URI must be provided in test environment");
+    }
     console.error("MONGO_URI is not set in the environment variables.");
-    if (process.env.NODE_ENV !== "test") {
-      process.exit(1);
-    } // Terminate the process if MONGO_URI is missing
+    process.exit(1);
     return;
   }
 
-  const connection = mongoose.createConnection(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  if (
+    process.env.NODE_ENV !== "test" &&
+    (typeof url !== "string" ||
+      (!url.startsWith("mongodb://") && !url.startsWith("mongodb+srv://")))
+  ) {
+    throw new Error(`Invalid MongoDB connection string: ${url}`);
+  }
 
   let DBname;
-  if (url.startsWith("mongodb://")) {
-    DBname = url.split("/").pop().split("?")[0];
-  } else {
-    DBname = url.substring(url.lastIndexOf("net/") + 4, url.lastIndexOf("?"));
+  try {
+    DBname = new URL(url).pathname.split("/").pop() || "default";
+  } catch (e) {
+    DBname = "unknown";
   }
+
+  const connection = mongoose.createConnection(url, {
+    serverSelectionTimeoutMS: 30000,
+    socketTimeoutMS: 45000,
+  });
 
   if (process.env.NODE_ENV !== "test") {
     connection.on("connected", () => {
       console.log(`MongoDB :: connected :: ${DBname}`);
     });
-
     connection.on("disconnected", () => {
       console.log("MongoDB :: disconnected");
     });
-    // needs error checking
-    mongoose.connection.on("error", (err) => {
-      console.log(err);
+    connection.on("error", (err) => {
+      console.error("MongoDB connection error:", err);
     });
   }
 
   return connection;
 }
-
-// console.log(process.env.userDB)
 
 module.exports = { makeNewConnection };

@@ -2,13 +2,12 @@
   "name": "react-frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "npx eslint . && npx prettier --check .",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest --transformIgnorePatterns"
   },
   "dependencies": {
     "18": "^0.0.0",
@@ -30,6 +29,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.27.4",
+    "@babel/eslint-parser": "^7.27.5",
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",

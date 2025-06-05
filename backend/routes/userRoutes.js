@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/userSchema.js");
+const { User } = require("../models/initModels");
 
 // Get all users
 router.get("/", async (req, res) => {
@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error during login.",
-      error: error.message,
+      error: err.message,
     });
   }
 });

@@ -95,12 +95,13 @@ const deleteTask = async (taskId, token) => {
   }
 };
 
-export const updateTask = async (taskId, updates) => {
+export const updateTask = async (taskId, updates, token) => {
   try {
     const res = await fetch(`${tasksURL}/${taskId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(updates),
     });

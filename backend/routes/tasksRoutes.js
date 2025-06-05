@@ -1,7 +1,7 @@
 //taskRoutes.js
 const express = require("express");
 const router = express.Router();
-const Task = require("../models/taskSchema");
+const { Task } = require("../models/initModels");
 const auth = require("../middleware/auth");
 
 // Apply auth middleware to all routes

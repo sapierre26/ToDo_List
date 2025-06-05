@@ -20,9 +20,9 @@ import Settings from "./components/Settings/page";
 import Navbar from "./navbar/Navbar";
 
 /* image imports */
-import calendarImage from "/Images/calendar.png";
-import todolistImage from "/Images/to-do-list.png";
-import settingImage from "/Images/settings.png";
+import calendarImage from "../Images/calendar.png";
+import todolistImage from "../Images/to-do-list.png";
+import settingImage from "../Images/settings.png";
 
 // Manual JWT decode helper
 function decodeJWT(token) {
@@ -30,7 +30,7 @@ function decodeJWT(token) {
     const payload = token.split(".")[1];
     const decodedPayload = atob(payload);
     return JSON.parse(decodedPayload);
-  } catch (e) {
+  } catch {
     return null;
   }
 }
@@ -64,7 +64,7 @@ function App() {
           .then((res) => res.json())
           .then((data) => {
             if (data?.profilePic) {
-              setProfilePic(data.profilePic);
+              setProfilePic(data.profilePic); // it’s already a base64 data URL
             }
           })
           .catch((err) => console.error("Failed to fetch profile:", err));
@@ -146,6 +146,50 @@ function App() {
                 }}>
               <Navbar profilePic={profilePic} />
             </div>
+      <div
+        style={{
+          height: "94vh",
+          width: "100%",
+          padding: "10px",
+          border: "solid",
+        }}
+      >
+        {/* Top bar with nav links and profile pic */}
+        {isAuthenticated ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "20px",
+            }}
+          >
+            {/* Left: navigation links */}
+            <Link to="/Calendar" className="button-link">
+              <img
+                src={calendarImage}
+                alt="Calendar"
+                style={{ width: "25px", marginRight: "6px" }}
+              />
+              Calendar
+            </Link>
+            <Link to="/Todolist" className="button-link">
+              <img
+                src={todolistImage}
+                alt="Todo List"
+                style={{ width: "25px", marginRight: "6px" }}
+              />
+              Todo List
+            </Link>
+            <Link to="/Settings" className="button-link">
+              <img
+                src={settingImage}
+                alt="Settings"
+                style={{ width: "25px", margin: "5px" }}
+              />
+            </Link>
+            {/* Right: profile picture */}
+            <Navbar profilePic={profilePic} />
           </div>
         ) : (
           <nav style={{ marginBottom: "20px" }}>
@@ -157,13 +201,24 @@ function App() {
             </Link>
           </nav>
         )}
-
         <Routes>
           <Route
             path="/"
             element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
           />
           <Route path="/Login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+        {/* App routes */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />
+            }
+          />
+          <Route
+            path="/Login"
+            element={<Login onLoginSuccess={handleLoginSuccess} />}
+          />
           <Route path="/createAccount" element={<CreateAccount />} />
           <Route
             path="/Calendar"
@@ -184,6 +239,7 @@ function App() {
               ) : (
                 <Navigate to="/Login" />
               )
+              isAuthenticated ? <CalendarComponent /> : <Navigate to="/Login" />
             }
           />
           <Route
@@ -193,6 +249,13 @@ function App() {
           <Route
             path="/UserProfile"
             element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/Login" />}
+            element={
+              isAuthenticated ? (
+                <UserProfile onLogout={handleLogout} />
+              ) : (
+                <Navigate to="/Login" />
+              )
+            }
           />
           <Route
             path="/Settings"
@@ -205,5 +268,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;
