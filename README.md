@@ -10,7 +10,7 @@ Backend Coverage:
 
 ![Screenshot 2025-06-03 213649](https://github.com/user-attachments/assets/32c5aa32-9963-4168-8ce1-35ded7d48947)
 ## Scripts
-* ```npm run dev``` Runs the development environment. This command is directory-specific (```frontend```, ```backend```). Make sure you're inside the right folder before running (root does not have this command)
+* ```npm run dev``` Runs the development environment. This command is directory-specific (```frontend```, ```backend```). Make sure you're inside the right folder before running (```root``` does not have this command)
 * ```npm lint``` Runs ```npx eslint .``` and ```npx prettier --check .``` for style consistency
 * ```npm test``` Runs the jest testing environment (```npx jest .```)
 * ```npm coverage``` Runs the testing environment with coverage report
