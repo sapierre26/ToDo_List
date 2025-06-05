@@ -169,7 +169,16 @@ function App() {
             path="/"
             element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
           />
-          <Route path="/Login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          <Route
+            path="/Login"
+            element={
+              isAuthenticated ? (
+                <Navigate to="/Calendar" replace />
+              ) : (
+                <Login onLoginSuccess={handleLoginSuccess} />
+              )
+            }
+          />
           <Route path="/createAccount" element={<CreateAccount />} />
           <Route
             path="/Calendar"
@@ -197,7 +206,13 @@ function App() {
           />
           <Route
             path="/UserProfile"
-            element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/Login" />}
+            element={
+              isAuthenticated ? (
+                <UserProfile onLogout={handleLogout} />
+              ) : (
+                <Navigate to="/Login" />
+              )
+            }
           />
           <Route
             path="/Settings"
