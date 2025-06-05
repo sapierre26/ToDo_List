@@ -53,25 +53,23 @@
 
 /* Styling for the view buttons (month, week, day, agenda) */
 .calendar-view {
-  display: flex;
   gap: 10px;
-  justify-content: flex-end;
 }
 
 .calendar-view button {
   background-color: transparent;
   border: 1px solid #888;
-  display: flex;
+  padding: 4px 8px;
+  font-size: 12px;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   color: #333;
 }
 
 .calendar-view button:hover {
-  background-color: #888;
+  background-color: var(--button-background-color-hover);
   color: #fff;
 }
 

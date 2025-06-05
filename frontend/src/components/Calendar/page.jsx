@@ -423,7 +423,6 @@ const CalendarComponent = () => {
             setCurrentDate(date);
           }}
           onView={handleViewChange}
-          style={{ height: "calc(100vh - 100px)", margin: "10px" }}
           eventPropGetter={(event) => {
             const isEvent = event.resource?.label === "Event";
             return {

@@ -7,18 +7,15 @@
   padding: 0px;
   padding-right: 15px;
   align-items: flex-start;
-  margin-top: 0;
   padding-top: 0;
 }
 
 .calendar-container {
   width: 150%;
   height: calc(100vh - 40px);
-  padding-top: 20px;
 }
 
 .calendar-container > div:first-child {
-  margin-top: 0;
   padding-top: 0;
 }
 
@@ -32,7 +29,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-top: 30px;
   flex: 1;
   max-width: 350px;
   height: 92.6%;
@@ -44,7 +40,6 @@
   display: flex;
   justify-content: center;
   padding-left: 10px;
-  padding-top: 30px;
   margin-top: 0;
 }
 
@@ -60,13 +55,11 @@
   justify-content: flex-start;
   align-items: center;
   gap: 8px;
-  margin-top: 10px;
 }
 
 .rbc-toolbar {
   display: flex;
   padding-bottom: 1rem;
-  margin-top: 0;
   padding-top: 0;
   gap: 12px;
   align-items: center;
@@ -126,7 +119,6 @@
 .calendar-view {
   display: flex;
   gap: 8px;
-  margin-top: 10px;
 }
 
 .custom-datepicker {
@@ -139,7 +131,6 @@
   box-sizing: border-box;
   text-align: center;
   cursor: pointer;
-  margin-top: 15px;
 }
 
 .rbc-calendar {
@@ -173,7 +164,7 @@
 .rbc-event {
   max-height: 20px;
   overflow: hidden;
-  max-width: 100px;
+  max-width: 200px;
 }
 
 .rbc-event-content {
@@ -227,7 +218,6 @@
   overflow-y: auto;
   list-style: none;
   padding: 0;
-  margin-top: 10px;
 }
 
 .task-item {
@@ -269,7 +259,6 @@
   .side-panel {
     height: auto;
     min-height: 300px;
-    margin-top: 20px;
   }
 }
 
