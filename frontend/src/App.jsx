@@ -95,7 +95,11 @@ function App() {
 
   return (
     <Router>
+      {/* ✅ Floating profile pic - OUTSIDE the nav bar */}
+      {isAuthenticated && <Navbar profilePic={profilePic} />}
+
       <div style={{ height: "94vh", width: "100%", padding: "20px" }}>
+        {/* ✅ Main nav bar */}
         {isAuthenticated && (
           <div
             style={{
@@ -111,41 +115,28 @@ function App() {
               alignItems: "center",
               padding: "0 30px",
               borderRadius: "40px",
-              boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+              boxShadow: "0 3px 10px rgba(0, 0, 0, 0.3)",
               zIndex: 1000,
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "120px" }}>
+            <div style={{ display: "flex", gap: "120px" }}>
               <Link to="/Calendar" className="button-link">
-                <img src={calendarImage} alt="Calendar" style={{ width: "18px" }} />
-                Calendar
+                <img src={calendarImage} alt="Calendar" style={{ width: "25px", height: "25px" }} />
+                <span>Calendar</span>
               </Link>
               <Link to="/Todolist" className="button-link">
-                <img src={todolistImage} alt="Todo List" style={{ width: "18px" }} />
-                Todo List
+                <img src={todolistImage} alt="Todo List" style={{ width: "25px", height: "25px" }} />
+                <span>Todo List</span>
               </Link>
               <Link to="/Settings" className="button-link">
-                <img src={settingImage} alt="Settings" style={{ width: "18px" }} />
-                Settings
+                <img src={settingImage} alt="Settings" style={{ width: "25px", height: "25px" }} />
+                <span>Settings</span>
               </Link>
-            </div>
-            <div
-              style={{
-                height: "50px",
-                width: "50px",
-                borderRadius: "50%",
-                overflow: "hidden",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "white",
-              }}
-            >
-              <Navbar profilePic={profilePic} />
             </div>
           </div>
         )}
 
+        {/* ✅ Main app routes */}
         <Routes>
           <Route
             path="/"
@@ -161,7 +152,7 @@ function App() {
                   style={{
                     maxWidth: "1100px",
                     margin: "0 auto",
-                    paddingTop: "45px",
+                    paddingTop: "100px", // space below navbar
                     display: "flex",
                     flexDirection: "column",
                     gap: "1rem",
@@ -180,13 +171,7 @@ function App() {
           />
           <Route
             path="/UserProfile"
-            element={
-              isAuthenticated ? (
-                <UserProfile onLogout={handleLogout} />
-              ) : (
-                <Navigate to="/Login" />
-              )
-            }
+            element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/Login" />}
           />
           <Route
             path="/Settings"

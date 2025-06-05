@@ -59,13 +59,20 @@
   color: var(--button-font-color);
   font: var(--button-font);
   border-radius: 5px; /* Rounded corners */
-  font-size: 12px;
+  font-size: 8px;
   transition: background-color 0.3s ease; /* Smooth color transition */
-  display: fle;
+  display: flex;
   flex-direction: columns;
   align-items: center;
   justify-content: center;
   gap: 4px;
+  color: black;
+}
+
+.button-link:hover {
+  background-color: var(--button-background-color-hover) ;
+  color: #2d3436;            /* darker text on hover */
+
 }
 
 .dark-theme .button-link {
@@ -76,7 +83,8 @@
   --button-background-color: #aeaeae; 
   --button-font-color: #333333; 
   --button-font-family: monospace;
-  --navbar-background-color: #b3d1b3; 
+  --navbar-background-color: #d5d5d5; 
+  --button-background-color-hover: #ffffff;
 }
 
 button {
