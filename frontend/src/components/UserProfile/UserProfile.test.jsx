@@ -1,13 +1,13 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import UserProfile from "./page";  // adjust if your import path is different
+import UserProfile from "./page"; // adjust if your import path is different
 import { BrowserRouter } from "react-router-dom";
 const renderWithRouter = (ui) => {
   return render(<BrowserRouter>{ui}</BrowserRouter>);
 };
 
 beforeAll(() => {
-  jest.spyOn(window, 'confirm').mockImplementation(() => true);
+  jest.spyOn(window, "confirm").mockImplementation(() => true);
 });
 afterAll(() => {
   window.confirm.mockRestore();
@@ -77,8 +77,8 @@ describe("UserProfile Component", () => {
 
     await waitFor(() =>
       expect(
-        screen.getByText("Profile updated successfully!")
-      ).toBeInTheDocument()
+        screen.getByText("Profile updated successfully!"),
+      ).toBeInTheDocument(),
     );
   });
 
@@ -99,7 +99,7 @@ describe("UserProfile Component", () => {
     fireEvent.click(screen.getByText("Save Settings"));
 
     await waitFor(() =>
-      expect(screen.getByText("Save failed")).toBeInTheDocument()
+      expect(screen.getByText("Save failed")).toBeInTheDocument(),
     );
   });
 
@@ -113,12 +113,14 @@ describe("UserProfile Component", () => {
     await waitFor(() => screen.getByDisplayValue(fakeProfile.name));
 
     const fileInput = screen.getByLabelText("Edit Picture");
-    const file = new File(["dummy content"], "example.png", { type: "image/png" });
+    const file = new File(["dummy content"], "example.png", {
+      type: "image/png",
+    });
     fireEvent.change(fileInput, { target: { files: [file] } });
 
     // simulate upload failure
     await waitFor(() =>
-      expect(screen.getByText("Upload failed.")).toBeInTheDocument()
+      expect(screen.getByText("Upload failed.")).toBeInTheDocument(),
     );
   });
 
@@ -155,7 +157,7 @@ describe("UserProfile Component", () => {
     fireEvent.click(screen.getByText("Delete My Account"));
 
     await waitFor(() =>
-      expect(screen.getByText("Error deleting account.")).toBeInTheDocument()
+      expect(screen.getByText("Error deleting account.")).toBeInTheDocument(),
     );
   });
 
@@ -185,4 +187,3 @@ describe("UserProfile Component", () => {
     expect(supportBtn).toBeInTheDocument();
   });
 });
-

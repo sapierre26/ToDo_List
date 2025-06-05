@@ -37,7 +37,7 @@ describe("Table Component", () => {
     );
 
     // Verify table structure
-    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(screen.getAllByRole("table")[0]).toBeInTheDocument();
     expect(screen.getAllByRole("rowgroup")).toHaveLength(2); // thead and tbody
     expect(screen.getAllByRole("row")).toHaveLength(3); // header + 2 tasks
   });
