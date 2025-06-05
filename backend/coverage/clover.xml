@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <coverage generated="1749090376270" clover="3.2.0">
   <project timestamp="1749090376270" name="All files">
     <metrics statements="345" coveredstatements="304" conditionals="119" coveredconditionals="103" methods="36" coveredmethods="32" elements="500" coveredelements="439" complexity="0" loc="345" ncloc="345" packages="5" files="12" classes="12"/>
+=======
+<coverage generated="1749089073071" clover="3.2.0">
+  <project timestamp="1749089073071" name="All files">
+    <metrics statements="345" coveredstatements="303" conditionals="119" coveredconditionals="103" methods="36" coveredmethods="32" elements="500" coveredelements="438" complexity="0" loc="345" ncloc="345" packages="5" files="12" classes="12"/>
+>>>>>>> 1705f76cb44af49af20f99fdad29366a73739c40
     <package name="backend">
       <metrics statements="72" coveredstatements="69" conditionals="22" coveredconditionals="21" methods="10" coveredmethods="8"/>
-      <file name="connection.js" path="C:\Users\manme\CSC308\ToDoList\backend\connection.js">
+      <file name="connection.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/connection.js">
         <metrics statements="22" coveredstatements="21" conditionals="14" coveredconditionals="14" methods="4" coveredmethods="4"/>
         <line num="1" count="4" type="stmt"/>
         <line num="4" count="13" type="cond" truecount="2" falsecount="0"/>
@@ -29,7 +35,7 @@
         <line num="45" count="10" type="stmt"/>
         <line num="48" count="4" type="stmt"/>
       </file>
-      <file name="db.js" path="C:\Users\manme\CSC308\ToDoList\backend\db.js">
+      <file name="db.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/db.js">
         <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -45,7 +51,7 @@
         <line num="18" count="1" type="stmt"/>
         <line num="22" count="3" type="stmt"/>
       </file>
-      <file name="server.js" path="C:\Users\manme\CSC308\ToDoList\backend\server.js">
+      <file name="server.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/server.js">
         <metrics statements="37" coveredstatements="35" conditionals="4" coveredconditionals="3" methods="5" coveredmethods="3"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -88,7 +94,7 @@
     </package>
     <package name="backend.controllers">
       <metrics statements="72" coveredstatements="61" conditionals="45" coveredconditionals="42" methods="6" coveredmethods="6"/>
-      <file name="authController.js" path="C:\Users\manme\CSC308\ToDoList\backend\controllers\authController.js">
+      <file name="authController.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/controllers/authController.js">
         <metrics statements="72" coveredstatements="61" conditionals="45" coveredconditionals="42" methods="6" coveredmethods="6"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -166,7 +172,7 @@
     </package>
     <package name="backend.middleware">
       <metrics statements="10" coveredstatements="10" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
-      <file name="auth.js" path="C:\Users\manme\CSC308\ToDoList\backend\middleware\auth.js">
+      <file name="auth.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/middleware/auth.js">
         <metrics statements="10" coveredstatements="10" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
@@ -182,7 +188,7 @@
     </package>
     <package name="backend.models">
       <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="initModels.js" path="C:\Users\manme\CSC308\ToDoList\backend\models\initModels.js">
+      <file name="initModels.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/models/initModels.js">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -193,23 +199,23 @@
         <line num="9" count="4" type="stmt"/>
         <line num="11" count="4" type="stmt"/>
       </file>
-      <file name="taskSchema.js" path="C:\Users\manme\CSC308\ToDoList\backend\models\taskSchema.js">
+      <file name="taskSchema.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/models/taskSchema.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
         <line num="19" count="4" type="stmt"/>
       </file>
-      <file name="userSchema.js" path="C:\Users\manme\CSC308\ToDoList\backend\models\userSchema.js">
+      <file name="userSchema.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/models/userSchema.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="5" type="stmt"/>
-        <line num="3" count="5" type="stmt"/>
-        <line num="19" count="5" type="stmt"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
       </file>
     </package>
     <package name="backend.routes">
-      <metrics statements="177" coveredstatements="150" conditionals="46" coveredconditionals="34" methods="18" coveredmethods="16"/>
-      <file name="authRoutes.js" path="C:\Users\manme\CSC308\ToDoList\backend\routes\authRoutes.js">
-        <metrics statements="39" coveredstatements="23" conditionals="10" coveredconditionals="0" methods="4" coveredmethods="2"/>
+      <metrics statements="177" coveredstatements="149" conditionals="46" coveredconditionals="34" methods="18" coveredmethods="16"/>
+      <file name="authRoutes.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/routes/authRoutes.js">
+        <metrics statements="39" coveredstatements="22" conditionals="10" coveredconditionals="0" methods="4" coveredmethods="2"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -228,9 +234,9 @@
         <line num="31" count="3" type="stmt"/>
         <line num="32" count="1" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
         <line num="41" count="3" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
         <line num="43" count="0" type="cond" truecount="0" falsecount="4"/>
@@ -250,7 +256,7 @@
         <line num="75" count="0" type="stmt"/>
         <line num="79" count="3" type="stmt"/>
       </file>
-      <file name="googleCalendar.js" path="C:\Users\manme\CSC308\ToDoList\backend\routes\googleCalendar.js">
+      <file name="googleCalendar.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/routes/googleCalendar.js">
         <metrics statements="54" coveredstatements="52" conditionals="16" coveredconditionals="15" methods="7" coveredmethods="7"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -307,7 +313,7 @@
         <line num="119" count="1" type="stmt"/>
         <line num="123" count="3" type="stmt"/>
       </file>
-      <file name="tasksRoutes.js" path="C:\Users\manme\CSC308\ToDoList\backend\routes\tasksRoutes.js">
+      <file name="tasksRoutes.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/routes/tasksRoutes.js">
         <metrics statements="47" coveredstatements="38" conditionals="6" coveredconditionals="5" methods="4" coveredmethods="4"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -357,7 +363,7 @@
         <line num="80" count="0" type="stmt"/>
         <line num="84" count="3" type="stmt"/>
       </file>
-      <file name="userRoutes.js" path="C:\Users\manme\CSC308\ToDoList\backend\routes\userRoutes.js">
+      <file name="userRoutes.js" path="/Users/annahuang/csc-308-app/ToDo_List/backend/routes/userRoutes.js">
         <metrics statements="37" coveredstatements="37" conditionals="14" coveredconditionals="14" methods="3" coveredmethods="3"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
