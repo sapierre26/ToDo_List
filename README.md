@@ -11,11 +11,11 @@ Backend Coverage:
 ![Screenshot 2025-06-03 213649](https://github.com/user-attachments/assets/32c5aa32-9963-4168-8ce1-35ded7d48947)
 ## Scripts
 * ```npm run dev``` Runs the development environment. This command is directory-specific (```frontend```, ```backend```). Make sure you're inside the right folder before running (```root``` does not have this command)
+* ```npm run frontend``` Runs the development environment for the ``````frontend`````` in the ```root``` directory
+* ```npm run backend``` Runs the development environment for the ``````backend`````` in the ```root``` directory
 * ```npm lint``` Runs ```npx eslint .``` and ```npx prettier --check .``` for style consistency
 * ```npm test``` Runs the jest testing environment (```npx jest .```)
 * ```npm coverage``` Runs the testing environment with coverage report
-* ```npm frontend``` Runs the development environment for the ``````frontend`````` in the root directory
-* ```npm backend``` Runs the development environment for the ``````backend`````` in the root directory
 * ```npm cypress:open``` Interactive Mode (for development & debugging): Opens the Cypress Test Runner UI. Allows you to select and run tests manually.
 * ```npm cypress:run``` Headless Mode (for CI/CD or quick test runs): Runs all Cypress tests in headless mode. Useful for automated pipelines or terminal-only environments.
 ## Documentation
