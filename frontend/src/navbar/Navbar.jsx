@@ -6,9 +6,9 @@ const Navbar = ({ profilePic }) => {
   return (
     <div className="navbar">
       <Link to="/UserProfile">
-      <div className="profile-pic-container">
-        <img src={profilePic} alt="Profile" className="navbar-profile-pic" />
-      </div>
+        <div className="profile-pic-container">
+          <img src={profilePic} alt="Profile" className="navbar-profile-pic" />
+        </div>
       </Link>
     </div>
   );

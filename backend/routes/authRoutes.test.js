@@ -93,10 +93,10 @@ describe("Auth Routes", () => {
 
   it("should delete user successfully and return 200", async () => {
     const res = await request(app).delete("/auth/delete");
-  
+
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ msg: "account deleted successfully" });
-  });  
+  });
 
   test("POST /auth/login - should log in a user and return a token", async () => {
     User.findOne.mockResolvedValue(mockUser);

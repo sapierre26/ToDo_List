@@ -6,7 +6,6 @@ import {
   Routes,
   Link,
   Navigate,
-  useLocation,
 } from "react-router-dom";
 import "./App.css";
 
@@ -122,15 +121,27 @@ function App() {
           >
             <div style={{ display: "flex", gap: "120px" }}>
               <Link to="/Calendar" className="button-link">
-                <img src={calendarImage} alt="Calendar" style={{ width: "25px", height: "25px" }} />
+                <img
+                  src={calendarImage}
+                  alt="Calendar"
+                  style={{ width: "25px", height: "25px" }}
+                />
                 <span>Calendar</span>
               </Link>
               <Link to="/Todolist" className="button-link">
-                <img src={todolistImage} alt="Todo List" style={{ width: "25px", height: "25px" }} />
+                <img
+                  src={todolistImage}
+                  alt="Todo List"
+                  style={{ width: "25px", height: "25px" }}
+                />
                 <span>Todo List</span>
               </Link>
               <Link to="/Settings" className="button-link">
-                <img src={settingImage} alt="Settings" style={{ width: "25px", height: "25px" }} />
+                <img
+                  src={settingImage}
+                  alt="Settings"
+                  style={{ width: "25px", height: "25px" }}
+                />
                 <span>Settings</span>
               </Link>
             </div>
@@ -183,7 +194,13 @@ function App() {
           />
           <Route
             path="/UserProfile"
-            element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/Login" />}
+            element={
+              isAuthenticated ? (
+                <UserProfile onLogout={handleLogout} />
+              ) : (
+                <Navigate to="/Login" />
+              )
+            }
           />
           <Route
             path="/Settings"

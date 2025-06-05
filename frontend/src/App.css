@@ -70,9 +70,8 @@
 }
 
 .button-link:hover {
-  background-color: var(--button-background-color-hover) ;
-  color: #2d3436;            /* darker text on hover */
-
+  background-color: var(--button-background-color-hover);
+  color: #2d3436; /* darker text on hover */
 }
 
 .dark-theme .button-link {
@@ -83,9 +82,8 @@
   --button-background-color: #aeaeae;
   --button-font-color: #333333;
   --button-font-family: monospace;
-  --navbar-background-color: #d5d5d5; 
+  --navbar-background-color: #d5d5d5;
   --button-background-color-hover: #ffffff;
-
 }
 
 button {
