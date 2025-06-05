@@ -1,7 +1,5 @@
-import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import AddTask from "./addTask";
-import * as api from "../../api/tasks"; // mock this
 import "@testing-library/jest-dom";
 
 // MOCK API
@@ -26,15 +24,25 @@ describe("AddTask Component", () => {
 
   it("prefills date when taskDate prop is provided", () => {
     const taskDate = new Date("2025-06-01");
-    render(<AddTask taskDate={taskDate} onTaskAdded={onTaskAdded} onClose={onClose} />);
+    render(
+      <AddTask
+        taskDate={taskDate}
+        onTaskAdded={onTaskAdded}
+        onClose={onClose}
+      />,
+    );
     expect(screen.getByDisplayValue("2025-06-01")).toBeInTheDocument();
   });
 
   it("changes form fields correctly", () => {
     render(<AddTask onTaskAdded={onTaskAdded} onClose={onClose} />);
 
-    fireEvent.change(screen.getByPlaceholderText("Title"), { target: { value: "Test Title" } });
-    fireEvent.change(screen.getByPlaceholderText("Description"), { target: { value: "Test Desc" } });
+    fireEvent.change(screen.getByPlaceholderText("Title"), {
+      target: { value: "Test Title" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Description"), {
+      target: { value: "Test Desc" },
+    });
 
     expect(screen.getByDisplayValue("Test Title")).toBeInTheDocument();
     expect(screen.getByDisplayValue("Test Desc")).toBeInTheDocument();
