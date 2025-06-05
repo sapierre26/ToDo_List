@@ -69,8 +69,14 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
+    const savedTheme = localStorage.getItem("theme") || "light";
+    const savedFont = localStorage.getItem("font") || "Arial";
+
+    setTheme(savedTheme);
+    setFont(savedFont);
+    applyTheme(savedTheme);
+    document.body.style.fontFamily = savedFont;
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
     const fetchSettings = async () => {
       try {
@@ -83,8 +89,8 @@ const Settings = () => {
         const data = await res.json();
         if (res.ok) {
           // Only update state once, not DOM
-          setTheme(data.theme || "light");
-          setFont(data.font || "Arial");
+          setTheme(data.theme || savedTheme);
+          setFont(data.font || savedFont);
         }
       } catch (err) {
         console.error("Failed to load user settings", err);
