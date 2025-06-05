@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useCallback } from "react";
 import style from "./settings.module.css";
 
 const Settings = () => {
@@ -12,7 +11,12 @@ const Settings = () => {
   const applyTheme = (themeName) => {
     const root = document.documentElement;
     // Remove old theme classes
-    root.classList.remove("theme-gold-blue", "theme-forest-green", "theme-lavendar", "theme-red");
+    root.classList.remove(
+      "theme-gold-blue",
+      "theme-forest-green",
+      "theme-lavendar",
+      "theme-red",
+    );
 
     if (themeName !== "light") {
       root.classList.add(`theme-${themeName}`);
@@ -65,7 +69,8 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
 
     const fetchSettings = async () => {
       try {
