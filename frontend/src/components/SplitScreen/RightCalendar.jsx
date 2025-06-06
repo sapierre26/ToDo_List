@@ -13,25 +13,16 @@ import {
   getGoogleTasks,
 } from "../../api/tasks";
 import "./calendar.css";
-import PriorityFilterSidebar from "../PriorityFilterSidebar/page.jsx";
 import PropTypes from "prop-types";
 
 const locales = { "en-US": enUS };
 
 const localizer = dateFnsLocalizer({
-<<<<<<< HEAD
   format,
   parse,
   startOfWeek,
   getDay,
   locales,
-=======
-  format,
-  parse,
-  startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 0 }),
-  getDay,
-  locales,
->>>>>>> 6354e0ec6dd0f2e0c5c7bab00b6d0b58a1c9285e
 });
 
 const MonthEvent = ({ event }) => (
@@ -185,7 +176,7 @@ MyCustomToolbar.propTypes = {
   isGoogleConnected: PropTypes.bool.isRequired,
 };
 
-const CalendarComponent = () => {
+const RightCalendar = () => {
   const [tasks, setTasks] = useState([]);
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -423,7 +414,6 @@ const CalendarComponent = () => {
   //     }
   // };
 
-<<<<<<< HEAD
   return (
     <div className="calendar-page-container">
       <div className="calendar-container">
@@ -469,122 +459,6 @@ const CalendarComponent = () => {
 
     </div>
   );
-=======
-  return (
-    <div className="calendar-page-container">
-      <div className="priority-container">
-        <PriorityFilterSidebar
-          selectedPriority={selectedPriority}
-          onSelectPriority={setSelectedPriority}
-        />
-      </div>
-
-      <div className="calendar-container">
-        <Calendar
-          components={{
-            toolbar: (props) => (
-              <MyCustomToolbar
-                {...props}
-                currentDate={currentDate}
-                setCurrentDate={setCurrentDate}
-                setTaskDate={setTaskDate}
-                onView={handleViewChange}
-                isGoogleConnected={isGoogleConnected ?? false}
-              />
-            ),
-            month: { event: MonthEvent },
-          }}
-          localizer={localizer}
-          events={filteredEvents}
-          startAccessor="start"
-          endAccessor="end"
-          view={view}
-          views={["month", "week", "day"]}
-          selectable
-          onSelectSlot={handleSelectSlot}
-          onSelectEvent={() => {
-            if (view !== "day") setView("day");
-          }}
-          onNavigate={(date) => {
-            setCurrentDate(date);
-          }}
-          onView={handleViewChange}
-          style={{ height: "calc(100vh - 100px)", margin: "10px" }}
-          eventPropGetter={(event) => {
-            const isEvent = event.resource?.label === "Event";
-            return {
-              className: isEvent
-                ? "rbc-event-event"
-                : `rbc-event-${event.resource?.priority?.toLowerCase() || "medium"}`,
-            };
-          }}
-        />
-      </div>
-
-      <div className="side-panel">
-        {isAddTaskModalOpen ? (
-          <div className="add-task-container">
-            <AddTask
-              taskDate={taskDate}
-              onTaskAdded={handleTaskAdded}
-              onClose={() => setIsAddTaskModalOpen(false)}
-              isCompact={true}
-            />
-          </div>
-        ) : (
-          <div className="tasks-container">
-            <h3>Tasks for {format(currentDate, "MMMM dd, yyyy")}</h3>
-            {isLoading ? (
-              <p>Loading tasks...</p>
-            ) : dailyTasks.length > 0 ? (
-              <ul className="task-list">
-                {dailyTasks.map((event) => {
-                  const taskData = event.resource || {};
-                  const isEvent = taskData.label === "Event";
-
-                  return (
-                    <li
-                      key={event.id}
-                      className={`task-item ${taskData.label?.toLowerCase() || "task"}`}
-                    >
-                      <div className="task-content">
-                        <div className="task-meta">
-                          <span className="task-label">
-                            {taskData.label || (isEvent ? "Event" : "Task")}
-                          </span>
-                          {!isEvent && (
-                            <span
-                              className={`task-priority ${taskData.priority?.toLowerCase() || "medium"}`}
-                            >
-                              {taskData.priority || "Medium"}
-                            </span>
-                          )}
-                          <span className="task-time">
-                            {isEvent
-                              ? `${format(event.start, "h:mm a")} - ${format(event.end, "h:mm a")}`
-                              : `${format(event.end, "h:mm a")}`}
-                          </span>
-                        </div>
-                        <p className="task-title">{event.title}</p>
-                        {taskData.description && (
-                          <p className="task-description">
-                            {taskData.description}
-                          </p>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            ) : (
-              <p className="no-tasks">No tasks for this date</p>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
->>>>>>> 6354e0ec6dd0f2e0c5c7bab00b6d0b58a1c9285e
 };
 
-export default CalendarComponent;
+export default RightCalendar;

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
+  //BrowserRouter as Router,
   Route,
   Routes,
   Link,
-  Navigate,
+  Navigate
 } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "./App.css";
 
 /* component imports */
@@ -41,6 +42,9 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [profilePic, setProfilePic] = useState(null);
+
+  const location = useLocation();
+  const showNav = isAuthenticated && location.pathname !== "/SplitScreen";
   useEffect(() => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -105,16 +109,16 @@ function App() {
   };
 
   return (
-    <Router>
-      {isAuthenticated && <Navbar />}
-      {isAuthenticated && profilePic && (
+    <>
+      {showNav && <Navbar />}
+      {showNav && profilePic && (
         <Link to="/UserProfile">
           <img src={profilePic} alt="Profile" className="profilePic" />
         </Link>
       )}
 
       <div style={{ height: "94vh", width: "100%", padding: "20px" }}>
-        {isAuthenticated && (
+        {showNav && (
           <div
             style={{
               position: "fixed",
@@ -219,7 +223,7 @@ function App() {
           </Routes>
         </div>
       </div>
-    </Router>
+    </>
   );
 }
 

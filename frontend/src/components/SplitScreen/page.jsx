@@ -1,4 +1,5 @@
-// import LeftSide from "./LeftToDo";
+ import ToDoList from "./LeftToDo";
+ import RightCalendar from "./RightCalendar";
 
 const SplitScreen = () => {
   return (
@@ -25,24 +26,17 @@ const SplitScreen = () => {
           boxSizing: "border-box",
         }}
       >
-        {/* <LeftSide /> */}
+        <ToDoList />
       </div>
 
       <div
-<<<<<<< HEAD
-        style={{ flex: 1, overflowY: "auto", backgroundColor: "#ffffff", padding: "15px", boxSizing: "border-box" }}>
-        <CalendarComponent />
+        style={{ flex: 1, 
+                  overflowY: "auto",
+                  backgroundColor: "#ffffff", 
+                  padding: "15px", 
+                  boxSizing: "border-box" }}>
+        <RightCalendar />
       </div>
-=======
-        style={{
-          flex: 1,
-          overflowY: "auto",
-          backgroundColor: "#ffffff",
-          padding: "15px",
-          boxSizing: "border-box",
-        }}
-      ></div>
->>>>>>> 6354e0ec6dd0f2e0c5c7bab00b6d0b58a1c9285e
     </div>
   );
 };
