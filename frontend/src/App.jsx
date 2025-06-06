@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
+import { applyTheme } from "./utils/theme";
 import {
-  //BrowserRouter as Router,
+  BrowserRouter as Router,
   Route,
   Routes,
   Link,
-  Navigate
+  Navigate,
 } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import "./App.css";
 
 /* component imports */
@@ -42,9 +42,6 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [profilePic, setProfilePic] = useState(null);
-
-  const location = useLocation();
-  const showNav = isAuthenticated && location.pathname !== "/SplitScreen";
   useEffect(() => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -109,16 +106,16 @@ function App() {
   };
 
   return (
-    <>
-      {showNav && <Navbar />}
-      {showNav && profilePic && (
+    <Router>
+      {isAuthenticated && <Navbar />}
+      {isAuthenticated && profilePic && (
         <Link to="/UserProfile">
           <img src={profilePic} alt="Profile" className="profilePic" />
         </Link>
       )}
 
       <div style={{ height: "94vh", width: "100%", padding: "20px" }}>
-        {showNav && (
+        {isAuthenticated && (
           <div
             style={{
               position: "fixed",
@@ -139,27 +136,15 @@ function App() {
           >
             <div style={{ display: "flex", gap: "110px" }}>
               <Link to="/Calendar" className="button-link">
-                <img
-                  src={calendarImage}
-                  alt="Calendar"
-                  style={{ width: "20px", height: "20px" }}
-                />
+                <img src={calendarImage} alt="Calendar" style={{ width: "20px", height: "20px" }} />
                 <span>Calendar</span>
               </Link>
               <Link to="/Todolist" className="button-link">
-                <img
-                  src={todolistImage}
-                  alt="Todo List"
-                  style={{ width: "20px", height: "20px" }}
-                />
+                <img src={todolistImage} alt="Todo List" style={{ width: "20px", height: "20px" }} />
                 <span>Todo List</span>
               </Link>
               <Link to="/Settings" className="button-link">
-                <img
-                  src={settingImage}
-                  alt="Settings"
-                  style={{ width: "20px", height: "20px" }}
-                />
+                <img src={settingImage} alt="Settings" style={{ width: "20px", height: "20px" }} />
                 <span>Settings</span>
               </Link>
             </div>
@@ -170,33 +155,16 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={
-                <Navigate
-                  to={isAuthenticated ? "/Calendar" : "/Login"}
-                  replace
-                />
-              }
+              element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
             />
             <Route
               path="/Login"
-              element={
-                isAuthenticated ? (
-                  <Navigate to="/Calendar" />
-                ) : (
-                  <Login onLoginSuccess={handleLoginSuccess} />
-                )
-              }
+              element={isAuthenticated ? <Navigate to="/Calendar" /> : <Login onLoginSuccess={handleLoginSuccess} />}
             />
             <Route path="/createAccount" element={<CreateAccount />} />
             <Route
               path="/Calendar"
-              element={
-                isAuthenticated ? (
-                  <CalendarComponent />
-                ) : (
-                  <Navigate to="/Login" />
-                )
-              }
+              element={isAuthenticated ? <CalendarComponent /> : <Navigate to="/Login" />}
             />
             <Route
               path="/Todolist"
@@ -204,26 +172,18 @@ function App() {
             />
             <Route
               path="/UserProfile"
-              element={
-                isAuthenticated ? (
-                  <UserProfile onLogout={handleLogout} />
-                ) : (
-                  <Navigate to="/Login" />
-                )
-              }
+              element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/Login" />}
             />
             <Route
               path="/Settings"
-              element={
-                isAuthenticated ? <Settings /> : <Navigate to="/Login" />
-              }
+              element={isAuthenticated ? <Settings /> : <Navigate to="/Login" />}
             />
             <Route path="/SplitScreen" element={<SplitScreen />} />
             <Route path="*" element={<div>Page not found.</div>} />
           </Routes>
         </div>
       </div>
-    </>
+    </Router>
   );
 }
 
