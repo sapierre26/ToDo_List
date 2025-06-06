@@ -10,8 +10,7 @@
   "scripts": {
     "lint": "npx eslint . && npx prettier --check .",
     "backend": "nodemon backend/server.js",
-    "frontend": "vite",
-    "dev": "concurrently \"npm run frontend dev\" \"npm run backend\"",
+    "frontend": "npm run -w frontend dev",
     "test": "npx jest .",
     "coverage": "npx jest --coverage .",
     "cypress:open": "cypress open",
