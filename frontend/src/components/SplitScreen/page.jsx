@@ -13,7 +13,7 @@ const SplitScreen = () => {
 
       <div
         style={{ flex: 1, overflowY: "auto", backgroundColor: "#ffffff", padding: "15px", boxSizing: "border-box" }}>
-        <RightSide />
+        <CalendarComponent />
       </div>
     </div>
   );
