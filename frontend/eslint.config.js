@@ -9,7 +9,7 @@ const jestPlugin = require("eslint-plugin-jest");
 const babelEslintParser = require("@babel/eslint-parser");
 
 module.exports = [
-  { ignores: ["dist"] },
+  { ignores: ["dist", "coverage/", "node_modules/", "public/"] },
   {
     files: ["**/*.{js,jsx}"],
     languageOptions: {

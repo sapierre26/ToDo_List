@@ -67,7 +67,10 @@ const AddTask = ({ taskDate, onTaskAdded, onClose, isCompact = false }) => {
   };
 
   return (
-    <form className={`${style.form} ${isCompact ? style.compactForm : ""}`} onSubmit={handleSubmit}>
+    <form
+      className={`${style.form} ${isCompact ? style.compactForm : ""}`}
+      onSubmit={handleSubmit}
+    >
       <button type="button" className={style.closeButton} onClick={onClose}>
         ×
       </button>
@@ -166,6 +169,7 @@ AddTask.propTypes = {
   taskDate: PropTypes.instanceOf(Date),
   onTaskAdded: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  isCompact: PropTypes.bool.isRequired,
 };
 
 export default AddTask;

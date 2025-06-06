@@ -78,12 +78,12 @@ const EditTask = ({ taskToEdit, onTaskUpdated, onClose }) => {
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
-        <button type="button" className={style.closeButton} onClick={onClose}>
-          ×
-        </button>
-        <h3>Edit {formData.label}</h3>
+      <button type="button" className={style.closeButton} onClick={onClose}>
+        ×
+      </button>
+      <h3>Edit {formData.label}</h3>
 
-        <div className={style.formRow}>
+      <div className={style.formRow}>
         <label className={style.formLabel}>Type:</label>
         <div className={style.optionGroup}>
           {["Task", "Event"].map((type) => (

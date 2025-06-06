@@ -76,7 +76,8 @@ const Settings = () => {
     setFont(savedFont);
     applyTheme(savedTheme);
     document.body.style.fontFamily = savedFont;
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
 
     const fetchSettings = async () => {
       try {
