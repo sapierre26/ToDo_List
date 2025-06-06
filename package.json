@@ -10,7 +10,8 @@
   "scripts": {
     "lint": "npx eslint . && npx prettier --check .",
     "backend": "nodemon backend/server.js",
-    "frontend": "npm run -w frontend dev",
+    "frontend": "vite",
+    "dev": "concurrently \"npm run frontend dev\" \"npm run backend\"",
     "test": "npx jest .",
     "coverage": "npx jest --coverage .",
     "cypress:open": "cypress open",
@@ -38,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^8.33.0",
     "@typescript-eslint/parser": "^8.33.0",
     "babel-jest": "^29.7.0",
+    "concurrently": "^9.1.2",
     "cypress": "^14.4.0",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^10.0.1",
