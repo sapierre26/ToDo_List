@@ -78,15 +78,13 @@ const EditTask = ({ taskToEdit, onTaskUpdated, onClose }) => {
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
-      <div className={style.header}>
         <button type="button" className={style.closeButton} onClick={onClose}>
           ×
         </button>
         <h3>Edit {formData.label}</h3>
-      </div>
 
-      <div className={style.optionContainer}>
-        <span className={style.optionLabel}>Type:</span>
+        <div className={style.formRow}>
+        <label className={style.formLabel}>Type:</label>
         <div className={style.optionGroup}>
           {["Task", "Event"].map((type) => (
             <button
@@ -140,8 +138,8 @@ const EditTask = ({ taskToEdit, onTaskUpdated, onClose }) => {
         required
       />
 
-      <div className={style.optionContainer}>
-        <span className={style.optionLabel}>Priority:</span>
+      <div className={style.formRow}>
+        <label className={style.formLabel}>Priority:</label>
         <select
           id="priority"
           name="priority"
@@ -167,7 +165,7 @@ const EditTask = ({ taskToEdit, onTaskUpdated, onClose }) => {
       />
 
       <button className={style.submitButton} type="submit">
-        Save Changes
+        Save
       </button>
     </form>
   );

@@ -140,7 +140,7 @@ BRF:4
 BRH:3
 end_of_record
 TN:
-SF:controllers/authController.js
+SF:controllers\authController.js
 FN:6,(anonymous_0)
 FN:12,(anonymous_1)
 FN:82,(anonymous_2)
@@ -278,7 +278,7 @@ BRF:45
 BRH:42
 end_of_record
 TN:
-SF:middleware/auth.js
+SF:middleware\auth.js
 FN:4,(anonymous_0)
 FN:10,(anonymous_1)
 FNF:2
@@ -307,7 +307,7 @@ BRF:6
 BRH:6
 end_of_record
 TN:
-SF:models/initModels.js
+SF:models\initModels.js
 FNF:0
 FNH:0
 DA:1,4
@@ -324,7 +324,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:models/taskSchema.js
+SF:models\taskSchema.js
 FNF:0
 FNH:0
 DA:1,4
@@ -336,7 +336,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:models/userSchema.js
+SF:models\userSchema.js
 FNF:0
 FNH:0
 DA:1,4
@@ -348,7 +348,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:routes/authRoutes.js
+SF:routes\authRoutes.js
 FN:21,(anonymous_0)
 FN:31,(anonymous_1)
 FN:41,(anonymous_2)
@@ -414,7 +414,7 @@ BRF:10
 BRH:0
 end_of_record
 TN:
-SF:routes/googleCalendar.js
+SF:routes\googleCalendar.js
 FN:17,(anonymous_0)
 FN:26,(anonymous_1)
 FN:34,(anonymous_2)
@@ -507,7 +507,7 @@ BRF:16
 BRH:15
 end_of_record
 TN:
-SF:routes/tasksRoutes.js
+SF:routes\tasksRoutes.js
 FN:11,(anonymous_0)
 FN:36,(anonymous_1)
 FN:50,(anonymous_2)
@@ -577,7 +577,7 @@ BRF:6
 BRH:5
 end_of_record
 TN:
-SF:routes/userRoutes.js
+SF:routes\userRoutes.js
 FN:8,(anonymous_0)
 FN:18,(anonymous_1)
 FN:83,(anonymous_2)

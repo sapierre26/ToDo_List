@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <coverage generated="1749109263331" clover="3.2.0">
   <project timestamp="1749109263331" name="All files">
     <metrics statements="416" coveredstatements="374" conditionals="139" coveredconditionals="122" methods="46" coveredmethods="42" elements="601" coveredelements="538" complexity="0" loc="416" ncloc="416" packages="6" files="14" classes="14"/>
     <package name="backend">
       <metrics statements="72" coveredstatements="69" conditionals="22" coveredconditionals="21" methods="10" coveredmethods="8"/>
       <file name="connection.js" path="C:\Users\sgpie\todo_list_app\ToDo_List\backend\connection.js">
+<coverage generated="1749104525427" clover="3.2.0">
+  <project timestamp="1749104525427" name="All files">
+    <metrics statements="416" coveredstatements="374" conditionals="139" coveredconditionals="122" methods="46" coveredmethods="42" elements="601" coveredelements="538" complexity="0" loc="416" ncloc="416" packages="6" files="14" classes="14"/>
+    <package name="backend">
+      <metrics statements="72" coveredstatements="69" conditionals="22" coveredconditionals="21" methods="10" coveredmethods="8"/>
+      <file name="connection.js" path="C:\Users\manme\CSC308\ToDoList\backend\connection.js">
         <metrics statements="22" coveredstatements="21" conditionals="14" coveredconditionals="14" methods="4" coveredmethods="4"/>
         <line num="1" count="4" type="stmt"/>
         <line num="4" count="13" type="cond" truecount="2" falsecount="0"/>
@@ -29,7 +36,9 @@
         <line num="45" count="10" type="stmt"/>
         <line num="48" count="4" type="stmt"/>
       </file>
+
       <file name="db.js" path="C:\Users\sgpie\todo_list_app\ToDo_List\backend\db.js">
+      <file name="db.js" path="C:\Users\manme\CSC308\ToDoList\backend\db.js">
         <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -89,6 +98,7 @@
     <package name="backend.controllers">
       <metrics statements="72" coveredstatements="61" conditionals="45" coveredconditionals="42" methods="6" coveredmethods="6"/>
       <file name="authController.js" path="C:\Users\sgpie\todo_list_app\ToDo_List\backend\controllers\authController.js">
+      <file name="authController.js" path="C:\Users\manme\CSC308\ToDoList\backend\controllers\authController.js">
         <metrics statements="72" coveredstatements="61" conditionals="45" coveredconditionals="42" methods="6" coveredmethods="6"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -167,6 +177,7 @@
     <package name="backend.middleware">
       <metrics statements="10" coveredstatements="10" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
       <file name="auth.js" path="C:\Users\sgpie\todo_list_app\ToDo_List\backend\middleware\auth.js">
+      <file name="auth.js" path="C:\Users\manme\CSC308\ToDoList\backend\middleware\auth.js">
         <metrics statements="10" coveredstatements="10" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
@@ -209,6 +220,7 @@
     <package name="backend.routes">
       <metrics statements="177" coveredstatements="149" conditionals="46" coveredconditionals="34" methods="18" coveredmethods="16"/>
       <file name="authRoutes.js" path="C:\Users\sgpie\todo_list_app\ToDo_List\backend\routes\authRoutes.js">
+      <file name="authRoutes.js" path="C:\Users\manme\CSC308\ToDoList\backend\routes\authRoutes.js">
         <metrics statements="39" coveredstatements="22" conditionals="10" coveredconditionals="0" methods="4" coveredmethods="2"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -250,7 +262,9 @@
         <line num="75" count="0" type="stmt"/>
         <line num="79" count="3" type="stmt"/>
       </file>
+
       <file name="googleCalendar.js" path="C:\Users\sgpie\todo_list_app\ToDo_List\backend\routes\googleCalendar.js">
+      <file name="googleCalendar.js" path="C:\Users\manme\CSC308\ToDoList\backend\routes\googleCalendar.js">
         <metrics statements="54" coveredstatements="52" conditionals="16" coveredconditionals="15" methods="7" coveredmethods="7"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>

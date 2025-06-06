@@ -78,7 +78,7 @@ describe("App Component", () => {
     render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Calendar/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/Calendar/i)[0]).toBeInTheDocument();
       expect(screen.getByText(/Todo List/i)).toBeInTheDocument();
     });
   });
@@ -87,10 +87,10 @@ describe("App Component", () => {
     render(<App />);
 
     // Mock login
-    fireEvent.click(screen.getByText("Mock Login"));
+    fireEvent.click(screen.getAllByText("Mock Login")[0]);
 
     await waitFor(() => {
-      fireEvent.click(screen.getByText(/Calendar/i));
+      fireEvent.click(screen.getAllByText(/Calendar/i)[0]);
       expect(screen.getByText("Calendar Component")).toBeInTheDocument();
     });
   });

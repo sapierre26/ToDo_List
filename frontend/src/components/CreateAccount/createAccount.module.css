@@ -1,7 +1,5 @@
 form {
   background-color: #ffffff;
-  border: 1px solid #63746a;
-  border-radius: 4px;
 }
 
 .accountcontainer {
@@ -28,14 +26,12 @@ form {
 
 .accountcontainer button {
   width: 100%;
-  padding: 10px;
   background-color: #63746a;
   color: white;
   border: none;
   border-radius: 4px;
   font-family: monospace;
   cursor: pointer;
-  margin-top: 10px;
   transition: background-color 0.3s;
 }
 
@@ -73,7 +69,6 @@ form {
 
 .linkContainer {
   text-align: center;
-  margin-top: 5px;
   margin-bottom: 10px;
 }
 
@@ -91,10 +86,7 @@ form {
 }
 
 .errorContainer {
-  min-height: 18px;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  min-height: 25px;
   width: 100%;
   background-color: #d3ded8;
-  border-radius: 4px;
 }
