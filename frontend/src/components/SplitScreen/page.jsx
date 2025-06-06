@@ -1,4 +1,4 @@
-import LeftSide from "./LeftToDo";
+// import LeftSide from "./LeftToDo";
 
 const SplitScreen = () => {
   return (
@@ -25,7 +25,7 @@ const SplitScreen = () => {
           boxSizing: "border-box",
         }}
       >
-        <LeftSide />
+        {/* <LeftSide /> */}
       </div>
 
       <div
