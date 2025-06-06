@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1749142108226" clover="3.2.0">
-  <project timestamp="1749142108226" name="All files">
-    <metrics statements="670" coveredstatements="391" conditionals="334" coveredconditionals="176" methods="160" coveredmethods="77" elements="1164" coveredelements="644" complexity="0" loc="670" ncloc="670" packages="13" files="15" classes="15"/>
+<coverage generated="1749184933736" clover="3.2.0">
+  <project timestamp="1749184933736" name="All files">
+    <metrics statements="648" coveredstatements="388" conditionals="324" coveredconditionals="176" methods="151" coveredmethods="77" elements="1123" coveredelements="641" complexity="0" loc="648" ncloc="648" packages="12" files="14" classes="14"/>
     <package name="src">
       <metrics statements="43" coveredstatements="25" conditionals="41" coveredconditionals="32" methods="8" coveredmethods="4"/>
       <file name="App.jsx" path="C:\Users\manme\CSC308\ToDoList\frontend\src\App.jsx">
         <metrics statements="43" coveredstatements="25" conditionals="41" coveredconditionals="32" methods="8" coveredmethods="4"/>
+        <line num="28" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
         <line num="31" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="38" count="1" type="cond" truecount="2" falsecount="0"/>
-        <line num="39" count="1" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="37" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="41" count="10" type="stmt"/>
         <line num="42" count="10" type="stmt"/>
         <line num="43" count="10" type="stmt"/>
         <line num="44" count="10" type="stmt"/>
-        <line num="45" count="10" type="stmt"/>
-        <line num="47" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="49" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="50" count="1" type="stmt"/>
-        <line num="51" count="1" type="cond" truecount="3" falsecount="1"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="59" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="63" count="0" type="stmt"/>
+        <line num="46" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="48" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="50" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="58" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
         <line num="65" count="0" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="70" count="3" type="stmt"/>
-        <line num="73" count="4" type="stmt"/>
-        <line num="76" count="10" type="cond" truecount="2" falsecount="0"/>
-        <line num="78" count="6" type="stmt"/>
-        <line num="79" count="2" type="stmt"/>
-        <line num="82" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="83" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="69" count="3" type="stmt"/>
+        <line num="72" count="4" type="stmt"/>
+        <line num="75" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="77" count="6" type="stmt"/>
+        <line num="78" count="2" type="stmt"/>
+        <line num="81" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="82" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="84" count="0" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
-        <line num="86" count="0" type="stmt"/>
-        <line num="92" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="93" count="0" type="stmt"/>
-        <line num="95" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="101" count="6" type="stmt"/>
+        <line num="91" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="94" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="96" count="0" type="stmt"/>
+        <line num="100" count="6" type="stmt"/>
+        <line num="101" count="0" type="stmt"/>
         <line num="102" count="0" type="stmt"/>
         <line num="103" count="0" type="stmt"/>
         <line num="104" count="0" type="stmt"/>
-        <line num="105" count="0" type="stmt"/>
-        <line num="108" count="6" type="stmt"/>
+        <line num="107" count="6" type="stmt"/>
       </file>
     </package>
     <package name="src.api">
@@ -132,9 +132,9 @@
       </file>
     </package>
     <package name="src.components.Calendar">
-      <metrics statements="147" coveredstatements="102" conditionals="76" coveredconditionals="48" methods="48" coveredmethods="24"/>
+      <metrics statements="135" coveredstatements="101" conditionals="68" coveredconditionals="48" methods="40" coveredmethods="24"/>
       <file name="page.jsx" path="C:\Users\manme\CSC308\ToDoList\frontend\src\components\Calendar\page.jsx">
-        <metrics statements="147" coveredstatements="102" conditionals="76" coveredconditionals="48" methods="48" coveredmethods="24"/>
+        <metrics statements="135" coveredstatements="101" conditionals="68" coveredconditionals="48" methods="40" coveredmethods="24"/>
         <line num="19" count="1" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
         <line num="24" count="218" type="stmt"/>
@@ -260,18 +260,6 @@
         <line num="380" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="381" count="0" type="stmt"/>
         <line num="384" count="0" type="stmt"/>
-        <line num="387" count="84" type="stmt"/>
-        <line num="388" count="0" type="stmt"/>
-        <line num="389" count="0" type="stmt"/>
-        <line num="390" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="403" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="404" count="0" type="stmt"/>
-        <line num="405" count="0" type="stmt"/>
-        <line num="406" count="0" type="stmt"/>
-        <line num="414" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="415" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="417" count="0" type="stmt"/>
-        <line num="422" count="0" type="stmt"/>
         <line num="426" count="84" type="stmt"/>
         <line num="439" count="85" type="stmt"/>
         <line num="459" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -404,7 +392,7 @@
       <metrics statements="55" coveredstatements="1" conditionals="26" coveredconditionals="0" methods="8" coveredmethods="0"/>
       <file name="page.jsx" path="C:\Users\manme\CSC308\ToDoList\frontend\src\components\Settings\page.jsx">
         <metrics statements="55" coveredstatements="1" conditionals="26" coveredconditionals="0" methods="8" coveredmethods="0"/>
-        <line num="4" count="2" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
@@ -738,22 +726,6 @@
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="3" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.utils">
-      <metrics statements="10" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <file name="theme.js" path="C:\Users\manme\CSC308\ToDoList\frontend\src\utils\theme.js">
-        <metrics statements="10" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
       </file>
     </package>
   </project>

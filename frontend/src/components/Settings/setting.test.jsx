@@ -1,6 +1,3 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import Settings from "./page";
-
 beforeEach(() => {
   global.fetch = jest.fn(() =>
     Promise.resolve({
