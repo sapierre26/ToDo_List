@@ -600,7 +600,8 @@
 <a name='L539'></a><a href='#L539'>539</a>
 <a name='L540'></a><a href='#L540'>540</a>
 <a name='L541'></a><a href='#L541'>541</a>
-<a name='L542'></a><a href='#L542'>542</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1141,6 +1142,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay, isSameDay } from "date-fns";
@@ -1527,44 +1529,44 @@ const CalendarComponent = () =&gt; {
 <span class="cstat-no" title="statement not covered" >    setIsAddTaskModalOpen(false);</span>
   };
 &nbsp;
-//   const handleTaskUpdated = (updatedTask) =&gt; {
-//     setTasks((prevTasks) =&gt;
-//       prevTasks.map((task) =&gt;
-//         task.id === updatedTask._id
-//           ? {
-//               id: updatedTask._id,
-//               title: updatedTask.title,
-//               start: new Date(updatedTask.startDate),
-//               end: new Date(updatedTask.endDate),
-//               resource: updatedTask,
-//             }
-//           : task
-//       )
-//     );
+  //   const handleTaskUpdated = (updatedTask) =&gt; {
+  //     setTasks((prevTasks) =&gt;
+  //       prevTasks.map((task) =&gt;
+  //         task.id === updatedTask._id
+  //           ? {
+  //               id: updatedTask._id,
+  //               title: updatedTask.title,
+  //               start: new Date(updatedTask.startDate),
+  //               end: new Date(updatedTask.endDate),
+  //               resource: updatedTask,
+  //             }
+  //           : task
+  //       )
+  //     );
 &nbsp;
-//     // Also update dailyTasks if it belongs to currentDate
-//     if (isSameDay(new Date(updatedTask.startDate), currentDate)) {
-//       setDailyTasks((prev) =&gt; {
-//         const exists = prev.find((t) =&gt; t.id === updatedTask._id);
-//         const updatedEvent = {
-//           id: updatedTask._id,
-//           title: updatedTask.title,
-//           start: new Date(updatedTask.startDate),
-//           end: new Date(updatedTask.endDate),
-//           resource: updatedTask,
-//         };
+  //     // Also update dailyTasks if it belongs to currentDate
+  //     if (isSameDay(new Date(updatedTask.startDate), currentDate)) {
+  //       setDailyTasks((prev) =&gt; {
+  //         const exists = prev.find((t) =&gt; t.id === updatedTask._id);
+  //         const updatedEvent = {
+  //           id: updatedTask._id,
+  //           title: updatedTask.title,
+  //           start: new Date(updatedTask.startDate),
+  //           end: new Date(updatedTask.endDate),
+  //           resource: updatedTask,
+  //         };
 &nbsp;
-//         if (exists) {
-//           return prev.map((t) =&gt; (t.id === updatedTask._id ? updatedEvent : t));
-//         } else {
-//           return [...prev, updatedEvent];
-//         }
-//       });
-//     } else {
-//       // If updated task is not on currentDate, remove it from dailyTasks if exists
-//       setDailyTasks((prev) =&gt; prev.filter((t) =&gt; t.id !== updatedTask._id));
-//     }
-//   };
+  //         if (exists) {
+  //           return prev.map((t) =&gt; (t.id === updatedTask._id ? updatedEvent : t));
+  //         } else {
+  //           return [...prev, updatedEvent];
+  //         }
+  //       });
+  //     } else {
+  //       // If updated task is not on currentDate, remove it from dailyTasks if exists
+  //       setDailyTasks((prev) =&gt; prev.filter((t) =&gt; t.id !== updatedTask._id));
+  //     }
+  //   };
 &nbsp;
   return (
     &lt;div className="calendar-page-container"&gt;
@@ -1682,7 +1684,8 @@ const CalendarComponent = () =&gt; {
   );
 };
 &nbsp;
-export default CalendarComponent;</pre></td></tr></table></pre>
+export default CalendarComponent;
+&nbsp;</pre></td></tr></table></pre>
 
       <div class="push"></div>
       <!-- for sticky footer -->
@@ -1696,7 +1699,7 @@ export default CalendarComponent;</pre></td></tr></table></pre>
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2025-06-06T04:42:13.697Z
+      at 2025-06-06T04:50:14.021Z
     </div>
     <script src="../../../prettify.js"></script>
     <script>
