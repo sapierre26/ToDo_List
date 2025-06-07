@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { applyTheme } from "./utils/theme";
 import {
   BrowserRouter as Router,
   Route,

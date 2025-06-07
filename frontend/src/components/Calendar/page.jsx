@@ -120,19 +120,6 @@ const MyCustomToolbar = ({
           className="custom-datepicker"
         />
       </div>
-      {/* {!isGoogleConnected && (
-        <div style={{ margin: "0.5rem 0" }}>
-          <button
-            onClick={() => {
-              window.location.href =
-                "http://localhost:8000/api/google-calendar/auth";
-            }}
-            className="google-calendar-button"
-          >
-            Import
-          </button>
-        </div>
-      )} */}
 
       <div className="calendar-view">
         {!isGoogleConnected && (
@@ -383,45 +370,6 @@ const CalendarComponent = () => {
 
     setIsAddTaskModalOpen(false);
   };
-
-  //   const handleTaskUpdated = (updatedTask) => {
-  //     setTasks((prevTasks) =>
-  //       prevTasks.map((task) =>
-  //         task.id === updatedTask._id
-  //           ? {
-  //               id: updatedTask._id,
-  //               title: updatedTask.title,
-  //               start: new Date(updatedTask.startDate),
-  //               end: new Date(updatedTask.endDate),
-  //               resource: updatedTask,
-  //             }
-  //           : task
-  //       )
-  //     );
-
-  //     // Also update dailyTasks if it belongs to currentDate
-  //     if (isSameDay(new Date(updatedTask.startDate), currentDate)) {
-  //       setDailyTasks((prev) => {
-  //         const exists = prev.find((t) => t.id === updatedTask._id);
-  //         const updatedEvent = {
-  //           id: updatedTask._id,
-  //           title: updatedTask.title,
-  //           start: new Date(updatedTask.startDate),
-  //           end: new Date(updatedTask.endDate),
-  //           resource: updatedTask,
-  //         };
-
-  //         if (exists) {
-  //           return prev.map((t) => (t.id === updatedTask._id ? updatedEvent : t));
-  //         } else {
-  //           return [...prev, updatedEvent];
-  //         }
-  //       });
-  //     } else {
-  //       // If updated task is not on currentDate, remove it from dailyTasks if exists
-  //       setDailyTasks((prev) => prev.filter((t) => t.id !== updatedTask._id));
-  //     }
-  //   };
 
   return (
     <div className="calendar-page-container">

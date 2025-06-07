@@ -1,84 +1,51 @@
-.calendar-toolbar-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 12px 16px;
-  background: #fff;
-  margin-bottom: 10px;
-}
-
 .calendar-page-container {
-  width: 100%;
-  height: 100%;
-  gap: 10px;
-  grid-gap: 16px;
-  font-family: monospace;
-
-  flex-direction: row;
-  flex-wrap: wrap;
+  background: none !important;
   display: flex;
-
-  justify-content: space-between;
-
-  color: #ffffff;
-  background-color: #f0f0f0;
+  width: 100%;
+  font-family: monospace;
+  padding: 0px;
   padding-right: 15px;
   align-items: flex-start;
-  background: none !important;
-  margin: 0;
+  margin-top: -55px;
+  padding-top: 0;
+  background-color: transparent;
 }
 
 .calendar-container {
-  display: flex;
-  color: #888;
-
-  padding: 0.1px;
-  flex: 3;
-
-  width: 100%;
-  min-width: 300px;
-  box-sizing: border-box;
-
-  height: auto;
-  font-family: monospace;
   background: none !important;
-  border: none;
-  border-radius: 8px;
-  margin: 0;
+  width: calc(110vw - 50px);
+  height: calc(100vh - 100px);
+  padding-top: 20px;
+  background-color: transparent;
+  margin-top: 30px;
 }
 
 .calendar-container > div:first-child {
+  margin-top: 0;
   padding-top: 0;
 }
 
 .side-panel {
+  width: 450px;
   background-color: #fff;
   border: 1px solid #888;
   border-radius: 8px;
   padding: 20px;
+  height: 650px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   position: relative;
-  gap: 12px;
-  flex: 1;
-  min-width: 250px;
-  max-width: 400px;
-  height: auto;
+  margin-top: 30px;
 }
 
 .priority-container {
   font-family: monospace;
   color: #888;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  box-sizing: border-box;
   justify-content: center;
-  align-items: center;
-  padding: 0 10px;
+  padding-left: 10px;
+  padding-top: 30px;
   margin-top: 0;
 }
 
@@ -90,41 +57,42 @@
 }
 
 .calendar-nav {
-  padding: 1rem;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   gap: 8px;
+  margin-top: 10px;
 }
 
 .rbc-toolbar {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
+  padding-bottom: 1rem;
+  margin-top: 0;
+  padding-top: 0;
+  gap: 12px;
   align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
-  border: 1px solid #888;
-  border-radius: 8px;
-  background: #fff;
-  margin-bottom: 10px;
+  font-size: 0.85rem;
 }
 
 .rbc-toolbar-label {
-  flex-grow: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  margin: 15px 10px;
+  font-weight: 600;
 }
 
 .calendar-nav button,
 .calendar-view button,
 .google-calendar-button {
-  background-color: #fff;
+  background-color: transparent;
   border: 1px solid #888;
   color: #333;
-  padding: 8px 12px;
-  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: 0.3s;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .calendar-nav button:hover,
@@ -132,6 +100,7 @@
 .google-calendar-button:hover {
   background-color: #888;
   color: #fff;
+  border-color: #888;
 }
 
 .calendar-nav button,
@@ -152,43 +121,26 @@
   padding: 2px 6px;
   font-size: 12px;
   height: 20px;
-  width: 1rem;
-  font-weight: bold;
-}
-.calendar-nav button {
-  background-color: #fff;
-  border: 1px solid #888;
-  color: #333;
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  min-width: 40px;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-}
-
-.calendar-nav button:hover {
-  background-color: #888;
-  color: #fff;
+  width: 25px;
 }
 
 .calendar-view {
-  display: flex !important;
-  align-items: center;
-  gap: 12px;
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .custom-datepicker {
-  padding: 6px 12px;
-  border: 1px solid #888;
   font-family: monospace;
   font-size: 0.85rem;
+  border: 1px solid #888;
+  border-radius: 4px;
   height: 25px;
   width: 160px;
+  box-sizing: border-box;
   text-align: center;
   cursor: pointer;
-  z-index: 999 !important;
+  margin-top: 15px;
 }
 
 .rbc-calendar {
@@ -217,12 +169,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
+  margin-top: -3px;
 }
 
 .rbc-event {
   max-height: 20px;
   overflow: hidden;
-  max-width: 200px;
+  max-width: 100px;
 }
 
 .rbc-event-content {
@@ -260,19 +213,15 @@
 
 .add-task-container {
   height: 100%;
-  width: 100%;
+  width: 200px;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
 .tasks-container {
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 10px;
-  box-sizing: border-box;
 }
 
 .task-list {
@@ -280,18 +229,15 @@
   overflow-y: auto;
   list-style: none;
   padding: 0;
+  margin-top: 10px;
 }
 
 .task-item {
-  background: white;
-  border-radius: 10px;
-  padding: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  list-style: none;
-  padding: 16px;
+  padding: 12px;
   margin-bottom: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
 .task-time {
@@ -312,11 +258,9 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .calendar-page-container {
     flex-direction: column;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
   }
 
   .calendar-container,
@@ -327,14 +271,23 @@
   .side-panel {
     height: auto;
     min-height: 300px;
+    margin-top: 20px;
   }
+}
+
+.task-item {
+  background: white;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  list-style: none;
 }
 
 .task-content {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  align-items: flex-start;
+  gap: 4px;
 }
 
 .task-meta {
@@ -398,12 +351,6 @@
   border-left: 3px solid #ff9800;
 }
 
-body,
-html {
-  margin-top: 0;
-  padding-top: 0;
-}
-
 .rbc-day-view .rbc-event,
 .rbc-time-view .rbc-event {
   max-width: none;
@@ -411,13 +358,16 @@ html {
   overflow: visible;
   text-overflow: unset;
   margin: 0px 5px;
+  font-size: 0.61rem;
 }
 
 .rbc-day-view .rbc-event-content,
 .rbc-time-view .rbc-event-content {
+  display: flex;
+  flex-direction: column;
   white-space: normal;
-  overflow: visible;
-  text-overflow: unset;
+  line-height: 1.2;
+  font-size: 0.65rem;
 }
 
 .google-calendar-button {
@@ -439,12 +389,4 @@ html {
   background-color: #888;
   color: white;
   border-color: #888;
-}
-
-.add-task-container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
 }
