@@ -85,3 +85,5 @@ node_modules/
 [Design Specification](https://docs.google.com/document/d/1hWV5syOu-bb61XjBpSeayaNnQos67DJc28cS4TUjJbg/edit?usp=sharing)
 ## Style
 * We are using React/JavaScript. So we chose to install Prettier and added that to ESLint, to keep our code style consistent throughout our project.
+
+* can look at split screen by adding /SplitScreen to the end of the link
