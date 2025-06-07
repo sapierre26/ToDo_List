@@ -53,7 +53,7 @@ const Login = ({ onLoginSuccess }) => {
 
       if (onLoginSuccess) onLoginSuccess();
 
-      navigate("/Calendar");
+      navigate("/SplitScreen");
     } catch (err) {
       console.error("Error during login:", err.message);
       setErrorMessage(err.message || "An error occurred");

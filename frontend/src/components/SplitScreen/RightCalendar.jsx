@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay, isSameDay } from "date-fns";
 import enUS from "date-fns/locale/en-US";
@@ -89,6 +90,8 @@ const MyCustomToolbar = ({
     onNavigate(action);
   };
 
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -147,19 +150,10 @@ const MyCustomToolbar = ({
         )}
         <button
           onClick={() => {
-            onView("month");
-            onNavigate("DATE", currentDate); // change it to when this button is clicked go to full screen calendar
+            navigate("/Calendar")
           }}
         >
           Month
-        </button>
-        <button
-          onClick={() => {
-            onView("day");
-            onNavigate("DATE", currentDate);
-          }}
-        >
-          Day
         </button>
       </div>
     </div>
@@ -180,6 +174,7 @@ const RightCalendar = () => {
   const [tasks, setTasks] = useState([]);
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [taskDate, setTaskDate] = useState(new Date());
   const [view, setView] = useState("month");
   const [clickTimeout, setClickTimeout] = useState(null);
   const [selectedPriority, setSelectedPriority] = useState(null);
@@ -349,66 +344,66 @@ const RightCalendar = () => {
     setView(view);
   };
 
-  // const handleTaskAdded = (newTask) => {
-  //   const newEvent = {
-  //     id: newTask._id,
-  //     title: newTask.title,
-  //     start: new Date(newTask.startDate),
-  //     end: new Date(newTask.endDate),
-  //     resource: newTask,
-  //   };
+  const handleTaskAdded = (newTask) => {
+    const newEvent = {
+      id: newTask._id,
+      title: newTask.title,
+      start: new Date(newTask.startDate),
+      end: new Date(newTask.endDate),
+      resource: newTask,
+    };
 
-  //   if (newTask.label === "Event") {
-  //     setCalendarEvents((prev) => [...prev, newEvent]);
-  //   } else {
-  //     setTasks((prev) => [...prev, newEvent]);
-  //   }
+    if (newTask.label === "Event") {
+      setCalendarEvents((prev) => [...prev, newEvent]);
+    } else {
+      setTasks((prev) => [...prev, newEvent]);
+    }
 
-  //   if (isSameDay(new Date(newTask.startDate), currentDate)) {
-  //     setDailyTasks((prev) => [...prev, newEvent]);
-  //   }
+    if (isSameDay(new Date(newTask.startDate), currentDate)) {
+      setDailyTasks((prev) => [...prev, newEvent]);
+    }
 
-  //   setIsAddTaskModalOpen(false);
-  // };
+    setIsAddTaskModalOpen(false);
+  };
 
-  // const handleTaskUpdated = (updatedTask) => {
-  //     setTasks((prevTasks) =>
-  //         prevTasks.map((task) =>
-  //             task.id === updatedTask._id
-  //                 ? {
-  //                         id: updatedTask._id,
-  //                         title: updatedTask.title,
-  //                         start: new Date(updatedTask.startDate),
-  //                         end: new Date(updatedTask.endDate),
-  //                         resource: updatedTask,
-  //                     }
-  //                 : task
-  //         )
-  //     );
+  const handleTaskUpdated = (updatedTask) => {
+      setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+              task.id === updatedTask._id
+                  ? {
+                          id: updatedTask._id,
+                          title: updatedTask.title,
+                          start: new Date(updatedTask.startDate),
+                          end: new Date(updatedTask.endDate),
+                          resource: updatedTask,
+                      }
+                  : task
+          )
+      );
 
-  //     // Also update dailyTasks if it belongs to currentDate
-  //     if (isSameDay(new Date(updatedTask.startDate), currentDate)) {
-  //         setDailyTasks((prev) => {
-  //             const exists = prev.find((t) => t.id === updatedTask._id);
-  //             const updatedEvent = {
-  //                 id: updatedTask._id,
-  //                 title: updatedTask.title,
-  //                 start: new Date(updatedTask.startDate),
-  //                 end: new Date(updatedTask.endDate),
-  //                 resource: updatedTask,
-  //             };
+      // Also update dailyTasks if it belongs to currentDate
+      if (isSameDay(new Date(updatedTask.startDate), currentDate)) {
+          setDailyTasks((prev) => {
+              const exists = prev.find((t) => t.id === updatedTask._id);
+              const updatedEvent = {
+                  id: updatedTask._id,
+                  title: updatedTask.title,
+                  start: new Date(updatedTask.startDate),
+                  end: new Date(updatedTask.endDate),
+                  resource: updatedTask,
+              };
 
-  //             if (exists) {
-  //                 return prev.map((t) => (t.id === updatedTask._id ? updatedEvent : t));
-  //             } else {
-  //                 return [...prev, updatedEvent];
-  //             }
-  //         });
-  //     } else {
-  //         // If updated task is not on currentDate, remove it from dailyTasks if exists
-  //         setDailyTasks((prev) => prev.filter((t) => t.id !== updatedTask._id));
-  //     }
-  // };
+              if (exists) {
+                  return prev.map((t) => (t.id === updatedTask._id ? updatedEvent : t));
+              } else {
+                  return [...prev, updatedEvent];
+              }
+          });
+      } else {
+          // If updated task is not on currentDate, remove it from dailyTasks if exists
+          setDailyTasks((prev) => prev.filter((t) => t.id !== updatedTask._id));
+      }
+  };
 
   return (
     <div className="calendar-page-container">
