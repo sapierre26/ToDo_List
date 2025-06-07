@@ -1,5 +1,5 @@
- import ToDoList from "./LeftToDo";
- import RightCalendar from "./RightCalendar";
+import ToDoList from "./LeftToDo";
+import RightCalendar from "./RightCalendar";
 
 const SplitScreen = () => {
   return (
@@ -30,11 +30,14 @@ const SplitScreen = () => {
       </div>
 
       <div
-        style={{ flex: 1, 
-                  overflowY: "auto",
-                  backgroundColor: "#ffffff", 
-                  padding: "15px", 
-                  boxSizing: "border-box" }}>
+        style={{
+          flex: 1,
+          overflowY: "auto",
+          backgroundColor: "#ffffff",
+          padding: "15px",
+          boxSizing: "border-box",
+        }}
+      >
         <RightCalendar />
       </div>
     </div>

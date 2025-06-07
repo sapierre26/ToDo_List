@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { applyTheme } from "./utils/theme";
 import {
   BrowserRouter as Router,
   Route,
@@ -136,15 +135,27 @@ function App() {
           >
             <div style={{ display: "flex", gap: "110px" }}>
               <Link to="/Calendar" className="button-link">
-                <img src={calendarImage} alt="Calendar" style={{ width: "20px", height: "20px" }} />
+                <img
+                  src={calendarImage}
+                  alt="Calendar"
+                  style={{ width: "20px", height: "20px" }}
+                />
                 <span>Calendar</span>
               </Link>
               <Link to="/Todolist" className="button-link">
-                <img src={todolistImage} alt="Todo List" style={{ width: "20px", height: "20px" }} />
+                <img
+                  src={todolistImage}
+                  alt="Todo List"
+                  style={{ width: "20px", height: "20px" }}
+                />
                 <span>Todo List</span>
               </Link>
               <Link to="/Settings" className="button-link">
-                <img src={settingImage} alt="Settings" style={{ width: "20px", height: "20px" }} />
+                <img
+                  src={settingImage}
+                  alt="Settings"
+                  style={{ width: "20px", height: "20px" }}
+                />
                 <span>Settings</span>
               </Link>
             </div>
@@ -155,16 +166,33 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<Navigate to={isAuthenticated ? "/Calendar" : "/Login"} replace />}
+              element={
+                <Navigate
+                  to={isAuthenticated ? "/Calendar" : "/Login"}
+                  replace
+                />
+              }
             />
             <Route
               path="/Login"
-              element={isAuthenticated ? <Navigate to="/Calendar" /> : <Login onLoginSuccess={handleLoginSuccess} />}
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/Calendar" />
+                ) : (
+                  <Login onLoginSuccess={handleLoginSuccess} />
+                )
+              }
             />
             <Route path="/createAccount" element={<CreateAccount />} />
             <Route
               path="/Calendar"
-              element={isAuthenticated ? <CalendarComponent /> : <Navigate to="/Login" />}
+              element={
+                isAuthenticated ? (
+                  <CalendarComponent />
+                ) : (
+                  <Navigate to="/Login" />
+                )
+              }
             />
             <Route
               path="/Todolist"
@@ -172,11 +200,19 @@ function App() {
             />
             <Route
               path="/UserProfile"
-              element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/Login" />}
+              element={
+                isAuthenticated ? (
+                  <UserProfile onLogout={handleLogout} />
+                ) : (
+                  <Navigate to="/Login" />
+                )
+              }
             />
             <Route
               path="/Settings"
-              element={isAuthenticated ? <Settings /> : <Navigate to="/Login" />}
+              element={
+                isAuthenticated ? <Settings /> : <Navigate to="/Login" />
+              }
             />
             <Route path="/SplitScreen" element={<SplitScreen />} />
             <Route path="*" element={<div>Page not found.</div>} />

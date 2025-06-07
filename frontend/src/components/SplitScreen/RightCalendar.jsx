@@ -5,7 +5,7 @@ import enUS from "date-fns/locale/en-US";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Datepicker from "react-datepicker";
-import AddTask from "../todolist/addTask";
+
 import {
   getTasksAndEventsByEndDate,
   getTasksForMonth,
@@ -18,11 +18,11 @@ import PropTypes from "prop-types";
 const locales = { "en-US": enUS };
 
 const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
 });
 
 const MonthEvent = ({ event }) => (
@@ -181,10 +181,6 @@ const RightCalendar = () => {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState("month");
-  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
-  const [taskDate, setTaskDate] = useState(new Date());
-  const [dailyTasks, setDailyTasks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [clickTimeout, setClickTimeout] = useState(null);
   const [selectedPriority, setSelectedPriority] = useState(null);
   const [isGoogleConnected, setIsGoogleConnected] = useState(false);
@@ -353,27 +349,27 @@ const RightCalendar = () => {
     setView(view);
   };
 
-  const handleTaskAdded = (newTask) => {
-    const newEvent = {
-      id: newTask._id,
-      title: newTask.title,
-      start: new Date(newTask.startDate),
-      end: new Date(newTask.endDate),
-      resource: newTask,
-    };
+  // const handleTaskAdded = (newTask) => {
+  //   const newEvent = {
+  //     id: newTask._id,
+  //     title: newTask.title,
+  //     start: new Date(newTask.startDate),
+  //     end: new Date(newTask.endDate),
+  //     resource: newTask,
+  //   };
 
-    if (newTask.label === "Event") {
-      setCalendarEvents((prev) => [...prev, newEvent]);
-    } else {
-      setTasks((prev) => [...prev, newEvent]);
-    }
+  //   if (newTask.label === "Event") {
+  //     setCalendarEvents((prev) => [...prev, newEvent]);
+  //   } else {
+  //     setTasks((prev) => [...prev, newEvent]);
+  //   }
 
-    if (isSameDay(new Date(newTask.startDate), currentDate)) {
-      setDailyTasks((prev) => [...prev, newEvent]);
-    }
+  //   if (isSameDay(new Date(newTask.startDate), currentDate)) {
+  //     setDailyTasks((prev) => [...prev, newEvent]);
+  //   }
 
-    setIsAddTaskModalOpen(false);
-  };
+  //   setIsAddTaskModalOpen(false);
+  // };
 
   // const handleTaskUpdated = (updatedTask) => {
   //     setTasks((prevTasks) =>
@@ -414,51 +410,50 @@ const RightCalendar = () => {
   //     }
   // };
 
-  return (
-    <div className="calendar-page-container">
-      <div className="calendar-container">
-        <Calendar
-          components={{
-            toolbar: (props) => (
-              <MyCustomToolbar
-                {...props}
-                currentDate={currentDate}
-                setCurrentDate={setCurrentDate}
-                setTaskDate={setTaskDate}
-                onView={handleViewChange}
-                isGoogleConnected={isGoogleConnected ?? false}
-              />
-            ),
-            day: { event: MonthEvent },
-          }}
-          localizer={localizer}
-          events={filteredEvents}
-          startAccessor="start"
-          endAccessor="end"
-          view="day"
+  return (
+    <div className="calendar-page-container">
+      <div className="calendar-container">
+        <Calendar
+          components={{
+            toolbar: (props) => (
+              <MyCustomToolbar
+                {...props}
+                currentDate={currentDate}
+                setCurrentDate={setCurrentDate}
+                setTaskDate={setTaskDate}
+                onView={handleViewChange}
+                isGoogleConnected={isGoogleConnected ?? false}
+              />
+            ),
+            day: { event: MonthEvent },
+          }}
+          localizer={localizer}
+          events={filteredEvents}
+          startAccessor="start"
+          endAccessor="end"
+          view="day"
           defaultView="day"
-          views={["day"]}
-          selectable
-          onSelectSlot={handleSelectSlot}
-          onSelectEvent={() => {}}
-          onNavigate={(date) => {
-            setCurrentDate(date);
-          }}
-          onView={handleViewChange}
-          style={{ height: "calc(100vh - 100px)", margin: "10px" }}
-          eventPropGetter={(event) => {
-            const isEvent = event.resource?.label === "Event";
-            return {
-              className: isEvent
-                ? "rbc-event-event"
-                : `rbc-event-${event.resource?.priority?.toLowerCase() || "medium"}`,
-            };
-          }}
-        />
-      </div>
-
-    </div>
-  );
+          views={["day"]}
+          selectable
+          onSelectSlot={handleSelectSlot}
+          onSelectEvent={() => {}}
+          onNavigate={(date) => {
+            setCurrentDate(date);
+          }}
+          onView={handleViewChange}
+          style={{ height: "calc(100vh - 100px)", margin: "10px" }}
+          eventPropGetter={(event) => {
+            const isEvent = event.resource?.label === "Event";
+            return {
+              className: isEvent
+                ? "rbc-event-event"
+                : `rbc-event-${event.resource?.priority?.toLowerCase() || "medium"}`,
+            };
+          }}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default RightCalendar;

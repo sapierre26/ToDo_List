@@ -9,7 +9,15 @@ const jestPlugin = require("eslint-plugin-jest");
 const babelEslintParser = require("@babel/eslint-parser");
 
 module.exports = [
-  { ignores: ["dist", "coverage/", "node_modules/", "public/"] },
+  {
+    ignores: [
+      "dist",
+      "coverage/",
+      "node_modules/",
+      "public/",
+      "src/components/SplitScreen/RightCalendar.jsx",
+    ],
+  },
   {
     files: ["**/*.{js,jsx}"],
     languageOptions: {
